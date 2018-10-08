@@ -1,6 +1,6 @@
 ﻿
 [BoltGlobalBehaviour(BoltNetworkModes.Server, "clickToMoveServerAuth")]
-public class ClickToMoveCallbacks : Bolt.GlobalEventListener
+public class clickToMoveCallbacks : Bolt.GlobalEventListener
 {
     public override void SceneLoadLocalDone(string map)
     {

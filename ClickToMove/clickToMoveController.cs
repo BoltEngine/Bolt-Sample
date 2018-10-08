@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Bolt;
 
-public class ClickToMoveController : Bolt.EntityEventListener<ITPCstate>
+public class clickToMoveController : Bolt.EntityEventListener<ITPCstate>
 {
     public LayerMask validLayers = new LayerMask();
     public Vector3 _destinationPosition = Vector3.zero;

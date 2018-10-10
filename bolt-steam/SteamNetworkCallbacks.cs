@@ -7,67 +7,69 @@ using UnityEngine;
 
 static class LocalData
 {
-  public static string ServerScene = "Level1";
+    public static string ServerScene = "Level1";
 }
 
 public class SteamNetworkCallbacks : Bolt.GlobalEventListener
 {
-  public static bool ListenServer = true;
+    public static bool ListenServer = true;
 
-  void Start()
-  {
-    DontDestroyOnLoad(this);
-  }
-
-  public override void Connected(BoltConnection connection)
-  {
-    if (SteamHub.LobbyActive != null && SteamManager.Initialized)
+    void Start()
     {
-      var token = (SteamToken)connection.ConnectToken;
-      var activeLobby = SteamHub.LobbyActive;
-      bool found = false;
+        DontDestroyOnLoad(this);
+    }
 
-      foreach (var m in activeLobby.AllMembers)
-      {
-        if (m.m_SteamID == token.SteamID)
+    public override void Connected(BoltConnection connection)
+    {
+        if (SteamHub.LobbyActive != null && SteamManager.Initialized)
         {
-          connection.UserData = "CLIENT:" + SteamFriends.GetFriendPersonaName(m) + " " + connection.RemoteEndPoint.Port;
-          Debug.Log(connection.UserData);
-          found = true;
-          break;
+            var token = (SteamToken)connection.ConnectToken;
+            var activeLobby = SteamHub.LobbyActive;
+            bool found = false;
+
+            foreach (var m in activeLobby.AllMembers)
+            {
+                if (m.m_SteamID == token.SteamID)
+                {
+                    connection.UserData = "CLIENT:" + SteamFriends.GetFriendPersonaName(m) + " " + connection.RemoteEndPoint.Port;
+                    Debug.Log(connection.UserData);
+                    found = true;
+                    break;
+                }
+            }
+
+            if (found == false)
+            {
+                connection.Disconnect();
+            }
         }
-      }
-
-      if (found == false)
-      {
-        connection.Disconnect();
-      }
     }
-  }
 
-  public override void BoltStartDone()
-  {
-    if (SteamHub.LobbyActive != null && SteamManager.Initialized)
+    public override void BoltStartDone()
     {
-      BoltNetwork.RegisterTokenClass<SteamToken>();
+#if !BOLT_CLOUD
+        if (SteamHub.LobbyActive != null && SteamManager.Initialized)
+        {
+            BoltNetwork.RegisterTokenClass<SteamToken>();
 
-      Debug.Log("enteredGame");
-      string enterMessage = "enteredGame" + SteamUser.GetSteamID();
-      byte[] enterMsgAsBytes = Encoding.ASCII.GetBytes(enterMessage);
-      SteamMatchmaking.SendLobbyChatMsg(SteamHub.LobbyActive.LobbyId, enterMsgAsBytes, enterMsgAsBytes.Length + 1);
+            Debug.Log("enteredGame");
+            string enterMessage = "enteredGame" + SteamUser.GetSteamID();
+            byte[] enterMsgAsBytes = Encoding.ASCII.GetBytes(enterMessage);
+            SteamMatchmaking.SendLobbyChatMsg(SteamHub.LobbyActive.LobbyId, enterMsgAsBytes, enterMsgAsBytes.Length + 1);
 
-      if (GameObject.Find("Main Camera").GetComponent<SteamLobby>().isOwner())
-      {
-        BoltNetwork.LoadScene(LocalData.ServerScene);
-      }
-      else
-      {
-        var token = new SteamToken();
-        Debug.Log(SteamUser.GetSteamID().m_SteamID);
-        token.SteamID = SteamUser.GetSteamID().m_SteamID;
-        CSteamID serverID = GameObject.Find("Main Camera").GetComponent<SteamLobby>().getGameServerID();
-        BoltNetwork.Connect(serverID.ToEndPoint(), token);
-      }
+            if (GameObject.Find("Main Camera").GetComponent<SteamLobby>().isOwner())
+            {
+                BoltNetwork.LoadScene(LocalData.ServerScene);
+            }
+            else
+            {
+                var token = new SteamToken();
+                Debug.Log(SteamUser.GetSteamID().m_SteamID);
+                token.SteamID = SteamUser.GetSteamID().m_SteamID;
+                CSteamID serverID = GameObject.Find("Main Camera").GetComponent<SteamLobby>().getGameServerID();
+                BoltNetwork.Connect(serverID.ToEndPoint(), token);
+            }
+        }
+#endif
     }
-  }
 }

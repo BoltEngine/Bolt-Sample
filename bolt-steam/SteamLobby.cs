@@ -181,7 +181,7 @@ public class SteamLobby : MonoBehaviour
 
         if (SteamManager.Initialized)
         {
-            Debug.Log("Steam Online");
+            BoltLog.Info("Steam Online");
 
             steamNotification.GetComponent<Text>().color = Color.green;
             steamNotification.GetComponent<Text>().text = "STEAM ONLINE";
@@ -198,7 +198,7 @@ public class SteamLobby : MonoBehaviour
             int Data;
             //bool ret = 
             SteamUserStats.GetStat("NumGames", out Data);
-            // Debug.Log(Data + " " + ret);
+            // BoltLog.Info(Data + " " + ret);
 
             currentEloText.GetComponent<Text>().text = "CURRENT ELO: " + Data;
 
@@ -206,16 +206,16 @@ public class SteamLobby : MonoBehaviour
 
             // int m_nTotalNumWins;
             //SteamUserStats.GetStat("NumWins", out m_nTotalNumWins);
-            //Debug.Log(m_nTotalNumWins);
+            //BoltLog.Info(m_nTotalNumWins);
 
             //SteamUserStats.SetStat("NumWins", 10);
 
             //bool bSuccess = SteamUserStats.StoreStats();
-            //Debug.Log(bSuccess);
+            //BoltLog.Info(bSuccess);
         }
         else
         {
-            Debug.Log("Steam Offline");
+            BoltLog.Info("Steam Offline");
 
             steamNotification.GetComponent<Text>().color = Color.red;
             steamNotification.GetComponent<Text>().text = "STEAM OFFLINE";
@@ -224,12 +224,12 @@ public class SteamLobby : MonoBehaviour
 
     private void MyCallbacks_LobbyChatUpdate(LobbyChatUpdate_t chatUpdate)
     {
-        // Debug.Log("MyCallbacks_LobbyChatUpdate");
+        // BoltLog.Info("MyCallbacks_LobbyChatUpdate");
     }
 
     private void MyCallbacks_LobbyChatMessage(LobbyChatMsg_t chatMsg)
     {
-        // Debug.Log("MyCallbacks_LobbyChatMessage");
+        // BoltLog.Info("MyCallbacks_LobbyChatMessage");
         processLobbyMessage(chatMsg);
     }
 
@@ -256,7 +256,7 @@ public class SteamLobby : MonoBehaviour
 
         int Data;
         bool ret = SteamUserStats.GetStat("NumGames", out Data);
-        Debug.Log(Data + " " + ret);
+        BoltLog.Info(Data + " " + ret);
 
         currentEloText.GetComponent<Text>().text = "CURRENT ELO: " + Data;
     }
@@ -294,16 +294,16 @@ public class SteamLobby : MonoBehaviour
         //print("SetStat(\"NumGames\", " + (4) + ") - " + ret);
 
         //SteamUserStats.GetStat("NumGames", out m_NumGamesStat);
-        //Debug.Log(ret + " " + m_NumGamesStat);
+        //BoltLog.Info(ret + " " + m_NumGamesStat);
 
         //bool ret = SteamUserStats.SetStat("NumGames", m_NumGamesStat + 1);
         //print("SetStat(\"NumGames\", " + (m_NumGamesStat + 1) + ") - " + ret);
 
-        //Debug.Log(m_NumGamesStat);
+        //BoltLog.Info(m_NumGamesStat);
         //float myELO;
         //SteamUserStats.GetStat("AverageSpeed", out myELO);
 
-        //Debug.Log(myELO);
+        //BoltLog.Info(myELO);
         int Data;
         bool ret = SteamUserStats.GetStat("NumGames", out Data);
         if (ret)
@@ -365,7 +365,7 @@ public class SteamLobby : MonoBehaviour
                 SteamMatchmaking.SendLobbyChatMsg(SteamHub.LobbyActive.LobbyId, MsgAsBytes, MsgAsBytes.Length + 1);
                 chatInputField.transform.parent.GetComponent<InputField>().text = "";
             }
-            //Debug.Log(chatInputField.GetComponent<Text>().text);
+            //BoltLog.Info(chatInputField.GetComponent<Text>().text);
         }
     }
 
@@ -399,13 +399,13 @@ public class SteamLobby : MonoBehaviour
         // If no active lobby... return
         if (activeLobby == null)
         {
-            Debug.Log("No active lobby to start game for");    // TODO we should say something to user
+            BoltLog.Info("No active lobby to start game for");    // TODO we should say something to user
             return;
         }
 
         if (activeLobby.GetData<string>(activeLobby.OwnerId.ToString()) == "false" && !activeLobby.IsOwner)
         {
-            Debug.Log("Host has not started game yet");
+            BoltLog.Info("Host has not started game yet");
             return;
         }
 
@@ -459,17 +459,17 @@ public class SteamLobby : MonoBehaviour
 
     void steamPeer_Host_Failed()
     {
-        Debug.Log("HOST FAILED CALLBACK");
+        BoltLog.Info("HOST FAILED CALLBACK");
     }
 
     void steamPeer_Host_Disconnected()
     {
-        Debug.Log("HOST DISCONNECTED CALLBACK");
+        BoltLog.Info("HOST DISCONNECTED CALLBACK");
     }
 
     void steamPeer_Host_Connected(CSteamID lobby)
     {
-        //Debug.Log("HOST CONNECTED CALLBACK: ID=" + (lobby == null ? "<null>" : lobby.m_SteamID.ToString()));
+        //BoltLog.Info("HOST CONNECTED CALLBACK: ID=" + (lobby == null ? "<null>" : lobby.m_SteamID.ToString()));
         lobbyGameServerSteamId = lobby;
         SteamHub.LobbyActive.ServerId = lobby;        // TODO - decide if we can just use serverid instead
     }
@@ -481,7 +481,7 @@ public class SteamLobby : MonoBehaviour
 
         lobbyEnteredCounter++;
 
-        Debug.Log("LobbyEntered called " + lobbyEnteredCounter.ToString() + " times. Last entered lobby # " + ((lobby == null) ? "NULL" : lobby.LobbyId.ToString()));
+        BoltLog.Info("LobbyEntered called " + lobbyEnteredCounter.ToString() + " times. Last entered lobby # " + ((lobby == null) ? "NULL" : lobby.LobbyId.ToString()));
 
         foreach (Transform child in chatBox.transform)
         {
@@ -499,7 +499,7 @@ public class SteamLobby : MonoBehaviour
         //    lobby.SetData<string>("ELO", ret);
 
         lobby.SetData<string>("name", lobbyName.GetComponent<Text>().text);
-        Debug.Log("LOBBY CREATED CALLBACK: Lobby name\"" + lobby.GetData<string>("name") + "\"");
+        BoltLog.Info("LOBBY CREATED CALLBACK: Lobby name\"" + lobby.GetData<string>("name") + "\"");
     }
 
     void MyCallbacks_LobbyListUpdated()
@@ -648,7 +648,7 @@ public class SteamLobby : MonoBehaviour
     void ui_click_kickFromLobbyButtonPressed(Button b, SteamHubLobby lobby, CSteamID memberToKick)
     {
         b.interactable = false;
-        Debug.Log(" Sending KICK to " + memberToKick.m_SteamID.ToString());
+        BoltLog.Info(" Sending KICK to " + memberToKick.m_SteamID.ToString());
         // KICK is just a magic lobby message
         string kickMessage = KICK_LOBBY_MESSAGE_COMMAND + memberToKick.m_SteamID.ToString();
         byte[] kickMsgAsBytes = Encoding.ASCII.GetBytes(kickMessage);
@@ -663,7 +663,7 @@ public class SteamLobby : MonoBehaviour
 
     void processLobbyMessage(LobbyChatMsg_t msg)
     {
-        Debug.Log("Retrieving message " + msg.m_iChatID.ToString() + " for Lobby#" + msg.m_ulSteamIDLobby);
+        BoltLog.Info("Retrieving message " + msg.m_iChatID.ToString() + " for Lobby#" + msg.m_ulSteamIDLobby);
 
         CSteamID steamLobbyMessageSenderId;             // Will be set by SteamMatchmaking.GetLobbyChatEntry()
         byte[] chatMessageAsBytes = new byte[256];      // Will be passed to SteamMatchmaking.GetLobbyChatEntry()
@@ -679,7 +679,7 @@ public class SteamLobby : MonoBehaviour
         // See if message is to our active lobby
         if ((CSteamID)msg.m_ulSteamIDLobby != activeLobby.LobbyId)
         {
-            Debug.Log("Not our active lobby so ignoring");
+            BoltLog.Info("Not our active lobby so ignoring");
             return;
         }
 
@@ -692,26 +692,26 @@ public class SteamLobby : MonoBehaviour
 
         string chatMessageAsString = Encoding.ASCII.GetString(chatMessageAsBytes, 0, messageLengthInBytes);
 
-        Debug.Log("Chat message is " + chatMessageAsString);
+        BoltLog.Info("Chat message is " + chatMessageAsString);
 
         if (chatMessageAsString.StartsWith(KICK_LOBBY_MESSAGE_COMMAND))
         {
             ulong userIdToKick = ulong.Parse(chatMessageAsString.Substring(KICK_LOBBY_MESSAGE_COMMAND.Length));
-            Debug.Log("KICK COMMAND: KICK USER#" + userIdToKick.ToString());
+            BoltLog.Info("KICK COMMAND: KICK USER#" + userIdToKick.ToString());
 
             // Check if KICK was sent by Lobby owner
             if (msg.m_ulSteamIDUser == activeLobby.OwnerId.m_SteamID)
             {
-                Debug.Log("KICK COMMAND: SENT BY LOBBY OWNER OK #" + msg.m_ulSteamIDUser);
+                BoltLog.Info("KICK COMMAND: SENT BY LOBBY OWNER OK #" + msg.m_ulSteamIDUser);
                 if (userIdToKick == SteamUser.GetSteamID().m_SteamID)
                 {
-                    Debug.Log("KICK COMMAND: WE HAVE BEEN KICKED BY LOBBY OWNER OK #" + msg.m_ulSteamIDUser);
+                    BoltLog.Info("KICK COMMAND: WE HAVE BEEN KICKED BY LOBBY OWNER OK #" + msg.m_ulSteamIDUser);
                     ui_do_leaveLobby();
                 }
             }
             else
             {
-                Debug.Log("KICK COMMAND IGNORED - WAS SENT BY NON-OWNER #" + msg.m_ulSteamIDUser);
+                BoltLog.Info("KICK COMMAND IGNORED - WAS SENT BY NON-OWNER #" + msg.m_ulSteamIDUser);
             }
             return;
         }
@@ -719,7 +719,7 @@ public class SteamLobby : MonoBehaviour
         if (chatMessageAsString.StartsWith("enteredGame"))
         {
             ulong userIdEnteredGame = ulong.Parse(chatMessageAsString.Substring(11));
-            Debug.Log("ENTERED GAME: " + userIdEnteredGame);
+            BoltLog.Info("ENTERED GAME: " + userIdEnteredGame);
             SteamHub.LobbyActive.SetData<string>(userIdEnteredGame.ToString(), "true");
             return;
         }

@@ -19,7 +19,7 @@ public class TypogenicFontWizard : ScriptableWizard
 	{
 		if (Atlas == null || FontXML == null)
 		{
-			Debug.LogError("Make sure Atlas and FontXML aren't null");
+            BoltLog.Error("Make sure Atlas and FontXML aren't null");
 			return;
 		}
 

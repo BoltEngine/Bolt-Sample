@@ -67,7 +67,7 @@ public class HeadlessServerManager : Bolt.GlobalEventListener
 
         if (!validMap)
         {
-            Debug.LogError("Invalid configuration: please verify level name");
+            BoltLog.Error("Invalid configuration: please verify level name");
             Application.Quit();
         }
 

@@ -32,7 +32,7 @@ public class SteamNetworkCallbacks : Bolt.GlobalEventListener
                 if (m.m_SteamID == token.SteamID)
                 {
                     connection.UserData = "CLIENT:" + SteamFriends.GetFriendPersonaName(m) + " " + connection.RemoteEndPoint.Port;
-                    Debug.Log(connection.UserData);
+                    BoltLog.Info(connection.UserData);
                     found = true;
                     break;
                 }
@@ -52,7 +52,7 @@ public class SteamNetworkCallbacks : Bolt.GlobalEventListener
         {
             BoltNetwork.RegisterTokenClass<SteamToken>();
 
-            Debug.Log("enteredGame");
+            BoltLog.Info("enteredGame");
             string enterMessage = "enteredGame" + SteamUser.GetSteamID();
             byte[] enterMsgAsBytes = Encoding.ASCII.GetBytes(enterMessage);
             SteamMatchmaking.SendLobbyChatMsg(SteamHub.LobbyActive.LobbyId, enterMsgAsBytes, enterMsgAsBytes.Length + 1);
@@ -64,7 +64,7 @@ public class SteamNetworkCallbacks : Bolt.GlobalEventListener
             else
             {
                 var token = new SteamToken();
-                Debug.Log(SteamUser.GetSteamID().m_SteamID);
+                BoltLog.Info(SteamUser.GetSteamID().m_SteamID);
                 token.SteamID = SteamUser.GetSteamID().m_SteamID;
                 CSteamID serverID = GameObject.Find("Main Camera").GetComponent<SteamLobby>().getGameServerID();
                 BoltNetwork.Connect(serverID.ToEndPoint(), token);

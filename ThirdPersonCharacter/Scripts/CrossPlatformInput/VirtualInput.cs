@@ -35,7 +35,7 @@ namespace UnityStandardAssets.CrossPlatformInput
             // check if we already have an axis with that name and log and error if we do
             if (m_VirtualAxes.ContainsKey(axis.name))
             {
-                Debug.LogError("There is already a virtual axis named " + axis.name + " registered.");
+                BoltLog.Error("There is already a virtual axis named " + axis.name + " registered.");
             }
             else
             {
@@ -56,7 +56,7 @@ namespace UnityStandardAssets.CrossPlatformInput
             // check if already have a buttin with that name and log an error if we do
             if (m_VirtualButtons.ContainsKey(button.name))
             {
-                Debug.LogError("There is already a virtual button named " + button.name + " registered.");
+                BoltLog.Error("There is already a virtual button named " + button.name + " registered.");
             }
             else
             {

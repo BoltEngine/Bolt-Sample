@@ -31,7 +31,7 @@ public class ParticleSystemDestroyer : MonoBehaviour
         {
             yield return null;
         }
-        Debug.Log("stopping " + name);
+        BoltLog.Info("stopping " + name);
 
         // turn off emission
         foreach (var system in systems)

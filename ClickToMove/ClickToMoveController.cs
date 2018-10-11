@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Bolt;
 
-public class clickToMoveController : Bolt.EntityEventListener<ITPCstate>
+public class ClickToMoveController : Bolt.EntityEventListener<ITPCstate>
 {
     public LayerMask validLayers = new LayerMask();
     public Vector3 _destinationPosition = Vector3.zero;
@@ -20,17 +20,18 @@ public class clickToMoveController : Bolt.EntityEventListener<ITPCstate>
         Ray ray = Camera.main.ScreenPointToRay(position);
         RaycastHit[] hits = Physics.RaycastAll(ray, 1000, validLayers);
 
-
         if (Input.GetMouseButtonDown(0))
+        {
             foreach (RaycastHit hit in hits)
             {
-                Debug.Log(hit);
+                BoltLog.Info(hit);
                 if (!hit.collider.isTrigger)
                 {
                     _destinationPosition = hit.point;
                     break;
                 }
             }
+        }
 
         input.click = _destinationPosition;
         entity.QueueInput(input);

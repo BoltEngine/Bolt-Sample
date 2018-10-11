@@ -52,8 +52,6 @@ public class TPCcontroller : Bolt.EntityEventListener<ITPCstate>
     public override void Attached()
     {
         _motor = GetComponent<TPCmotor>();
-        /// Debug.Log(entity);
-        // Debug.Log(entity.GetInstanceID());
 
         state.SetTransforms(state.transform, transform);
         _cc = GetComponent<CharacterController>();
@@ -189,7 +187,7 @@ public class TPCcontroller : Bolt.EntityEventListener<ITPCstate>
             m_IsGrounded = _cc.Move(cmd.Input.move * BoltNetwork.frameDeltaTime) == CollisionFlags.Below;
             m_IsGrounded = m_IsGrounded || _cc.isGrounded;
             m_IsGrounded = m_IsGrounded || Physics.CheckSphere(sphere, _cc.radius, layerMask);
-            Debug.Log(m_IsGrounded);
+            BoltLog.Info(m_IsGrounded);
 
             Vector3 _vel = cmd.Input.move;
             if (m_IsGrounded == false)

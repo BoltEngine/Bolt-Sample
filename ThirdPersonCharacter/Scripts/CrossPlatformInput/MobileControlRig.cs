@@ -45,14 +45,18 @@ namespace UnityStandardAssets.CrossPlatformInput
 
         private void OnEnable()
         {
+#pragma warning disable CS0618 // Type or member is obsolete
             EditorUserBuildSettings.activeBuildTargetChanged += Update;
+#pragma warning restore CS0618 // Type or member is obsolete
             EditorApplication.update += Update;
         }
 
 
         private void OnDisable()
         {
+#pragma warning disable CS0618 // Type or member is obsolete
             EditorUserBuildSettings.activeBuildTargetChanged -= Update;
+#pragma warning restore CS0618 // Type or member is obsolete
             EditorApplication.update -= Update;
         }
 

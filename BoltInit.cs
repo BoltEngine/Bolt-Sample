@@ -131,7 +131,7 @@ public class BoltInit : Bolt.GlobalEventListener
 
     public override void SessionListUpdated(Map<Guid, UdpSession> sessionList)
     {
-        Debug.Log("New session list");
+        BoltLog.Info("New session list");
     }
 }
 

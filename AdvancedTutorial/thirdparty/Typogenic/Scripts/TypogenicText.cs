@@ -306,7 +306,7 @@ public class TypogenicText : MonoBehaviour
 					}
 					else
 					{
-						Debug.LogWarning(string.Format(
+                        BoltLog.Warn(string.Format(
 							"Requested material {0} out of range.", requestedMaterial
 						));
 					}

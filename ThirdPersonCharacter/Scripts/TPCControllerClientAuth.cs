@@ -7,12 +7,11 @@ public class TPCControllerClientAuth : Bolt.EntityEventListener<ITPCstate>
 
     public override void Attached()
     {
-        Debug.Log(transform.position);
+        BoltLog.Info(transform.position);
 
         state.SetTransforms(state.transform, transform);
 
         anim = GetComponent<Animator>();
-
 
         if (!entity.isOwner)
         {
@@ -25,7 +24,6 @@ public class TPCControllerClientAuth : Bolt.EntityEventListener<ITPCstate>
             state.AddCallback("turn", () => { anim.SetFloat("Turn", state.turn); });
             state.AddCallback("jump", () => { anim.SetFloat("Jump", state.jump); });
             state.AddCallback("jumpleg", () => { anim.SetFloat("JumpLeg", state.jumpleg); });
-
         }
     }
 
@@ -33,7 +31,7 @@ public class TPCControllerClientAuth : Bolt.EntityEventListener<ITPCstate>
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            Debug.Log("f");
+            BoltLog.Info("q");
             state.SetTransforms(state.transform, null);
         }
     }

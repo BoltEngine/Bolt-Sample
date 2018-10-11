@@ -76,8 +76,8 @@ namespace Photon.Lobby
 
             SetServerInfo("Offline", "None");
 
-            Debug.Log("Lobby Scene: " + lobbyScene.SimpleSceneName);
-            Debug.Log("Game Scene: " + gameScene.SimpleSceneName);
+            BoltLog.Info("Lobby Scene: " + lobbyScene.SimpleSceneName);
+            BoltLog.Info("Game Scene: " + gameScene.SimpleSceneName);
         }
 
         void FixedUpdate()
@@ -111,7 +111,8 @@ namespace Photon.Lobby
                     // SpawnGamePlayer();
                 }
 
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 BoltConsole.Write(e.Message, Color.red);
                 BoltConsole.Write(e.Source, Color.red);
@@ -227,7 +228,8 @@ namespace Photon.Lobby
                 BoltEntity entity = BoltNetwork.Instantiate(BoltPrefabs.PlayerInfo);
                 entity.TakeControl();
 
-            } else if (BoltNetwork.isClient)
+            }
+            else if (BoltNetwork.isClient)
             {
                 backDelegate = Stop;
                 SetServerInfo("Client", "");
@@ -247,8 +249,9 @@ namespace Photon.Lobby
                 SceneManager.LoadScene(lobbyScene.SimpleSceneName);
             }
 
-            registerDoneCallback(() => {
-                Debug.Log("Shutdown Done");
+            registerDoneCallback(() =>
+            {
+                BoltLog.Info("Shutdown Done");
                 ChangeTo(mainMenuPanel);
             });
         }
@@ -328,7 +331,7 @@ namespace Photon.Lobby
 
             if (!entity.isControlled)
             {
-                LobbyPhotonPlayer photonPlayer =  entity.gameObject.GetComponent<LobbyPhotonPlayer>();
+                LobbyPhotonPlayer photonPlayer = entity.gameObject.GetComponent<LobbyPhotonPlayer>();
 
                 if (photonPlayer != null)
                 {

@@ -15,6 +15,7 @@ This repository contains samples that highlight the most important Bolt features
 | **ThirdPersonCharacter** 	| Multiplayer versions of the Unity TPC demo, both with and without server authoritative movement 	| --- 	| [link](ThirdPersonCharacter) 	|
 | **HeadlessServer** 	| A simple example of how to run Bolt in headless mode for server purpose 	| [link](https://doc.photonengine.com/en-us/bolt/current/in-depth/headless-server) 	| [link](HeadlessServer) 	|
 | **ServerMonitor** 	| Monitor a Bolt server using a standalone client. 	| --- 	| [link](NEW-ServerMonitor) 	|
+| **Zeuz** 	| A simple example of dedicated Bolt server hosted by zeuz. Requires AdvancedTutorial. 	| WIP 	| [link](Zeuz) 	|
 
 ## Running the Samples
 

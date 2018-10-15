@@ -3,34 +3,37 @@ using System.Collections.Generic;
 using Bolt.a2s;
 using UnityEngine;
 
-[BoltGlobalBehaviour("PhotonGame")]
-public class PhotonGameSceneController : Bolt.GlobalEventListener
+namespace Bolt.Samples.Photon.Lobby
 {
-    public override void SceneLoadLocalDone(string map)
+    [BoltGlobalBehaviour("PhotonGame")]
+    public class PhotonGameSceneController : Bolt.GlobalEventListener
     {
-        BoltConsole.Write("Spawn Player on map " + map, Color.yellow);
-        BomberPlayerController.Spawn();
-
-        if (BoltNetwork.isServer)
+        public override void SceneLoadLocalDone(string map)
         {
-            A2SManager.SetPlayerInfo(null, "Photon Server");
+            BoltConsole.Write("Spawn Player on map " + map, Color.yellow);
+            BomberPlayerController.Spawn();
 
-            A2SManager.UpdateServerInfo(
-                gameName: "Bolt Simple Tutorial",
-                serverName: "Photon Bolt Server",
-                map: map,
-                version: "1.0",
-                serverType: ServerType.Listen,
-                visibility: Visibility.PUBLIC
-            );
+            if (BoltNetwork.isServer)
+            {
+                A2SManager.SetPlayerInfo(null, "Photon Server");
+
+                A2SManager.UpdateServerInfo(
+                    gameName: "Bolt Simple Tutorial",
+                    serverName: "Photon Bolt Server",
+                    map: map,
+                    version: "1.0",
+                    serverType: ServerType.Listen,
+                    visibility: Visibility.PUBLIC
+                );
+            }
         }
-    }
 
-    public override void SceneLoadRemoteDone(BoltConnection connection)
-    {
-        if (BoltNetwork.isServer)
+        public override void SceneLoadRemoteDone(BoltConnection connection)
         {
-            A2SManager.SetPlayerInfo(connection, "Conn: " + connection.ConnectionId.ToString());
+            if (BoltNetwork.isServer)
+            {
+                A2SManager.SetPlayerInfo(connection, "Conn: " + connection.ConnectionId.ToString());
+            }
         }
     }
 }

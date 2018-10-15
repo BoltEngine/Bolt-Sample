@@ -5,8 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using UdpKit;
 
-
-namespace Bolt.AdvancedTutorial
+namespace Bolt.Samples.AdvancedTutorial
 {
     [BoltGlobalBehaviour(BoltNetworkModes.Server, "Level1")]
     public class ServerCallbacks : Bolt.GlobalEventListener

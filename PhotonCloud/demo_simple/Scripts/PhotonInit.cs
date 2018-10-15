@@ -7,7 +7,7 @@ using udpkit.platform.photon.photon;
 using System.Collections.Generic;
 using Bolt.photon;
 
-namespace Photon
+namespace Bolt.Samples.Photon.Simple
 {
     public class PhotonInit : Bolt.GlobalEventListener
     {

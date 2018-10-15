@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 using UnityEditor;
 #endif
 
-namespace Utilities
+namespace Bolt.Samples.Photon.Lobby
 {
     [System.Serializable]
     public class SceneField

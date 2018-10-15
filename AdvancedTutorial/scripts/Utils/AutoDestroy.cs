@@ -1,24 +1,25 @@
 ﻿using UnityEngine;
 
-namespace Bolt.AdvancedTutorial
+namespace Bolt.Samples.AdvancedTutorial
 {
-	public class AutoDestroy : MonoBehaviour
-	{
-		float remaining = 0;
+    public class AutoDestroy : MonoBehaviour
+    {
+        float remaining = 0;
 
-		[SerializeField]
-		float time = 3;
+        [SerializeField]
+        float time = 3;
 
-		void Awake ()
-		{
-			remaining = time;
-		}
+        void Awake()
+        {
+            remaining = time;
+        }
 
-		void Update ()
-		{
-			if ((remaining -= Time.deltaTime) <= 0) {
-				Destroy (gameObject);
-			}
-		}
-	}
+        void Update()
+        {
+            if ((remaining -= Time.deltaTime) <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
 }

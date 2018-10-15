@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Bolt.AdvancedTutorial
+namespace Bolt.Samples.AdvancedTutorial
 {
     public class PlayerIK : Bolt.EntityBehaviour<IPlayerState>
     {

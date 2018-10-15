@@ -1,29 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Bolt.AdvancedTutorial
+namespace Bolt.Samples.AdvancedTutorial
 {
-	public class LineFade : MonoBehaviour
-	{
-		[SerializeField]
-		Color color;
+    public class LineFade : MonoBehaviour
+    {
+        [SerializeField]
+        Color color;
 
-		LineRenderer lr;
+        LineRenderer lr;
 
-		void Start ()
-		{
-			lr = GetComponent<LineRenderer> ();
-		}
+        void Start()
+        {
+            lr = GetComponent<LineRenderer>();
+        }
 
-		void Update ()
-		{
-			// move towards zero
-			color.a = Mathf.Lerp (color.a, 0, Time.deltaTime * 10f);
+        void Update()
+        {
+            // move towards zero
+            color.a = Mathf.Lerp(color.a, 0, Time.deltaTime * 10f);
 
-			// update color
-			//lr.SetColors (color, color);
-			lr.startColor = color;
-			lr.endColor = color;
-		}
-	}
+            // update color
+            //lr.SetColors (color, color);
+            lr.startColor = color;
+            lr.endColor = color;
+        }
+    }
 }

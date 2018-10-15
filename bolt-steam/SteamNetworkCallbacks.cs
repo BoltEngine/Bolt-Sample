@@ -5,48 +5,50 @@ using Bolt;
 using Steamworks;
 using UnityEngine;
 
-static class LocalData
+namespace Bolt.Samples.Steam
 {
-    public static string ServerScene = "Level1";
-}
-
-public class SteamNetworkCallbacks : Bolt.GlobalEventListener
-{
-    public static bool ListenServer = true;
-
-    void Start()
+    static class LocalData
     {
-        DontDestroyOnLoad(this);
+        public static string ServerScene = "Level1";
     }
 
-    public override void Connected(BoltConnection connection)
+    public class SteamNetworkCallbacks : Bolt.GlobalEventListener
     {
-        if (SteamHub.LobbyActive != null && SteamManager.Initialized)
-        {
-            var token = (SteamToken)connection.ConnectToken;
-            var activeLobby = SteamHub.LobbyActive;
-            bool found = false;
+        public static bool ListenServer = true;
 
-            foreach (var m in activeLobby.AllMembers)
+        void Start()
+        {
+            DontDestroyOnLoad(this);
+        }
+
+        public override void Connected(BoltConnection connection)
+        {
+            if (SteamHub.LobbyActive != null && SteamManager.Initialized)
             {
-                if (m.m_SteamID == token.SteamID)
+                var token = (SteamToken)connection.ConnectToken;
+                var activeLobby = SteamHub.LobbyActive;
+                bool found = false;
+
+                foreach (var m in activeLobby.AllMembers)
                 {
-                    connection.UserData = "CLIENT:" + SteamFriends.GetFriendPersonaName(m) + " " + connection.RemoteEndPoint.Port;
-                    BoltLog.Info(connection.UserData);
-                    found = true;
-                    break;
+                    if (m.m_SteamID == token.SteamID)
+                    {
+                        connection.UserData = "CLIENT:" + SteamFriends.GetFriendPersonaName(m) + " " + connection.RemoteEndPoint.Port;
+                        BoltLog.Info(connection.UserData);
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found == false)
+                {
+                    connection.Disconnect();
                 }
             }
-
-            if (found == false)
-            {
-                connection.Disconnect();
-            }
         }
-    }
 
-    public override void BoltStartDone()
-    {
+        public override void BoltStartDone()
+        {
 #if !BOLT_CLOUD
         if (SteamHub.LobbyActive != null && SteamManager.Initialized)
         {
@@ -71,5 +73,6 @@ public class SteamNetworkCallbacks : Bolt.GlobalEventListener
             }
         }
 #endif
+        }
     }
 }

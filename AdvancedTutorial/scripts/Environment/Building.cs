@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Bolt.AdvancedTutorial {
-
+namespace Bolt.Samples.AdvancedTutorial
+{
 	public class Building : Bolt.EntityBehaviour<IBuildingState>
 	{
 	    public override void Attached()
@@ -10,5 +10,4 @@ namespace Bolt.AdvancedTutorial {
 	        state.SetTransforms(state.Transform, transform);
 	    }
 	}
-
 }

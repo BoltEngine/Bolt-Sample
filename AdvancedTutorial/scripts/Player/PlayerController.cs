@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Linq;
 
-namespace Bolt.AdvancedTutorial
+namespace Bolt.Samples.AdvancedTutorial
 {
     public class PlayerController : Bolt.EntityEventListener<IPlayerState>
     {

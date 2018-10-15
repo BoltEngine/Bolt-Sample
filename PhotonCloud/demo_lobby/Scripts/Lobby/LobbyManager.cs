@@ -5,10 +5,9 @@ using Bolt;
 using UdpKit;
 using System;
 using UnityEngine.SceneManagement;
+using Bolt.Samples.Photon.Simple;
 
-using Utilities;
-
-namespace Photon.Lobby
+namespace Bolt.Samples.Photon.Lobby
 {
     public class LobbyManager : Bolt.GlobalEventListener
     {
@@ -376,15 +375,9 @@ namespace Photon.Lobby
             }
         }
 
-        public override void ConnectFailed(UdpEndPoint endpoint, IProtocolToken token)
+        public override void SceneLoadLocalBegin(string map)
         {
+            base.SceneLoadLocalBegin(map);
         }
-
-        // Spawners
-
-        //private void SpawnGamePlayer()
-        //{
-        //    BomberPlayerController.Spawn();
-        //}
     }
 }

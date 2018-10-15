@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Photon.Lobby
+namespace Bolt.Samples.Photon.Lobby
 {
     public class LobbyPhotonPlayer : Bolt.EntityEventListener<ILobbyPlayerInfoState>
     {

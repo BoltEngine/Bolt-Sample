@@ -3,7 +3,7 @@ using System.Collections;
 using System.Text;
 using Bolt.a2s;
 
-namespace Bolt.AdvancedTutorial
+namespace Bolt.Samples.AdvancedTutorial
 {
     [BoltGlobalBehaviour("Level1")]
     public class PlayerCallbacks : GlobalEventListener

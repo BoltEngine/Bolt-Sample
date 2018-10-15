@@ -1,7 +1,7 @@
 ﻿using UdpKit;
 using System;
 
-namespace Photon
+namespace Bolt.Samples.Photon.Simple
 {
   public class RoomProtocolToken : Bolt.IProtocolToken
   {

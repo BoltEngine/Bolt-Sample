@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Photon.Lobby
+namespace Bolt.Samples.Photon.Lobby
 {
     //List of players in the lobby
     public class LobbyPlayerList : MonoBehaviour

@@ -2,31 +2,31 @@
 using System.Collections;
 using System;
 
-namespace Bolt.AdvancedTutorial
+namespace Bolt.Samples.AdvancedTutorial
 {
     public class TestToken : Bolt.IProtocolToken
-	{
-		static int NumberCounter;
-		public int Number = 0;
+    {
+        static int NumberCounter;
+        public int Number = 0;
 
-		public TestToken ()
-		{
-			Number = ++NumberCounter;
-		}
+        public TestToken()
+        {
+            Number = ++NumberCounter;
+        }
 
-		void Bolt.IProtocolToken.Read (UdpKit.UdpPacket packet)
-		{
-			Number = packet.ReadInt ();
-		}
+        void Bolt.IProtocolToken.Read(UdpKit.UdpPacket packet)
+        {
+            Number = packet.ReadInt();
+        }
 
-		void Bolt.IProtocolToken.Write (UdpKit.UdpPacket packet)
-		{
-			packet.WriteInt (Number);
-		}
+        void Bolt.IProtocolToken.Write(UdpKit.UdpPacket packet)
+        {
+            packet.WriteInt(Number);
+        }
 
-		public override string ToString ()
-		{
-			return string.Format ("[TestToken {0}]", Number);
-		}
-	}
+        public override string ToString()
+        {
+            return string.Format("[TestToken {0}]", Number);
+        }
+    }
 }

@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
 
-namespace Bolt.AdvancedTutorial
+namespace Bolt.Samples.AdvancedTutorial
 {
-	[RequireComponent (typeof(MeshFilter))]
-	public class UvCoords : MonoBehaviour
-	{
-		[SerializeField]
-		Vector2[] uv = new Vector2[4];
+    [RequireComponent(typeof(MeshFilter))]
+    public class UvCoords : MonoBehaviour
+    {
+        [SerializeField]
+        Vector2[] uv = new Vector2[4];
 
-		void Start ()
-		{
-			GetComponent<MeshFilter> ().mesh.uv = uv;
-		}
-	}
+        void Start()
+        {
+            GetComponent<MeshFilter>().mesh.uv = uv;
+        }
+    }
 }

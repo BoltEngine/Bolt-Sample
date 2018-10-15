@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[BoltGlobalBehaviour(BoltNetworkModes.Server, "Level1")]
-public class ServerCallbacks : Bolt.GlobalEventListener
+namespace Bolt.Samples.ServerMonitor
 {
-    public override void SceneLoadLocalDone(string map)
+    [BoltGlobalBehaviour(BoltNetworkModes.Server, "Level1")]
+    public class ServerCallbacks : Bolt.GlobalEventListener
     {
-		// instantiate server monitor stuff
-		GameObject.Instantiate(Resources.Load("ServerMonitor"));
+        public override void SceneLoadLocalDone(string map)
+        {
+            // instantiate server monitor stuff
+            GameObject.Instantiate(Resources.Load("ServerMonitor"));
+        }
     }
 }

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System;
 using UdpKit;
 
-namespace Photon.Lobby
+namespace Bolt.Samples.Photon.Lobby
 {
     public class LobbyServerList : Bolt.GlobalEventListener
     {

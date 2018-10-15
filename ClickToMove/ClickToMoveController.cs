@@ -1,66 +1,69 @@
 ﻿using UnityEngine;
 using Bolt;
 
-public class ClickToMoveController : Bolt.EntityEventListener<ITPCstate>
+namespace Bolt.Samples.ClickToMove
 {
-    public LayerMask validLayers = new LayerMask();
-    public Vector3 _destinationPosition = Vector3.zero;
-    public CharacterController _cc;
-
-    public override void Attached()
+    public class ClickToMoveController : Bolt.EntityEventListener<ITPCstate>
     {
-        _cc = GetComponent<CharacterController>();
-        state.SetTransforms(state.transform, transform);
-    }
+        public LayerMask validLayers = new LayerMask();
+        public Vector3 _destinationPosition = Vector3.zero;
+        public CharacterController _cc;
 
-    public override void SimulateController()
-    {
-        IclickToMoveCommandInput input = clickToMoveCommand.Create();
-        Vector3 position = Input.mousePosition;
-        Ray ray = Camera.main.ScreenPointToRay(position);
-        RaycastHit[] hits = Physics.RaycastAll(ray, 1000, validLayers);
-
-        if (Input.GetMouseButtonDown(0))
+        public override void Attached()
         {
-            foreach (RaycastHit hit in hits)
-            {
-                BoltLog.Info(hit);
-                if (!hit.collider.isTrigger)
-                {
-                    _destinationPosition = hit.point;
-                    break;
-                }
-            }
+            _cc = GetComponent<CharacterController>();
+            state.SetTransforms(state.transform, transform);
         }
 
-        input.click = _destinationPosition;
-        entity.QueueInput(input);
-    }
-
-    public override void ExecuteCommand(Command command, bool resetState)
-    {
-        clickToMoveCommand cmd = (clickToMoveCommand)command;
-
-        if (resetState)
+        public override void SimulateController()
         {
-            //owner has sent a correction to the controller
-            transform.position = cmd.Result.position;
-            //_cc.Move(cmd.Result.velocity);
-        }
-        else
-        {
+            IclickToMoveCommandInput input = clickToMoveCommand.Create();
+            Vector3 position = Input.mousePosition;
+            Ray ray = Camera.main.ScreenPointToRay(position);
+            RaycastHit[] hits = Physics.RaycastAll(ray, 1000, validLayers);
 
-            if (cmd.Input.click != Vector3.zero)
+            if (Input.GetMouseButtonDown(0))
             {
-                if (Vector3.Distance(transform.position, cmd.Input.click) > 0.3f)
+                foreach (RaycastHit hit in hits)
                 {
-                    transform.LookAt(new Vector3(cmd.Input.click.x, transform.position.y, cmd.Input.click.z));
-                    _cc.Move(transform.TransformDirection(new Vector3(0, 0, 1) * 0.01f));
+                    BoltLog.Info(hit);
+                    if (!hit.collider.isTrigger)
+                    {
+                        _destinationPosition = hit.point;
+                        break;
+                    }
                 }
             }
 
-            cmd.Result.position = transform.position;
-            cmd.Result.velocity = GetComponent<CharacterController>().velocity;
+            input.click = _destinationPosition;
+            entity.QueueInput(input);
+        }
+
+        public override void ExecuteCommand(Command command, bool resetState)
+        {
+            clickToMoveCommand cmd = (clickToMoveCommand)command;
+
+            if (resetState)
+            {
+                //owner has sent a correction to the controller
+                transform.position = cmd.Result.position;
+                //_cc.Move(cmd.Result.velocity);
+            }
+            else
+            {
+
+                if (cmd.Input.click != Vector3.zero)
+                {
+                    if (Vector3.Distance(transform.position, cmd.Input.click) > 0.3f)
+                    {
+                        transform.LookAt(new Vector3(cmd.Input.click.x, transform.position.y, cmd.Input.click.z));
+                        _cc.Move(transform.TransformDirection(new Vector3(0, 0, 1) * 0.01f));
+                    }
+                }
+
+                cmd.Result.position = transform.position;
+                cmd.Result.velocity = GetComponent<CharacterController>().velocity;
+            }
         }
     }
 }

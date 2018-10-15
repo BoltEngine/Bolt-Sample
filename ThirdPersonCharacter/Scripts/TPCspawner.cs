@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TPCspawner : Bolt.GlobalEventListener
+namespace Bolt.Samples.ThirdPerson
 {
-    // Use this for initialization
-    public override void SceneLoadLocalDone(string map)
+    public class TPCspawner : Bolt.GlobalEventListener
     {
-        BoltNetwork.Instantiate(BoltPrefabs.ThirdPersonControllerClientAuth, new Vector3(0, -1f, 0), Quaternion.identity);
+        // Use this for initialization
+        public override void SceneLoadLocalDone(string map)
+        {
+            BoltNetwork.Instantiate(BoltPrefabs.ThirdPersonControllerClientAuth, new Vector3(0, -1f, 0), Quaternion.identity);
+        }
     }
 }

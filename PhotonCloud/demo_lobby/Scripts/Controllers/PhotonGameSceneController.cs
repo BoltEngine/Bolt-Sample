@@ -10,7 +10,7 @@ namespace Bolt.Samples.Photon.Lobby
     {
         public override void SceneLoadLocalDone(string map)
         {
-            BoltConsole.Write("Spawn Player on map " + map, Color.yellow);
+            BoltLog.Info("Spawn Player on map: {0}", map);
             BomberPlayerController.Spawn();
 
             if (BoltNetwork.isServer)

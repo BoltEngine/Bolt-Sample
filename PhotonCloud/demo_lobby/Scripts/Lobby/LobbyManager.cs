@@ -89,7 +89,7 @@ namespace Bolt.Samples.Photon.Lobby
 
         public override void SceneLoadLocalDone(string map)
         {
-            BoltConsole.Write("New scene: " + map, Color.yellow);
+            BoltLog.Info("New scene: " + map);
 
             try
             {
@@ -113,9 +113,7 @@ namespace Bolt.Samples.Photon.Lobby
             }
             catch (Exception e)
             {
-                BoltConsole.Write(e.Message, Color.red);
-                BoltConsole.Write(e.Source, Color.red);
-                BoltConsole.Write(e.StackTrace, Color.red);
+                BoltLog.Exception(e);
             }
         }
 
@@ -321,12 +319,12 @@ namespace Bolt.Samples.Photon.Lobby
 
         public override void EntityReceived(BoltEntity entity)
         {
-            BoltConsole.Write("EntityReceived");
+            BoltLog.Info("EntityReceived");
         }
 
         public override void EntityAttached(BoltEntity entity)
         {
-            BoltConsole.Write("EntityAttached");
+            BoltLog.Info("EntityAttached");
 
             if (!entity.isControlled)
             {
@@ -343,14 +341,14 @@ namespace Bolt.Samples.Photon.Lobby
         {
             if (BoltNetwork.isClient)
             {
-                BoltConsole.Write("Connected Client: " + connection, Color.blue);
+                BoltLog.Info("Connected Client: {0}", connection);
 
                 infoPanel.gameObject.SetActive(false);
                 ChangeTo(lobbyPanel);
             }
             else if (BoltNetwork.isServer)
             {
-                BoltConsole.Write("Connected Server: " + connection, Color.blue);
+                BoltLog.Info("Connected Server: {0}", connection);
 
                 BoltEntity entity = BoltNetwork.Instantiate(BoltPrefabs.PlayerInfo);
 

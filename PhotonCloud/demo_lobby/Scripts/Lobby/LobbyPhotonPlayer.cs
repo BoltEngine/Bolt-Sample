@@ -68,7 +68,7 @@ namespace Bolt.Samples.Photon.Lobby
 
         public override void ControlGained()
         {
-            BoltConsole.Write("ControlGained", Color.blue);
+            BoltLog.Info("ControlGained");
 
             readyButton.transform.GetChild(0).GetComponent<Text>().color = Color.white;
             SetupPlayer();
@@ -89,7 +89,7 @@ namespace Bolt.Samples.Photon.Lobby
 
         public override void OnEvent(LobbyPlayerKick evnt)
         {
-            BoltConsole.Write("Received Kick event", Color.yellow);
+            BoltLog.Info("Received Kick event");
             BoltLauncher.Shutdown();
         }
 
@@ -122,7 +122,7 @@ namespace Bolt.Samples.Photon.Lobby
 
         public void SetupOtherPlayer()
         {
-            BoltConsole.Write("SetupOtherPlayer", Color.green);
+            BoltLog.Info("SetupOtherPlayer");
 
             LobbyPlayerList._instance.AddPlayer(this);
 
@@ -141,7 +141,7 @@ namespace Bolt.Samples.Photon.Lobby
 
         public void SetupPlayer()
         {
-            BoltConsole.Write("SetupPlayer", Color.green);
+            BoltLog.Info("SetupPlayer");
 
             LobbyPlayerList._instance.AddPlayer(this);
             localPlayer = this;

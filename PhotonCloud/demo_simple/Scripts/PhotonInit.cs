@@ -6,6 +6,7 @@ using Bolt;
 using udpkit.platform.photon.photon;
 using System.Collections.Generic;
 using Bolt.photon;
+using System.Linq;
 
 namespace Bolt.Samples.Photon.Simple
 {
@@ -19,8 +20,15 @@ namespace Bolt.Samples.Photon.Simple
             ModeClient
         }
 
+        struct InternalSession
+        {
+            public UdpSession session;
+            public DateTime receivedAt;
+        }
+
+        int SessionTimeout;
         State _state;
-        Dictionary<Guid, UdpSession> internalSessionList;
+        Dictionary<Guid, InternalSession> internalSessionList;
 
         public override void BoltStartBegin()
         {
@@ -34,7 +42,8 @@ namespace Bolt.Samples.Photon.Simple
 
         void Awake()
         {
-            internalSessionList = new Dictionary<Guid, UdpSession>();
+            SessionTimeout = 10;
+            internalSessionList = new Dictionary<Guid, InternalSession>();
 
             // Optionally, you may want to config the Photon transport layer programatically:
             //BoltLauncher.SetUdpPlatform(new PhotonPlatform(new PhotonPlatformConfig
@@ -57,7 +66,11 @@ namespace Bolt.Samples.Photon.Simple
 
                 if (udpSession.Source == UdpSessionSource.Photon)
                 {
-                    internalSessionList[udpSession.Id] = udpSession;
+                    internalSessionList[udpSession.Id] = new InternalSession()
+                    {
+                        session = udpSession,
+                        receivedAt = DateTime.Now
+                    };
                 }
             }
         }
@@ -121,6 +134,16 @@ namespace Bolt.Samples.Photon.Simple
                     if (BoltNetwork.isRunning && BoltNetwork.isClient)
                     {
                         GUILayout.Label("Session List");
+
+                        var oldList = (from item in internalSessionList
+                                       where (DateTime.Now - item.Value.receivedAt).TotalSeconds > SessionTimeout
+                                       select item);
+
+                        foreach (var item in oldList)
+                        {
+                            internalSessionList.Remove(item.Key);
+                        }
+
                         ShowSessionList(internalSessionList);
                     }
                     break;
@@ -129,11 +152,13 @@ namespace Bolt.Samples.Photon.Simple
             GUILayout.EndArea();
         }
 
-        void ShowSessionList(Dictionary<Guid, UdpSession> sessionList)
+        void ShowSessionList(Dictionary<Guid, InternalSession> sessionList)
         {
             foreach (var session in sessionList)
             {
-                UdpSession udpSession = session.Value as UdpSession;
+                InternalSession internalSession = session.Value;
+
+                UdpSession udpSession = internalSession.session as UdpSession;
 
                 // Skip if is not a Photon session
                 if (udpSession.Source != UdpSessionSource.Photon)
@@ -159,23 +184,27 @@ namespace Bolt.Samples.Photon.Simple
 
                 if (roomToken != null)
                 {
-                    sessionDescription += String.Format(" :: {0}", roomToken.ArbitraryData);
+                    sessionDescription += String.Format(" :: DATA {0}", roomToken.ArbitraryData);
                 }
-
-                object prop_type = -1;
-                object prop_map = -1;
-
-                if (photonSession.Properties.ContainsKey("t"))
+                else
                 {
-                    prop_type = photonSession.Properties["t"];
+                    object prop_type = -1;
+                    object prop_map = -1;
+
+                    if (photonSession.Properties.ContainsKey("t"))
+                    {
+                        prop_type = photonSession.Properties["t"];
+                    }
+
+                    if (photonSession.Properties.ContainsKey("m"))
+                    {
+                        prop_map = photonSession.Properties["m"];
+                    }
+
+                    sessionDescription += String.Format(" :: {0} / {1}", prop_type, prop_map);
                 }
 
-                if (photonSession.Properties.ContainsKey("m"))
-                {
-                    prop_map = photonSession.Properties["m"];
-                }
-
-                sessionDescription += String.Format(" :: {0} / {1}", prop_type, prop_map);
+                sessionDescription += string.Format(" :: {0}", internalSession.receivedAt);
 
                 if (GUILayout.Button(sessionDescription, GUILayout.ExpandWidth(true)))
                 {

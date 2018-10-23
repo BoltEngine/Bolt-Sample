@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UdpKit;
+using UnityEngine.SceneManagement;
 
 namespace Bolt.Samples.AdvancedTutorial
 {
@@ -40,11 +41,11 @@ namespace Bolt.Samples.AdvancedTutorial
 
         public override void ConnectRequest(UdpKit.UdpEndPoint endpoint, Bolt.IProtocolToken token)
         {
-            BoltConsole.Write("ConnectRequest", Color.red);
+            BoltLog.Info("ConnectRequest", Color.red);
 
             if (token != null)
             {
-                BoltConsole.Write("Token Received", Color.red);
+                BoltLog.Info("Token Received", Color.red);
             }
 
             BoltNetwork.Accept(endpoint);
@@ -52,37 +53,48 @@ namespace Bolt.Samples.AdvancedTutorial
 
         public override void ConnectAttempt(UdpEndPoint endpoint, IProtocolToken token)
         {
-            BoltConsole.Write("ConnectAttempt", Color.red);
+            BoltLog.Info("ConnectAttempt", Color.red);
             base.ConnectAttempt(endpoint, token);
         }
 
         public override void Disconnected(BoltConnection connection)
         {
-            BoltConsole.Write("Disconnected", Color.red);
+            BoltLog.Info("Disconnected", Color.red);
             base.Disconnected(connection);
         }
 
         public override void ConnectRefused(UdpEndPoint endpoint, IProtocolToken token)
         {
-            BoltConsole.Write("ConnectRefused", Color.red);
+            BoltLog.Info("ConnectRefused", Color.red);
             base.ConnectRefused(endpoint, token);
         }
 
         public override void ConnectFailed(UdpEndPoint endpoint, IProtocolToken token)
         {
-            BoltConsole.Write("ConnectFailed", Color.red);
+            BoltLog.Info("ConnectFailed", Color.red);
             base.ConnectFailed(endpoint, token);
         }
 
         public override void Connected(BoltConnection c)
         {
-            BoltConsole.Write("Connected", Color.red);
+            BoltLog.Info("Connected", Color.red);
 
             c.UserData = new Player();
             c.GetPlayer().connection = c;
             c.GetPlayer().name = "CLIENT:" + c.RemoteEndPoint.Port;
 
             c.SetStreamBandwidth(1024 * 1024);
+        }
+
+        public override void BoltShutdownBegin(AddCallback registerDoneCallback)
+        {
+            BoltLog.Warn("Bolt is shutting down");
+
+            registerDoneCallback(() =>
+            {
+                BoltLog.Warn("Bolt is down");
+                SceneManager.LoadScene(0);
+            });
         }
 
         public override void SceneLoadRemoteDone(BoltConnection connection)

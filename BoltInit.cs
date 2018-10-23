@@ -58,7 +58,7 @@ namespace Bolt.Samples
                 if (photonSession.Source == UdpSessionSource.Photon)
                 {
                     var matchName = photonSession.HostName;
-                    var label = string.Format("Join: {0}", matchName);
+                    var label = string.Format("Join: {0} | {1}/{2}", matchName, photonSession.ConnectionsCurrent, photonSession.ConnectionsMax);
 
                     if (ExpandButton(label))
                     {
@@ -68,7 +68,7 @@ namespace Bolt.Samples
                 }
             }
 
-            GUILayout.BeginVertical();
+            GUILayout.EndVertical();
         }
 
         void State_SelectMode()

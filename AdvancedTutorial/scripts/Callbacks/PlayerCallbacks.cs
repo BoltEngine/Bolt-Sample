@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Text;
-using Bolt.a2s;
 
 namespace Bolt.Samples.AdvancedTutorial
 {
@@ -15,20 +14,6 @@ namespace Bolt.Samples.AdvancedTutorial
 
             // camera
             PlayerCamera.Instantiate();
-
-            if (BoltNetwork.isServer)
-            {
-                A2SManager.SetPlayerInfo(null, "SERVER");
-
-                A2SManager.UpdateServerInfo(
-                    gameName: "Bolt Advanced Tutorial",
-                    serverName: "Photon Bolt Server",
-                    map: map,
-                    version: "1.0",
-                    serverType: ServerType.Listen,
-                    visibility: Visibility.PUBLIC
-                );
-            }
         }
 
         public override void SceneLoadLocalBegin(string scene, Bolt.IProtocolToken token)
@@ -44,11 +29,6 @@ namespace Bolt.Samples.AdvancedTutorial
         public override void SceneLoadRemoteDone(BoltConnection connection, Bolt.IProtocolToken token)
         {
             BoltLog.Info("SceneLoadRemoteDone-Token: {0}", token);
-
-            if (BoltNetwork.isServer)
-            {
-                A2SManager.SetPlayerInfo(connection, connection.ConnectionId.ToString());
-            }
         }
 
         public override void ControlOfEntityGained(BoltEntity entity)

@@ -15,7 +15,7 @@ namespace Bolt.Samples.GettingStarted
             var spawnPosition = new Vector3(Random.Range(-8, 8), 0, Random.Range(-8, 8));
 
             // instantiate cube
-            BoltNetwork.Instantiate(BoltPrefabs.Robot, spawnPosition, Quaternion.identity);
+            BoltNetwork.Instantiate(BoltPrefabs.Cube, spawnPosition, Quaternion.identity);
         }
 
         public override void OnEvent(LogEvent evnt)

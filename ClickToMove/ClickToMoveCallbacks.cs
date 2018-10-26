@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[BoltGlobalBehaviour(BoltNetworkModes.Server, "clickToMoveServerAuth")]
+[BoltGlobalBehaviour(BoltNetworkModes.Server, "ClickToMoveServerAuth")]
 public class ClickToMoveCallbacks : Bolt.GlobalEventListener
 {
 

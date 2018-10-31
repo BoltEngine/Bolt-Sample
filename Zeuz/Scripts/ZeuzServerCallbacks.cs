@@ -14,7 +14,7 @@
 
 		public override void Disconnected(BoltConnection connection)
 		{
-			foreach(BoltConnection client in BoltNetwork.connections)
+			foreach(BoltConnection client in BoltNetwork.Connections)
 			{
 				if(connection != client)
 				{

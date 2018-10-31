@@ -11,18 +11,18 @@ namespace Bolt.Samples.AdvancedTutorial
         [SerializeField]
         TypogenicText timer;
 
-        public override void ControlOfEntityGained(BoltEntity arg)
+        public override void ControlOfEntityGained(BoltEntity entity)
         {
-            if (arg.GetComponent<PlayerController>())
+            if (entity.GetComponent<PlayerController>())
             {
-                me = arg;
+                me = entity;
                 meState = me.GetState<IPlayerState>();
             }
         }
 
-        public override void ControlOfEntityLost(BoltEntity arg)
+        public override void ControlOfEntityLost(BoltEntity entity)
         {
-            if (arg.GetComponent<PlayerController>())
+            if (entity.GetComponent<PlayerController>())
             {
                 me = null;
                 meState = null;
@@ -39,7 +39,7 @@ namespace Bolt.Samples.AdvancedTutorial
             {
                 if (meState.Dead)
                 {
-                    timer.Set(Mathf.Max(0, (meState.respawnFrame - BoltNetwork.frame) / BoltNetwork.framesPerSecond).ToString());
+                    timer.Set(Mathf.Max(0, (meState.respawnFrame - BoltNetwork.Frame) / BoltNetwork.FramesPerSecond).ToString());
                 }
                 else
                 {

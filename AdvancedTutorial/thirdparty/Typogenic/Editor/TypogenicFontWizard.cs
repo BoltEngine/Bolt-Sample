@@ -55,7 +55,7 @@ public class TypogenicFontWizard : ScriptableWizard
 		Selection.activeObject = asset;
 	}
 
-	void CreateAsset(Object obj, string name)
+    void CreateAsset(Object obj, string assetName)
 	{
 		string path = AssetDatabase.GetAssetPath(Selection.activeObject);
 
@@ -64,7 +64,7 @@ public class TypogenicFontWizard : ScriptableWizard
 		else if (Path.GetExtension(path) != "")
 			path = path.Replace(Path.GetFileName(AssetDatabase.GetAssetPath(Selection.activeObject)), "");
 
-		string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + "/" + name);
+		string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + "/" + assetName);
 
 		AssetDatabase.CreateAsset(obj, assetPathAndName);
 	}

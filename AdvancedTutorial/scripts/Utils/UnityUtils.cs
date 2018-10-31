@@ -10,9 +10,9 @@ namespace Bolt.Samples.AdvancedTutorial
 
         public static IEnumerator DisableThenEnable(GameObject go, int frameDisable, int frameEnable)
         {
-            while (frameEnable > BoltNetwork.serverFrame)
+            while (frameEnable > BoltNetwork.ServerFrame)
             {
-                if (BoltNetwork.serverFrame >= frameDisable)
+                if (BoltNetwork.ServerFrame >= frameDisable)
                 {
                     go.SetActive(false);
                 }
@@ -25,9 +25,9 @@ namespace Bolt.Samples.AdvancedTutorial
 
         public static IEnumerator InFrames(int frames, Action action)
         {
-            frames += BoltNetwork.serverFrame;
+            frames += BoltNetwork.ServerFrame;
 
-            while (frames > BoltNetwork.serverFrame)
+            while (frames > BoltNetwork.ServerFrame)
             {
                 yield return WaitForFixed;
             }

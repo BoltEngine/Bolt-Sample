@@ -22,11 +22,5 @@ namespace Bolt.Samples.Photon.Lobby
         {
             return session.ConnectionsCurrent != session.ConnectionsMax;
         }
-
-        public static long Ping(this UdpSession session, Action callback)
-        {
-            callback();
-            return 0;
-        }
     }
 }

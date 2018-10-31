@@ -36,7 +36,7 @@ namespace Bolt.Samples.AdvancedTutorial
             if (entity)
             {
                 state.Dead = true;
-                state.respawnFrame = BoltNetwork.serverFrame + (15 * BoltNetwork.framesPerSecond);
+                state.respawnFrame = BoltNetwork.ServerFrame + (15 * BoltNetwork.FramesPerSecond);
             }
         }
 

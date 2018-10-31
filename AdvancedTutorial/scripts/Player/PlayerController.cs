@@ -152,7 +152,7 @@ namespace Bolt.Samples.AdvancedTutorial
 
         public override void SimulateOwner()
         {
-            if ((BoltNetwork.frame % 5) == 0 && (state.Dead == false))
+            if ((BoltNetwork.Frame % 5) == 0 && (state.Dead == false))
             {
                 state.health = (byte)Mathf.Clamp(state.health + 1, 0, 100);
             }
@@ -182,14 +182,14 @@ namespace Bolt.Samples.AdvancedTutorial
             entity.QueueInput(input);
         }
 
-        public override void ExecuteCommand(Bolt.Command c, bool resetState)
+        public override void ExecuteCommand(Command command, bool resetState)
         {
             if (state.Dead)
             {
                 return;
             }
 
-            PlayerCommand cmd = (PlayerCommand)c;
+            PlayerCommand cmd = (PlayerCommand)command;
 
             if (resetState)
             {
@@ -260,9 +260,9 @@ namespace Bolt.Samples.AdvancedTutorial
 
         void FireWeapon(PlayerCommand cmd)
         {
-            if (activeWeapon.fireFrame + activeWeapon.refireRate <= BoltNetwork.serverFrame)
+            if (activeWeapon.fireFrame + activeWeapon.refireRate <= BoltNetwork.ServerFrame)
             {
-                activeWeapon.fireFrame = BoltNetwork.serverFrame;
+                activeWeapon.fireFrame = BoltNetwork.ServerFrame;
 
                 state.Fire();
 

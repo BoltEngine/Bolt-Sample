@@ -52,7 +52,7 @@ namespace Bolt.Samples.Photon.Lobby
 
             if (movement != Vector3.zero)
             {
-                transform.position = transform.position + (movement.normalized * speed * BoltNetwork.frameDeltaTime);
+                transform.position = transform.position + (movement.normalized * speed * BoltNetwork.FrameDeltaTime);
             }
         }
 

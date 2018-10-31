@@ -52,17 +52,17 @@ namespace Bolt.Samples.ServerMonitor
 
         private void CollectBoltData()
         {
-            ServerStats stats = new ServerStats();
-            stats.Fps = (short)(1.0f / Time.deltaTime);
-            stats.Timestamp = Time.time;
-            foreach (BoltConnection conn in BoltNetwork.clients)
+            ServerStats serverStats = new ServerStats();
+            serverStats.Fps = (short)(1.0f / Time.deltaTime);
+            serverStats.Timestamp = Time.time;
+            foreach (BoltConnection conn in BoltNetwork.Clients)
             {
                 ClientStats c = new ClientStats();
                 c.IpAddress = conn.RemoteEndPoint.Address.ToString();
                 c.Port = conn.RemoteEndPoint.Port;
-                stats.Clients.Add(c);
+                serverStats.Clients.Add(c);
             }
-            this.stats = stats;
+            this.stats = serverStats;
         }
 
         void OnDestroy()

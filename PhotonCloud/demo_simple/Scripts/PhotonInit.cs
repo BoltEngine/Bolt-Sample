@@ -99,7 +99,7 @@ namespace Bolt.Samples.Photon.Simple
 
                 // Publishing a session into the matchmaking server
                 case State.ModeServer:
-                    if (BoltNetwork.isRunning && BoltNetwork.isServer)
+                    if (BoltNetwork.IsRunning && BoltNetwork.IsServer)
                     {
                         if (GUILayout.Button("Publish HostInfo And Load Map", GUILayout.ExpandWidth(true)))
                         {
@@ -131,7 +131,7 @@ namespace Bolt.Samples.Photon.Simple
                 // of available sessions and join one of them
                 case State.ModeClient:
 
-                    if (BoltNetwork.isRunning && BoltNetwork.isClient)
+                    if (BoltNetwork.IsRunning && BoltNetwork.IsClient)
                     {
                         GUILayout.Label("Session List");
 

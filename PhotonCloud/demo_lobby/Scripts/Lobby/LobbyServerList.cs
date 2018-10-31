@@ -55,9 +55,9 @@ namespace Bolt.Samples.Photon.Lobby
             currentPage = page;
 		}
 
-        public override void SessionListUpdated(Map<Guid, UdpSession> matches)
+        public override void SessionListUpdated(Map<Guid, UdpSession> sessionList)
         {
-            if (matches.Count == 0)
+            if (sessionList.Count == 0)
             {
                 noServerFound.SetActive(true);
                 return;
@@ -68,7 +68,7 @@ namespace Bolt.Samples.Photon.Lobby
                 Destroy(t.gameObject);
 
             int i = 0;
-            foreach (var pair in matches)
+            foreach (var pair in sessionList)
             {
                 UdpSession udpSession = pair.Value;
 

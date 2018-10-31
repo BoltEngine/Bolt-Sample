@@ -47,14 +47,14 @@ namespace Bolt.Samples.Photon.Lobby
         {
             get
             {
-                if (BoltNetwork.isRunning)
+                if (BoltNetwork.IsRunning)
                 {
-                    if (BoltNetwork.isServer)
+                    if (BoltNetwork.IsServer)
                     {
                         return "<server>";
                     }
 
-                    if (BoltNetwork.isClient)
+                    if (BoltNetwork.IsClient)
                     {
                         return "<client>";
                     }
@@ -81,7 +81,7 @@ namespace Bolt.Samples.Photon.Lobby
 
         void FixedUpdate()
         {
-            if (BoltNetwork.isServer && !_isCountdown)
+            if (BoltNetwork.IsServer && !_isCountdown)
             {
                 VerifyReady();
             }
@@ -201,9 +201,9 @@ namespace Bolt.Samples.Photon.Lobby
 
         public override void BoltStartDone()
         {
-            if (!BoltNetwork.isRunning) { return; }
+            if (!BoltNetwork.IsRunning) { return; }
 
-            if (BoltNetwork.isServer)
+            if (BoltNetwork.IsServer)
             {
                 RoomProtocolToken token = new RoomProtocolToken()
                 {
@@ -226,7 +226,7 @@ namespace Bolt.Samples.Photon.Lobby
                 entity.TakeControl();
 
             }
-            else if (BoltNetwork.isClient)
+            else if (BoltNetwork.IsClient)
             {
                 backDelegate = Stop;
                 SetServerInfo("Client", "");
@@ -237,11 +237,11 @@ namespace Bolt.Samples.Photon.Lobby
         {
             _matchName = "";
 
-            if (BoltNetwork.isServer)
+            if (BoltNetwork.IsServer)
             {
                 BoltNetwork.LoadScene(lobbyScene.SimpleSceneName);
             }
-            else if (BoltNetwork.isClient)
+            else if (BoltNetwork.IsClient)
             {
                 SceneManager.LoadScene(lobbyScene.SimpleSceneName);
             }
@@ -339,14 +339,14 @@ namespace Bolt.Samples.Photon.Lobby
 
         public override void Connected(BoltConnection connection)
         {
-            if (BoltNetwork.isClient)
+            if (BoltNetwork.IsClient)
             {
                 BoltLog.Info("Connected Client: {0}", connection);
 
                 infoPanel.gameObject.SetActive(false);
                 ChangeTo(lobbyPanel);
             }
-            else if (BoltNetwork.isServer)
+            else if (BoltNetwork.IsServer)
             {
                 BoltLog.Info("Connected Server: {0}", connection);
 

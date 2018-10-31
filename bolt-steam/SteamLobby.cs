@@ -105,7 +105,7 @@ namespace Bolt.Samples.Steam
 
             var activeLobby = SteamHub.LobbyActive;
 
-            if (BoltNetwork.isRunning != true)
+            if (BoltNetwork.IsRunning != true)
             {
                 if (activeLobby == null)
                 {
@@ -520,10 +520,10 @@ namespace Bolt.Samples.Steam
             // Instantiate the gameobject for the Each Lobby panel row
             foreach (var lobby in SteamHub.LobbyList)
             {
-                string lobbyName = lobby.GetData<String>("name");
-                if (lobbyName == null || lobbyName == "")
+                string @lobbyName = lobby.GetData<String>("name");
+                if (string.IsNullOrEmpty(@lobbyName))
                 {
-                    lobbyName = "<unnamed>";
+                    @lobbyName = "<unnamed>";
                 }
 
                 GameObject lobbyRow = (GameObject)Instantiate(LobbyDetailsRowPanelPrefab, new Vector3(1, 1, 1), Quaternion.identity);
@@ -538,7 +538,7 @@ namespace Bolt.Samples.Steam
                 int lobbyMaxMembers = SteamMatchmaking.GetLobbyMemberLimit(lobby.LobbyId);
 
                 String str = isLobbyActive ? "(A) " : "     ";
-                str += "Lobby \"" + lobbyName + "\" #";
+                str += "Lobby \"" + @lobbyName + "\" #";
                 str += lobby.LobbyId.ToString() + ": ";
                 // str += "[" + lobby.MembersCount.ToString() + "/" + lobbyMaxMembers.ToString() + "] ";
                 str += lobby.IsOwner ? " (OWNER)" : "";

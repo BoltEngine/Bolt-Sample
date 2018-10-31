@@ -29,7 +29,7 @@ namespace Bolt.Samples.GettingStarted
 
         public override void BoltStartDone()
         {
-            if (BoltNetwork.isServer)
+            if (BoltNetwork.IsServer)
             {
                 string matchName = Guid.NewGuid().ToString();
 

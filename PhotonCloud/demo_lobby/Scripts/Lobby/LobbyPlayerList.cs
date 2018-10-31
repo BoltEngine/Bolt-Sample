@@ -40,7 +40,7 @@ namespace Bolt.Samples.Photon.Lobby
 
         public LobbyPhotonPlayer CreatePlayer()
         {
-            if (!BoltNetwork.isClient) { return null; }
+            if (!BoltNetwork.IsClient) { return null; }
 
             return null;
         }

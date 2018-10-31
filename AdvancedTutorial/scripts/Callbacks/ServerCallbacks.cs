@@ -32,7 +32,7 @@ namespace Bolt.Samples.AdvancedTutorial
             foreach (Player p in Player.allPlayers)
             {
                 // if we have an entity, it's dead but our spawn frame has passed
-                if (p.entity && p.state.Dead && p.state.respawnFrame <= BoltNetwork.serverFrame)
+                if (p.entity && p.state.Dead && p.state.respawnFrame <= BoltNetwork.ServerFrame)
                 {
                     p.Spawn();
                 }

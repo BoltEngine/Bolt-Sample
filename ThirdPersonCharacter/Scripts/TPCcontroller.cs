@@ -128,17 +128,11 @@ namespace Bolt.Samples.ThirdPerson
             input.crouch = Input.GetKey(KeyCode.C);
             input.jump = Input.GetKey(KeyCode.Space);
             entity.QueueInput(input);
-
-
-
-
-
         }
 
-
-        public override void ExecuteCommand(Bolt.Command c, bool resetState)
+        public override void ExecuteCommand(Command command, bool resetState)
         {
-            TPCCommand cmd = (TPCCommand)c;
+            TPCCommand cmd = (TPCCommand)command;
 
             if (resetState)
             {

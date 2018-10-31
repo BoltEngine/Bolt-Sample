@@ -81,7 +81,7 @@ namespace Bolt.Samples.Photon.Lobby
 
         public void OnRemovePlayerClick()
         {
-            if (BoltNetwork.isServer)
+            if (BoltNetwork.IsServer)
             {
                 LobbyPlayerKick.Create(entity, EntityTargets.OnlyController).Send();
             }
@@ -128,8 +128,8 @@ namespace Bolt.Samples.Photon.Lobby
 
             nameInput.interactable = false;
 
-            removePlayerButton.gameObject.SetActive(BoltNetwork.isServer);
-            removePlayerButton.interactable = BoltNetwork.isServer;
+            removePlayerButton.gameObject.SetActive(BoltNetwork.IsServer);
+            removePlayerButton.interactable = BoltNetwork.IsServer;
 
             ChangeReadyButtonColor(NotReadyColor);
 

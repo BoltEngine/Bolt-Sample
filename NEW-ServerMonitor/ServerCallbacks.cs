@@ -9,7 +9,7 @@ namespace Bolt.Samples.ServerMonitor
         public override void SceneLoadLocalDone(string map)
         {
             // instantiate server monitor stuff
-            GameObject.Instantiate(Resources.Load("ServerMonitor"));
+            Instantiate(Resources.Load("ServerMonitor"));
         }
     }
 }

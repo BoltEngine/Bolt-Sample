@@ -18,7 +18,7 @@ namespace Bolt.Samples.Photon.Lobby
 		{
             serverInfoText.text = match.HostName;
 
-            slotInfo.text = match.ConnectionsCurrent.ToString() + "/" + match.ConnectionsMax.ToString(); ;
+            slotInfo.text = match.ConnectionsCurrent.ToString() + "/" + match.ConnectionsMax.ToString();
 
             joinButton.onClick.RemoveAllListeners();
             joinButton.onClick.AddListener(() => { JoinMatch(match, lobbyManager); });

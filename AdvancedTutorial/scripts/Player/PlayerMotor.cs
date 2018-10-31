@@ -101,7 +101,7 @@ namespace Bolt.Samples.AdvancedTutorial
         {
             bool isGrounded = false;
 
-            isGrounded = isGrounded || _cc.Move(velocity * BoltNetwork.frameDeltaTime) == CollisionFlags.Below;
+            isGrounded = isGrounded || _cc.Move(velocity * BoltNetwork.FrameDeltaTime) == CollisionFlags.Below;
             isGrounded = isGrounded || _cc.isGrounded;
             isGrounded = isGrounded || Physics.CheckSphere(sphere, _cc.radius, layerMask);
 
@@ -151,7 +151,7 @@ namespace Bolt.Samples.AdvancedTutorial
             }
             else
             {
-                _state.velocity.y += gravityForce * BoltNetwork.frameDeltaTime;
+                _state.velocity.y += gravityForce * BoltNetwork.FrameDeltaTime;
             }
 
             if (_state.jumpFrames > 0)
@@ -195,15 +195,15 @@ namespace Bolt.Samples.AdvancedTutorial
             return _state;
         }
 
-        float ApplyDrag(float value, float drag)
+        float ApplyDrag(float value, float dragValue)
         {
             if (value < 0)
             {
-                return Mathf.Min(value + (drag * BoltNetwork.frameDeltaTime), 0f);
+                return Mathf.Min(value + (dragValue * BoltNetwork.FrameDeltaTime), 0f);
             }
             else if (value > 0)
             {
-                return Mathf.Max(value - (drag * BoltNetwork.frameDeltaTime), 0f);
+                return Mathf.Max(value - (dragValue * BoltNetwork.FrameDeltaTime), 0f);
             }
 
             return value;

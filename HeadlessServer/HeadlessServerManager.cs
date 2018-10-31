@@ -19,7 +19,7 @@ namespace Bolt.Samples.HeadlessServer
 
         public override void BoltStartDone()
         {
-            if (BoltNetwork.isServer)
+            if (BoltNetwork.IsServer)
             {
                 // Create some room custom properties
                 PhotonRoomProperties roomProperties = new PhotonRoomProperties();

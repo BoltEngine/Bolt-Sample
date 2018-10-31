@@ -19,8 +19,8 @@ namespace Bolt.Samples.ServerMonitor
         {
             client = new UdpClient();
             // endpoint for server
-            IPEndPoint server = new IPEndPoint(IPAddress.Parse("127.0.0.1"), ServerMonitor.SERVER_PORT);
-            client.Connect(server);
+            IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), ServerMonitor.SERVER_PORT);
+            client.Connect(serverEndPoint);
         }
 
         void OnGUI()

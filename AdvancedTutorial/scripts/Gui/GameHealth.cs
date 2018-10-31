@@ -11,11 +11,11 @@ namespace Bolt.Samples.AdvancedTutorial
         [SerializeField]
         TypogenicText text;
 
-        public override void ControlOfEntityGained(BoltEntity arg)
+        public override void ControlOfEntityGained(BoltEntity entity)
         {
-            if (arg.GetComponent<PlayerController>())
+            if (entity.GetComponent<PlayerController>())
             {
-                me = arg;
+                me = entity;
                 meState = me.GetState<IPlayerState>();
                 meState.AddCallback("health", HealthChanged);
 
@@ -23,9 +23,9 @@ namespace Bolt.Samples.AdvancedTutorial
             }
         }
 
-        public override void ControlOfEntityLost(BoltEntity arg)
+        public override void ControlOfEntityLost(BoltEntity entity)
         {
-            if (arg.GetComponent<PlayerController>())
+            if (entity.GetComponent<PlayerController>())
             {
                 meState.RemoveCallback("health", HealthChanged);
 

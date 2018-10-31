@@ -16,7 +16,7 @@ namespace Bolt.Samples.AdvancedTutorial
 
         void FixedUpdate()
         {
-            float t = Mathf.Clamp01(Mathf.PingPong(BoltNetwork.serverTime, time) / time);
+            float t = Mathf.Clamp01(Mathf.PingPong(BoltNetwork.ServerTime, time) / time);
             transform.position = Vector3.Lerp(start, end, t);
         }
     }

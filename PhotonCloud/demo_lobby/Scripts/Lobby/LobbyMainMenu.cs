@@ -47,7 +47,6 @@ namespace Bolt.Samples.Photon.Lobby
             //lobbyManager.ChangeTo(null);
             //lobbyManager.StartServer();
 
-
             //lobbyManager.backDelegate = lobbyManager.StopServerClbk;
 
             //lobbyManager.SetServerInfo("Dedicated Server", lobbyManager.networkAddress);

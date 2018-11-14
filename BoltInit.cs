@@ -21,6 +21,11 @@ namespace Bolt.Samples
         State state;
         string map;
 
+		void Awake()
+		{
+			Application.targetFrameRate = 60;
+		}
+
         void OnGUI()
         {
             Rect tex = new Rect(10, 10, 140, 75);

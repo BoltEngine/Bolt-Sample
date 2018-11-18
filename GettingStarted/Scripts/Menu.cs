@@ -8,8 +8,17 @@ namespace Bolt.Samples.GettingStarted
 {
     public class Menu : Bolt.GlobalEventListener
     {
+        bool ShowGui = true;
+
+        private void Awake()
+        {
+            BoltLauncher.SetUdpPlatform(new PhotonPlatform());
+        }
+
         void OnGUI()
         {
+            if (!ShowGui) { return; }
+
             GUILayout.BeginArea(new Rect(10, 10, Screen.width - 20, Screen.height - 20));
 
             if (GUILayout.Button("Start Server", GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true)))
@@ -25,6 +34,11 @@ namespace Bolt.Samples.GettingStarted
             }
 
             GUILayout.EndArea();
+        }
+
+        public override void BoltStartBegin()
+        {
+            ShowGui = false;
         }
 
         public override void BoltStartDone()

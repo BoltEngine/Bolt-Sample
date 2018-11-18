@@ -1,12 +1,28 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UdpKit;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class BoltInitPro : Bolt.GlobalEventListener
 {
+    class RoomProtocolToken : Bolt.IProtocolToken
+    {
+        public String ArbitraryData;
+        public String password;
+
+        public void Read(UdpPacket packet)
+        {
+            ArbitraryData = packet.ReadString();
+            password = packet.ReadString();
+        }
+
+        public void Write(UdpPacket packet)
+        {
+            packet.WriteString(ArbitraryData);
+            packet.WriteString(password);
+        }
+    }
+
     enum State
     {
         SelectMode,

@@ -1,9 +1,13 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
+using Bolt.Tokens;
+using UdpKit;
+using UnityEngine.SceneManagement;
+using System.Linq;
 
 namespace Bolt.Samples.GettingStarted
 {
-    [BoltGlobalBehaviour(BoltNetworkModes.Server)]
+    [BoltGlobalBehaviour(BoltNetworkModes.Server, "Tutorial1")]
     public class GS_ServerCallbacks : Bolt.GlobalEventListener
     {
         public override void Connected(BoltConnection connection)

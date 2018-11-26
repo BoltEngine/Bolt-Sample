@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UdpKit;
@@ -12,6 +12,7 @@ namespace Bolt.Samples.GettingStarted
 
         private void Awake()
         {
+            Application.targetFrameRate = 60;
             BoltLauncher.SetUdpPlatform(new PhotonPlatform());
         }
 

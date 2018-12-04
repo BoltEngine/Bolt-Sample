@@ -44,7 +44,7 @@ namespace UnityStandardAssets.CrossPlatformInput
 #if UNITY_EDITOR
 
         private void OnEnable()
-        {
+		{
 #pragma warning disable CS0618 // Type or member is obsolete
 			EditorUserBuildSettings.activeBuildTargetChanged += Update;
 #pragma warning restore CS0618 // Type or member is obsolete
@@ -53,7 +53,7 @@ namespace UnityStandardAssets.CrossPlatformInput
 
 
         private void OnDisable()
-        {
+		{
 #pragma warning disable CS0618 // Type or member is obsolete
 			EditorUserBuildSettings.activeBuildTargetChanged -= Update;
 #pragma warning restore CS0618 // Type or member is obsolete

@@ -4,9 +4,9 @@ using System.Collections;
 [BoltGlobalBehaviour(BoltNetworkModes.Server, "Level1")]
 public class ServerCallbacks : Bolt.GlobalEventListener
 {
-    public override void SceneLoadLocalDone(string map)
-    {
+	public override void SceneLoadLocalDone(string scene)
+	{
 		// instantiate server monitor stuff
-		GameObject.Instantiate(Resources.Load("ServerMonitor"));
-    }
+		Instantiate(Resources.Load("ServerMonitor"));
+	}
 }

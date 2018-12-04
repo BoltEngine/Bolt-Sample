@@ -17,6 +17,13 @@
 		private int               m_ZeuzServerGroupID;
 		[SerializeField]
 		private int[]             m_ZeuzGameProfiles;
+		
+		[SerializeField, Header("Debug")]
+		private bool              m_ConnectToCustomServer;
+		[SerializeField]
+		private string            m_ServerIP;
+		[SerializeField]
+		private int               m_ServerPort;
 
 		private EGameState        m_GameState;
 		private EMatchmakingState m_MatchmakingState;
@@ -83,7 +90,15 @@
 			// Following code is a demonstration of joining a room for players who selected same Game Profile within same Server Group
 			// You will need to come up with your custom matchmaking algorithm which suits your game
 			
-			RoomOptions roomOptions = m_Client.GetRoomOptions(m_ZeuzServerGroupID, profileID);
+			RoomOptions roomOptions;
+			if(m_ConnectToCustomServer == true)
+			{
+				roomOptions = m_Client.GetRoomOptions(m_ZeuzServerGroupID, profileID, m_ServerIP, m_ServerPort);
+			}
+			else
+			{
+				roomOptions = m_Client.GetRoomOptions(m_ZeuzServerGroupID, profileID);
+			}
 			roomOptions.IsOpen     = true;
 			roomOptions.IsVisible  = true;
 			roomOptions.MaxPlayers = m_MaxPlayersInRoom;

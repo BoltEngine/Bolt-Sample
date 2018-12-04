@@ -1,12 +1,18 @@
 ﻿namespace Bolt.Samples.Zeuz
 {
 	using System;
+	using UnityEngine;
 	using UdpKit;
 	using Bolt.zeuz;
 
 	public class ZeuzServerCallbacks : GlobalEventListener
 	{
 		//========== PRIVATE MEMBERS ===================================================================================
+
+		[SerializeField]
+		private string m_ServerIP;
+		[SerializeField]
+		private int    m_ServerPort;
 
 		private string m_Map;
 		
@@ -33,6 +39,11 @@
 		private void Awake()
 		{
 			m_Map = GetArg("-map") ?? "Level1";
+
+			if(string.IsNullOrEmpty(m_ServerIP) == false && m_ServerPort > 0)
+			{
+				Zeuz.SetServerOverrides(m_ServerIP, m_ServerPort);
+			}
 			
 			// Initialize zeuz and preventively unreserve service
 			// This also loads settings to run game server and identify gameplay - IP, Port, Server Group ID, Game Profile ID

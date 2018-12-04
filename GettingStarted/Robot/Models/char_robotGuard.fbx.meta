@@ -1,0 +1,199 @@
+fileFormatVersion: 2
+guid: 0499f41614cb147358aefab4ad40fadf
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: char_robotGuard_body
+    100004: char_robotGuard_Head
+    100006: char_robotGuard_helmet
+    100008: char_robotGuard_Hips
+    100010: char_robotGuard_LeftArm
+    100012: char_robotGuard_LeftFoot
+    100014: char_robotGuard_LeftForeArm
+    100016: char_robotGuard_LeftHand
+    100018: char_robotGuard_LeftHandIndex1
+    100020: char_robotGuard_LeftHandIndex2
+    100022: char_robotGuard_LeftHandIndex3
+    100024: char_robotGuard_LeftHandMiddle1
+    100026: char_robotGuard_LeftHandMiddle2
+    100028: char_robotGuard_LeftHandMiddle3
+    100030: char_robotGuard_LeftHandPinky1
+    100032: char_robotGuard_LeftHandPinky2
+    100034: char_robotGuard_LeftHandPinky3
+    100036: char_robotGuard_LeftHandRing1
+    100038: char_robotGuard_LeftHandRing2
+    100040: char_robotGuard_LeftHandRing3
+    100042: char_robotGuard_LeftHandThumb1
+    100044: char_robotGuard_LeftHandThumb2
+    100046: char_robotGuard_LeftLeg
+    100048: char_robotGuard_LeftShoulder
+    100050: char_robotGuard_LeftToeBase
+    100052: char_robotGuard_LeftUpLeg
+    100054: char_robotGuard_Neck
+    100056: char_robotGuard_RightArm
+    100058: char_robotGuard_RightFoot
+    100060: char_robotGuard_RightForeArm
+    100062: char_robotGuard_RightHand
+    100064: char_robotGuard_RightHandIndex1
+    100066: char_robotGuard_RightHandIndex2
+    100068: char_robotGuard_RightHandIndex3
+    100070: char_robotGuard_RightHandMiddle1
+    100072: char_robotGuard_RightHandMiddle2
+    100074: char_robotGuard_RightHandMiddle3
+    100076: char_robotGuard_RightHandPinky1
+    100078: char_robotGuard_RightHandPinky2
+    100080: char_robotGuard_RightHandPinky3
+    100082: char_robotGuard_RightHandRing1
+    100084: char_robotGuard_RightHandRing2
+    100086: char_robotGuard_RightHandRing3
+    100088: char_robotGuard_RightHandThumb1
+    100090: char_robotGuard_RightHandThumb2
+    100092: char_robotGuard_RightLeg
+    100094: char_robotGuard_RightShoulder
+    100096: char_robotGuard_RightToeBase
+    100098: char_robotGuard_RightUpLeg
+    100100: char_robotGuard_skeleton
+    100102: char_robotGuard_Spine
+    400000: //RootNode
+    400002: char_robotGuard_body
+    400004: char_robotGuard_Head
+    400006: char_robotGuard_helmet
+    400008: char_robotGuard_Hips
+    400010: char_robotGuard_LeftArm
+    400012: char_robotGuard_LeftFoot
+    400014: char_robotGuard_LeftForeArm
+    400016: char_robotGuard_LeftHand
+    400018: char_robotGuard_LeftHandIndex1
+    400020: char_robotGuard_LeftHandIndex2
+    400022: char_robotGuard_LeftHandIndex3
+    400024: char_robotGuard_LeftHandMiddle1
+    400026: char_robotGuard_LeftHandMiddle2
+    400028: char_robotGuard_LeftHandMiddle3
+    400030: char_robotGuard_LeftHandPinky1
+    400032: char_robotGuard_LeftHandPinky2
+    400034: char_robotGuard_LeftHandPinky3
+    400036: char_robotGuard_LeftHandRing1
+    400038: char_robotGuard_LeftHandRing2
+    400040: char_robotGuard_LeftHandRing3
+    400042: char_robotGuard_LeftHandThumb1
+    400044: char_robotGuard_LeftHandThumb2
+    400046: char_robotGuard_LeftLeg
+    400048: char_robotGuard_LeftShoulder
+    400050: char_robotGuard_LeftToeBase
+    400052: char_robotGuard_LeftUpLeg
+    400054: char_robotGuard_Neck
+    400056: char_robotGuard_RightArm
+    400058: char_robotGuard_RightFoot
+    400060: char_robotGuard_RightForeArm
+    400062: char_robotGuard_RightHand
+    400064: char_robotGuard_RightHandIndex1
+    400066: char_robotGuard_RightHandIndex2
+    400068: char_robotGuard_RightHandIndex3
+    400070: char_robotGuard_RightHandMiddle1
+    400072: char_robotGuard_RightHandMiddle2
+    400074: char_robotGuard_RightHandMiddle3
+    400076: char_robotGuard_RightHandPinky1
+    400078: char_robotGuard_RightHandPinky2
+    400080: char_robotGuard_RightHandPinky3
+    400082: char_robotGuard_RightHandRing1
+    400084: char_robotGuard_RightHandRing2
+    400086: char_robotGuard_RightHandRing3
+    400088: char_robotGuard_RightHandThumb1
+    400090: char_robotGuard_RightHandThumb2
+    400092: char_robotGuard_RightLeg
+    400094: char_robotGuard_RightShoulder
+    400096: char_robotGuard_RightToeBase
+    400098: char_robotGuard_RightUpLeg
+    400100: char_robotGuard_skeleton
+    400102: char_robotGuard_Spine
+    2100000: char_robotGuard_suit_mat
+    2100002: char_robotGuard_helmet_mat
+    2100004: char_robotGuard_visor_mat
+    2300000: char_robotGuard_helmet
+    3300000: char_robotGuard_helmet
+    4300000: char_robotGuard_body
+    4300002: char_robotGuard_helmet
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: char_robotGuard_body
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

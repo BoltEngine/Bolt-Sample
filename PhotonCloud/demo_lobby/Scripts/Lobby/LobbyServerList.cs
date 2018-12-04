@@ -9,76 +9,76 @@ using UdpKit;
 
 namespace Photon.Lobby
 {
-    public class LobbyServerList : Bolt.GlobalEventListener
-    {
-        public LobbyManager lobbyManager;
+	public class LobbyServerList : Bolt.GlobalEventListener
+	{
+		public LobbyManager lobbyManager;
 
-        public RectTransform serverListRect;
-        public GameObject serverEntryPrefab;
-        public GameObject noServerFound;
+		public RectTransform serverListRect;
+		public GameObject serverEntryPrefab;
+		public GameObject noServerFound;
 
-        protected int currentPage = 0;
-        protected int previousPage = 0;
+		protected int currentPage = 0;
+		protected int previousPage = 0;
 
-        static Color OddServerColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-        static Color EvenServerColor = new Color(.94f, .94f, .94f, 1.0f);
+		static Color OddServerColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+		static Color EvenServerColor = new Color(.94f, .94f, .94f, 1.0f);
 
-        new void OnEnable()
-        {
-            base.OnEnable();
+		new void OnEnable()
+		{
+			base.OnEnable();
 
-            currentPage = 0;
-            previousPage = 0;
+			currentPage = 0;
+			previousPage = 0;
 
-            foreach (Transform t in serverListRect)
-                Destroy(t.gameObject);
+			foreach (Transform t in serverListRect)
+				Destroy(t.gameObject);
 
-            noServerFound.SetActive(false);
+			noServerFound.SetActive(false);
 
-            RequestPage(0);
-        }
-
-        public void ChangePage(int dir)
-        {
-            int newPage = Mathf.Max(0, currentPage + dir);
-
-            //if we have no server currently displayed, need we need to refresh page0 first instead of trying to fetch any other page
-            if (noServerFound.activeSelf)
-                newPage = 0;
-
-            RequestPage(newPage);
-        }
-
-        public void RequestPage(int page)
-        {
-            previousPage = currentPage;
-            currentPage = page;
+			RequestPage(0);
 		}
 
-        public override void SessionListUpdated(Map<Guid, UdpSession> matches)
-        {
-            if (matches.Count == 0)
-            {
-                noServerFound.SetActive(true);
-                return;
-            }
+		public void ChangePage(int dir)
+		{
+			int newPage = Mathf.Max(0, currentPage + dir);
 
-            noServerFound.SetActive(false);
-            foreach (Transform t in serverListRect)
-                Destroy(t.gameObject);
+			//if we have no server currently displayed, need we need to refresh page0 first instead of trying to fetch any other page
+			if (noServerFound.activeSelf)
+				newPage = 0;
 
-            int i = 0;
-            foreach (var pair in matches)
-            {
-                UdpSession udpSession = pair.Value;
+			RequestPage(newPage);
+		}
 
-                GameObject o = Instantiate(serverEntryPrefab) as GameObject;
+		public void RequestPage(int page)
+		{
+			previousPage = currentPage;
+			currentPage = page;
+		}
 
-                o.GetComponent<LobbyServerEntry>().Populate(udpSession, lobbyManager, (i % 2 == 0) ? OddServerColor : EvenServerColor);
-                o.transform.SetParent(serverListRect, false);
+		public override void SessionListUpdated(Map<Guid, UdpSession> sessionList)
+		{
+			if (sessionList.Count == 0)
+			{
+				noServerFound.SetActive(true);
+				return;
+			}
 
-                ++i;
-            }
-        }
-    }
+			noServerFound.SetActive(false);
+			foreach (Transform t in serverListRect)
+				Destroy(t.gameObject);
+
+			int i = 0;
+			foreach (var pair in sessionList)
+			{
+				UdpSession udpSession = pair.Value;
+
+				GameObject o = Instantiate(serverEntryPrefab) as GameObject;
+
+				o.GetComponent<LobbyServerEntry>().Populate(udpSession, lobbyManager, (i % 2 == 0) ? OddServerColor : EvenServerColor);
+				o.transform.SetParent(serverListRect, false);
+
+				++i;
+			}
+		}
+	}
 }

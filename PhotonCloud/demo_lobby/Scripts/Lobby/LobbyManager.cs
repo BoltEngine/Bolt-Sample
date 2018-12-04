@@ -93,18 +93,18 @@ namespace Photon.Lobby
             }
         }
 
-        public override void SceneLoadLocalDone(string map)
+        public override void SceneLoadLocalDone(string scene)
         {
-            BoltConsole.Write("New scene: " + map, Color.yellow);
+            BoltConsole.Write("New scene: " + scene, Color.yellow);
 
             try
             {
-                if (lobbyScene.SimpleSceneName == map)
+                if (lobbyScene.SimpleSceneName == scene)
                 {
                     ChangeTo(mainMenuPanel);
                     topPanel.isInGame = false;
                 }
-                else if (gameScene.SimpleSceneName == map)
+                else if (gameScene.SimpleSceneName == scene)
                 {
                     ChangeTo(null);
 

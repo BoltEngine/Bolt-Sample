@@ -130,7 +130,7 @@ namespace Bolt.AdvancedTutorial
 				movingDir.x = right ? +1 : -1;
 			}
 
-			if (movingDir.x != 0.0f || movingDir.z != 0.0f)
+			if (movingDir.x != 0 || movingDir.z != 0)
 			{
 				moving = true;
 				movingDir = Vector3.Normalize(Quaternion.Euler(0, yaw, 0) * movingDir);

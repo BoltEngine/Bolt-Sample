@@ -1,23 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Bolt.AdvancedTutorial {
+namespace Bolt.AdvancedTutorial
+{
+	public class Elevator : Bolt.EntityBehaviour<IElevatorState>
+	{
+		[SerializeField]
+		Vector3 start;
 
-	public class Elevator : Bolt.EntityBehaviour<IElevatorState> {
+		[SerializeField]
+		Vector3 end;
 
-	  [SerializeField]
-	  Vector3 start;
+		[SerializeField]
+		float time = 10f;
 
-	  [SerializeField]
-	  Vector3 end;
-
-	  [SerializeField]
-	  float time = 10f;
-
-	  void FixedUpdate() {
-	    float t = Mathf.Clamp01(Mathf.PingPong(BoltNetwork.ServerTime, time) / time);
-	    transform.position = Vector3.Lerp(start, end, t);
-	  }
+		void FixedUpdate()
+		{
+			float t = Mathf.Clamp01(Mathf.PingPong(BoltNetwork.ServerTime, time) / time);
+			transform.position = Vector3.Lerp(start, end, t);
+		}
 	}
-
 }

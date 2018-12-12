@@ -18,12 +18,25 @@ namespace Bolt.Samples
             Started,
         }
 
-        State state;
+		Rect labelRoom = new Rect(0, 0, 140, 75);
+		GUIStyle labelRoomStyle;
+
+		State state;
         string map;
 
 		void Awake()
 		{
 			Application.targetFrameRate = 60;
+
+			labelRoomStyle = new GUIStyle()
+			{
+				fontSize = 20,
+				fontStyle = FontStyle.Bold,
+				normal =
+				{
+					textColor = Color.white
+				}
+			};
 		}
 
         void OnGUI()
@@ -32,7 +45,8 @@ namespace Bolt.Samples
             Rect area = new Rect(10, 90, Screen.width - 20, Screen.height - 100);
 
             GUI.Box(tex, Resources.Load("BoltLogo") as Texture2D);
-            GUILayout.BeginArea(area);
+
+			GUILayout.BeginArea(area);
 
             switch (state)
             {
@@ -48,33 +62,33 @@ namespace Bolt.Samples
 
         void State_SelectRoom()
         {
-            GUILayout.BeginHorizontal();
+			GUI.Label(labelRoom, "Looking for rooms:", labelRoomStyle);
 
-            GUILayout.Label("Looking for rooms:");
+			if (BoltNetwork.SessionList.Count > 0)
+			{
+				GUILayout.BeginVertical();
+				GUILayout.Space(30);
 
-            GUILayout.EndHorizontal();
+		        foreach (var session in BoltNetwork.SessionList)
+		        {
+		            var photonSession = session.Value as PhotonSession;
 
-            GUILayout.BeginVertical();
+		            if (photonSession.Source == UdpSessionSource.Photon)
+		            {
+		                var matchName = photonSession.HostName;
+		                var label = string.Format("Join: {0} | {1}/{2}", matchName, photonSession.ConnectionsCurrent, photonSession.ConnectionsMax);
 
-            foreach (var session in BoltNetwork.SessionList)
-            {
-                var photonSession = session.Value as PhotonSession;
+		                if (ExpandButton(label))
+		                {
+		                    BoltNetwork.Connect(photonSession);
+		                    state = State.Started;
+		                }
+		            }
+		        }
 
-                if (photonSession.Source == UdpSessionSource.Photon)
-                {
-                    var matchName = photonSession.HostName;
-                    var label = string.Format("Join: {0} | {1}/{2}", matchName, photonSession.ConnectionsCurrent, photonSession.ConnectionsMax);
-
-                    if (ExpandButton(label))
-                    {
-                        BoltNetwork.Connect(photonSession);
-                        state = State.Started;
-                    }
-                }
-            }
-
-            GUILayout.EndVertical();
-        }
+                GUILayout.EndVertical();
+			}
+		}
 
         void State_SelectMode()
         {
@@ -86,7 +100,7 @@ namespace Bolt.Samples
             {
                 state = State.StartClient;
             }
-        }
+		}
 
         void State_SelectMap()
         {

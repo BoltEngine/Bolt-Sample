@@ -20,11 +20,11 @@ namespace Bolt.Samples.GettingStarted
 
             if (Input.GetKey(KeyCode.W))
             {
-                speed += 0.025f;
+                speed += 0.04f;
             }
             else
             {
-                speed -= 0.025f;
+                speed -= 0.04f;
             }
 
             if (Input.GetKey(KeyCode.A))
@@ -49,8 +49,8 @@ namespace Bolt.Samples.GettingStarted
                 }
             }
 
-            state.Speed = Mathf.Clamp(speed, 0f, 1.5f);
-            state.AngularSpeed = Mathf.Clamp(angularSpeed, -1f, +1f);
+            state.Speed = Mathf.Clamp(speed, 0f, 2.5f);
+            state.AngularSpeed = Mathf.Clamp(angularSpeed, -2f, +2f);
         }
     }
 }

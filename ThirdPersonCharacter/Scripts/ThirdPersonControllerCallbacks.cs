@@ -6,13 +6,13 @@ public class ThirdPersonControllerCallbacks : Bolt.GlobalEventListener
 {
 	public override void SceneLoadLocalDone(string scene)
 	{
-		BoltEntity player = BoltNetwork.Instantiate(BoltPrefabs.ThirdPersonControllerServerAuth);
+		BoltEntity player = BoltNetwork.Instantiate(BoltPrefabs.EthanServerAuth);
 		player.TakeControl();
 	}
 
 	public override void SceneLoadRemoteDone(BoltConnection connection)
 	{
-		BoltEntity player = BoltNetwork.Instantiate(BoltPrefabs.ThirdPersonControllerServerAuth);
+		BoltEntity player = BoltNetwork.Instantiate(BoltPrefabs.EthanServerAuth);
 		player.AssignControl(connection);
 	}
 }

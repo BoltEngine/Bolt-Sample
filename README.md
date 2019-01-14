@@ -11,7 +11,7 @@ This repository contains samples that highlight the most important Bolt features
 
 | **Sample** 	| **Description** 	| **Documentation** 	| **Source** 	|
 |--------------------------	|-------------------------------------------------------------------------------------------------	|:---------------------------------------------------------------------------------------------:	|:----------------------------:	|
-| **Getting Started** 	| Overview on Bolt and its capabilities 	| [link](https://doc.photonengine.com/en-us/bolt/current/getting-started/bolt-101-wizard-setup) 	| --- 	|
+| **Getting Started** 	| Overview on Bolt and its capabilities 	| [link](https://doc.photonengine.com/en-us/bolt/current/getting-started/bolt-101-wizard-setup) 	| [link](GettingStarted) 	|
 | **Advanced Tutorial** 	| More complex example using Bolt 	| [link](https://doc.photonengine.com/en-us/bolt/current/advanced-tutorial/overview) 	| [link](AdvancedTutorial) 	|
 | **PhotonCloud** 	| How to init Bolt to work on top of Photon Cloud or custom hosted Photon servers 	| --- 	| [link](PhotonCloud) 	|
 | **ClickToMove** 	| A simple, server-authoritative example for moving a character by clicking on terrain 	| --- 	| [link](ClickToMove) 	|

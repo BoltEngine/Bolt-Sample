@@ -17,7 +17,7 @@ namespace Bolt.Samples.ClickToMove
 		{
 			if (destination != null)
 			{
-				IclickToMoveCommandInput input = clickToMoveCommand.Create();
+				IClickToMoveCommandInput input = ClickToMoveCommand.Create();
 				input.click = destination.position;
 				entity.QueueInput(input);
 			}
@@ -35,7 +35,7 @@ namespace Bolt.Samples.ClickToMove
 
 		public override void ExecuteCommand(Command command, bool resetState)
 		{
-			clickToMoveCommand cmd = (clickToMoveCommand)command;
+			ClickToMoveCommand cmd = (ClickToMoveCommand)command;
 
 			if (resetState)
 			{
@@ -50,7 +50,6 @@ namespace Bolt.Samples.ClickToMove
 				}
 
 				cmd.Result.position = transform.position;
-				//cmd.Result.velocity = agent.velocity;
 			}
 		}
 	}

@@ -7,8 +7,7 @@ namespace Bolt.Samples.ClickToMove
 {
 	public class PlaceTarget : MonoBehaviour
 	{
-		public float surfaceOffset = 1.5f;
-		public GameObject setTargetOn;
+		public float surfaceOffset = 0.2f;
 		public event Action<Transform> UpdateTarget;
 
 		Vector3 lastPosition = Vector3.zero;
@@ -33,7 +32,11 @@ namespace Bolt.Samples.ClickToMove
 			if (lastPosition != transform.position)
 			{
 				lastPosition = transform.position;
-				UpdateTarget(transform);
+
+				if (UpdateTarget != null)
+				{
+					UpdateTarget(transform);
+				}
 			}
 		}
 	}

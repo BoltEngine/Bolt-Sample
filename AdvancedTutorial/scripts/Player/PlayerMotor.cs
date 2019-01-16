@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
@@ -95,7 +95,7 @@ namespace Bolt.AdvancedTutorial
 			_state.isGrounded = isGrounded;
 
 			// assign local position
-			transform.localPosition = _state.position;
+			_cc.Move(_state.position - transform.localPosition);
 		}
 
 		void Move(Vector3 velocity)

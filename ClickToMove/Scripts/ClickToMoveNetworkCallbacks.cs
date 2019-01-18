@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Bolt.Samples.ClickToMove
 {
-	[BoltGlobalBehaviour(BoltNetworkModes.Server, "ClickToMoveMainScene")]
+	[BoltGlobalBehaviour(BoltNetworkModes.Server, "ClickToMoveGameScene")]
 	public class ClickToMoveNetworkCallbacks : Bolt.GlobalEventListener
 	{
 		public override void SceneLoadLocalDone(string scene)

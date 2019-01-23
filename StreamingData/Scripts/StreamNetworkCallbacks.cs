@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Bolt.Samples.StreamData
 {
-	[BoltGlobalBehaviour]
+	[BoltGlobalBehaviour("StreamDataGameScene")]
 	public class StreamNetworkCallbacks : Bolt.GlobalEventListener
 	{
 		private UdpChannelName testChannel;

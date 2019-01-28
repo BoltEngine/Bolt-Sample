@@ -64,7 +64,7 @@ public class BoltInitPro : Bolt.GlobalEventListener
 #if !BOLT_CLOUD
         BoltLauncher.SetUdpPlatform(new DotNetPlatform());
 #endif
-    }
+	}
 
     private void State_EnterServerIp()
     {
@@ -114,13 +114,19 @@ public class BoltInitPro : Bolt.GlobalEventListener
 
     void State_StartServer()
     {
-        BoltLauncher.StartServer(new UdpEndPoint(UdpIPv4Address.Any, (ushort)serverPort));
+		BoltConfig config = BoltRuntimeSettings.instance.GetConfigCopy();
+		config.EnableIPv6 = true;
+
+		BoltLauncher.StartServer(new UdpEndPoint(UdpIPv6Address.Any, (ushort)serverPort), config);
         state = State.Started;
     }
 
     void State_StartClient()
     {
-        BoltLauncher.StartClient(UdpEndPoint.Any);
+		BoltConfig config = BoltRuntimeSettings.instance.GetConfigCopy();
+		config.EnableIPv6 = true;
+
+		BoltLauncher.StartClient(UdpEndPoint.AnyIPv6, config);
         state = State.Started;
     }
 
@@ -133,14 +139,8 @@ public class BoltInitPro : Bolt.GlobalEventListener
         if (BoltNetwork.IsClient)
         {
 #if !BOLT_CLOUD
-            UdpEndPoint endPoint = new UdpEndPoint(UdpIPv4Address.Parse(serverAddress), (ushort)serverPort);
-
-            RoomProtocolToken token = new RoomProtocolToken
-            {
-                ArbitraryData = "Room Token"
-            };
-
-            BoltNetwork.Connect(endPoint, token);
+			UdpEndPoint endPoint = new UdpEndPoint(UdpIPv6Address.Parse(serverAddress), (ushort)serverPort);
+			BoltNetwork.Connect(endPoint);
 #endif
         }
         else

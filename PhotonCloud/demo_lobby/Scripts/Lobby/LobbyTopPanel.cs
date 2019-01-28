@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-namespace Photon.Lobby
+namespace Bolt.Samples.Photon.Lobby
 {
     public class LobbyTopPanel : MonoBehaviour
     {
@@ -15,7 +15,6 @@ namespace Photon.Lobby
         {
             panelImage = GetComponent<Image>();
         }
-
 
         void Update()
         {

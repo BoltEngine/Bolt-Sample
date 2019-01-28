@@ -1,11 +1,9 @@
 using UnityEngine;
-using System.Collections;
 using System;
 using UdpKit;
-using Bolt;
 using udpkit.platform.photon.photon;
 
-namespace Photon
+namespace Bolt.Samples.Photon.Simple
 {
 	public class PhotonInit : Bolt.GlobalEventListener
 	{

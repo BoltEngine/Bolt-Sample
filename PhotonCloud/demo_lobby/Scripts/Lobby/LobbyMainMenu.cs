@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-namespace Photon.Lobby
+namespace Bolt.Samples.Photon.Lobby
 {
     //Main menu, mainly only a bunch of callback called by the UI (setup throught the Inspector)
     public class LobbyMainMenu : MonoBehaviour 

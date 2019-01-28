@@ -1,13 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-[BoltGlobalBehaviour("PhotonGame")]
-public class PhotonGameSceneController : Bolt.GlobalEventListener
+namespace Bolt.Samples.Photon.Lobby
 {
-	public override void SceneLoadLocalDone(string scene)
+	[BoltGlobalBehaviour("PhotonGame")]
+	public class PhotonGameSceneController : Bolt.GlobalEventListener
 	{
-		BoltConsole.Write("Spawn Player on map " + scene, Color.yellow);
-		BomberPlayerController.Spawn();
+		public override void SceneLoadLocalDone(string scene)
+		{
+			BoltConsole.Write("Spawn Player on map " + scene, Color.yellow);
+			BomberPlayerController.Spawn();
+		}
 	}
 }

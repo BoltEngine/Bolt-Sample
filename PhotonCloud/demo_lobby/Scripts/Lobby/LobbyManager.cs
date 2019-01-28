@@ -6,9 +6,10 @@ using UdpKit;
 using System;
 using UnityEngine.SceneManagement;
 
-using Utilities;
+using Bolt.Samples.Photon.Lobby.Utilities;
+using Bolt.Samples.Photon.Simple;
 
-namespace Photon.Lobby
+namespace Bolt.Samples.Photon.Lobby
 {
     public class LobbyManager : Bolt.GlobalEventListener
     {

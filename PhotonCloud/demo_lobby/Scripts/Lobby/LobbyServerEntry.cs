@@ -6,7 +6,7 @@ using UnityEngine.Networking.Types;
 using System.Collections;
 using UdpKit;
 
-namespace Photon.Lobby
+namespace Bolt.Samples.Photon.Lobby
 {
     public class LobbyServerEntry : MonoBehaviour 
     {

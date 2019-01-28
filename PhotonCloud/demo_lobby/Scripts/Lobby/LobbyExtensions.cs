@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UdpKit;
 using UnityEngine;
 
-namespace Photon.Lobby
+namespace Bolt.Samples.Photon.Lobby
 {
     public static class LobbyExtensions
     {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UdpKit;
 using UnityEngine;
 
-namespace Photon
+namespace Bolt.Samples.Photon.Simple
 {
 	[BoltGlobalBehaviour(BoltNetworkModes.Server)]
 	public class PhotonServerCallbacks : Bolt.GlobalEventListener

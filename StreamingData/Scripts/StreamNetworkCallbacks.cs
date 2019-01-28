@@ -1,82 +1,108 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UdpKit;
 using UnityEngine;
+using System.Linq;
 
 namespace Bolt.Samples.StreamData
 {
-	[BoltGlobalBehaviour("StreamDataGameScene")]
+	[BoltGlobalBehaviour]
 	public class StreamNetworkCallbacks : Bolt.GlobalEventListener
 	{
 		private UdpChannelName testChannel;
 		private string ID;
-		private byte[] data;
-		private byte[] buffer;
 
-		private float updateInterval = 0.05f;
+		private readonly float updateInterval = 1.0f;
 		private double lastInterval;
-
-		public override void Connected(BoltConnection connection)
-		{
-			connection.SetStreamBandwidth(1024 * 2);
-		}
 
 		public override void BoltStartBegin()
 		{
-			buffer = new byte[2048];
-
 			BoltLog.Info("Bolt Starting...");
 
-			testChannel = BoltNetwork.CreateStreamChannel("CustomMessage", UdpKit.UdpChannelMode.Reliable, 4);
-
-			ID = Random.Range(0, 100).ToString();
+			ID = UnityEngine.Random.Range(0, 100).ToString();
 
 			if (BoltNetwork.IsClient)
 			{
-				data = Encoding.UTF8.GetBytes(string.Format("Hello from {0}", ID));
+				BoltLog.Info("Started Client");
 			}
 			else if (BoltNetwork.IsServer)
 			{
-				data = Encoding.UTF8.GetBytes("Hello from Host");
+				BoltLog.Info("Started Server");
 			}
 		}
 
 		void Update()
 		{
 			float timeNow = Time.realtimeSinceStartup;
-			if (timeNow > lastInterval + updateInterval)
+			if (timeNow > lastInterval + updateInterval && BoltNetwork.IsRunning)
 			{
-				BoltLog.Info("Timed action!");
 				SendData();
 				lastInterval = timeNow;
+			}
+
+			RecvData();
+		}
+
+		private void RecvData()
+		{
+			if (BoltNetwork.IsClient)
+			{
+				if (BoltNetwork.Server != null)
+				{
+					RecvData(BoltNetwork.Server);
+				}
+			}
+
+			if (BoltNetwork.IsServer)
+			{
+				foreach (var conn in BoltNetwork.Clients)
+				{
+					RecvData(conn);
+				}
+			}
+		}
+
+		public void RecvData(BoltConnection connection)
+		{
+			byte[] input;
+			connection.ReceiveData(out input);
+
+			if (input != null)
+			{
+				var info = Encoding.UTF8.GetString(input);
+
+				BoltLog.Info(string.Format(":: {0}", info));
 			}
 		}
 
 		public void SendData()
 		{
-			if (BoltNetwork.IsRunning)
-			{
-				if (BoltNetwork.IsClient)
-				{
-					new System.Random().NextBytes(buffer);
-					BoltNetwork.Server.StreamBytes(testChannel, buffer);
-				}
+			var now = Time.timeSinceLevelLoad;
 
-				if (BoltNetwork.IsServer)
+			if (BoltNetwork.IsClient && BoltNetwork.Server != null)
+			{
+				BoltLog.Info("Send action! Client at {0}", now);
+
+				var info = string.Format("Client {0} says: {1}", ID, now);
+				var data = Encoding.UTF8.GetBytes(info);
+
+				BoltNetwork.Server.SendData(data);
+			}
+
+			if (BoltNetwork.IsServer && BoltNetwork.Clients.Any())
+			{
+				BoltLog.Info("Send action! Server at {0}", now);
+
+				var info = string.Format("Server says: {0}", now);
+				var data = Encoding.UTF8.GetBytes(info);
+
+				foreach (var conn in BoltNetwork.Clients)
 				{
-					foreach (var conn in BoltNetwork.Clients)
-					{
-						new System.Random().NextBytes(buffer);
-						conn.StreamBytes(testChannel, data);
-					}
+					conn.SendData(data);
 				}
 			}
-		}
-
-		public override void StreamDataReceived(BoltConnection connection, UdpStreamData data)
-		{
-			BoltLog.Info("Data received!");
 		}
 	}
 }

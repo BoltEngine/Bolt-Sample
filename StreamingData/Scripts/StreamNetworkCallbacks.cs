@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Bolt.Samples.StreamData
 {
-	[BoltGlobalBehaviour]
+	[BoltGlobalBehaviour("StreamDataGameScene")]
 	public class StreamNetworkCallbacks : Bolt.GlobalEventListener
 	{
 		private UdpChannelName testChannel;

@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
 public class TPCspawner : Bolt.GlobalEventListener
 {
@@ -7,6 +7,5 @@ public class TPCspawner : Bolt.GlobalEventListener
 	public override void SceneLoadLocalDone(string scene)
 	{
 		BoltNetwork.Instantiate(BoltPrefabs.EthanClientAuth, new Vector3(0, -1f, 0), Quaternion.identity);
-		Debug.Log("wew");
 	}
 }

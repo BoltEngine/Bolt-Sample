@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using UdpKit;
 using udpkit.platform.photon.photon;
+using Bolt.Utils;
 
 namespace Bolt.Samples.Photon.Simple
 {

@@ -3,6 +3,8 @@ using System;
 using UdpKit;
 using udpkit.platform.photon.photon;
 using Bolt.Utils;
+using Bolt.photon;
+using udpkit.platform.photon;
 
 namespace Bolt.Samples.Photon.Simple
 {
@@ -23,8 +25,8 @@ namespace Bolt.Samples.Photon.Simple
 			BoltNetwork.RegisterTokenClass<ServerAcceptToken>();
 			BoltNetwork.RegisterTokenClass<ServerConnectToken>();
 
-			// Uncomment if you want to pass custom properties into your room
-			// BoltNetwork.RegisterTokenClass<PhotonCloudRoomProperties>();
+			// Custom properties Token
+			BoltNetwork.RegisterTokenClass<PhotonRoomProperties>();
 		}
 
 		void Awake()
@@ -34,12 +36,15 @@ namespace Bolt.Samples.Photon.Simple
 			BoltLauncher.SetUdpPlatform(new PhotonPlatform());
 
 			// Optionally, you may want to config the Photon transport layer programatically:
-			//BoltLauncher.SetUdpPlatform(new PhotonPlatform(new PhotonPlatformConfig
-			//{
-			//    AppId = "<your-app-id>",
-			//    RegionMaster = "<your-region>",
-			//    UsePunchThrough = false // set to true, to use PunchThrough
-			//}));
+			// BoltLauncher.SetUdpPlatform(new PhotonPlatform(new PhotonPlatformConfig
+			// {
+			//    AppId = "<your-app-id>", // your App ID
+			//    Region = PhotonRegion.GetRegion("<region>"), // your desired region
+			//    UsePunchThrough = true, // enable the punch through feature
+			//    RoomUpdateRate = 5, // session update rate
+			//    RoomCreateTimeout = 10, // timeout when creating a room
+			//    RoomJoinTimeout = 10 // timeout when joining a room
+			// }));
 		}
 
 		void OnGUI()
@@ -70,11 +75,11 @@ namespace Bolt.Samples.Photon.Simple
 					{
 						if (GUILayout.Button("Publish HostInfo And Load Map", GUILayout.ExpandWidth(true)))
 						{
-							RoomProtocolToken token = new RoomProtocolToken()
-							{
-								ArbitraryData = "My DATA",
-								password = "mysuperpass123"
-							};
+							// RoomProtocolToken token = new RoomProtocolToken()
+							// {
+							// 	ArbitraryData = "My DATA",
+							// 	password = "mysuperpass123"
+							// };
 
 							// Uncomment if you want to pass custom properties into your room
 							// This is just an example data
@@ -82,10 +87,17 @@ namespace Bolt.Samples.Photon.Simple
 							//properties.AddRoomProperty("t", 1);
 							//properties.AddRoomProperty("m", 4);
 
+							PhotonRoomProperties token = new PhotonRoomProperties();
+							token.IsOpen = true;
+							token.IsVisible = true;
+							
+							token.AddRoomProperty("t", 1);
+							token.AddRoomProperty("m", 2);
+
 							string matchName = "MyPhotonGame #" + UnityEngine.Random.Range(1, 100);
 
 							BoltNetwork.SetServerInfo(matchName, token);
-							BoltNetwork.LoadScene("Level1");
+							BoltNetwork.LoadScene("PhotonGame");
 						}
 					}
 					break;

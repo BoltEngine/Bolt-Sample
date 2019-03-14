@@ -1,10 +1,10 @@
-using UnityEngine;
 using System;
-using UdpKit;
-using udpkit.platform.photon.photon;
-using Bolt.Utils;
 using Bolt.photon;
+using Bolt.Utils;
 using udpkit.platform.photon;
+using udpkit.platform.photon.photon;
+using UdpKit;
+using UnityEngine;
 
 namespace Bolt.Samples.Photon.Simple
 {
@@ -69,7 +69,7 @@ namespace Bolt.Samples.Photon.Simple
 
 					break;
 
-				// Publishing a session into the matchmaking server
+					// Publishing a session into the matchmaking server
 				case State.ModeServer:
 					if (BoltNetwork.IsRunning && BoltNetwork.IsServer)
 					{
@@ -90,7 +90,7 @@ namespace Bolt.Samples.Photon.Simple
 							PhotonRoomProperties token = new PhotonRoomProperties();
 							token.IsOpen = true;
 							token.IsVisible = true;
-							
+
 							token.AddRoomProperty("t", 1);
 							token.AddRoomProperty("m", 2);
 
@@ -101,8 +101,8 @@ namespace Bolt.Samples.Photon.Simple
 						}
 					}
 					break;
-				// for the client, after Bolt is innitialized, we should see the list
-				// of available sessions and join one of them
+					// for the client, after Bolt is innitialized, we should see the list
+					// of available sessions and join one of them
 				case State.ModeClient:
 
 					if (BoltNetwork.IsRunning && BoltNetwork.IsClient)
@@ -163,6 +163,16 @@ namespace Bolt.Samples.Photon.Simple
 			}
 
 			GUILayout.EndArea();
+		}
+
+		public override void SessionConnectFailed(UdpSession session, IProtocolToken token)
+		{
+			var photonSession = session as PhotonSession;
+
+			string sessionDescription = String.Format("{0} / {1} ({2})",
+				photonSession.Source, photonSession.HostName, photonSession.Id);
+
+			BoltLog.Warn("Failed to Connect to: {0}", sessionDescription);
 		}
 	}
 }

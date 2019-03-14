@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Bolt.Samples.Photon.Simple
 {
-	[BoltGlobalBehaviour(BoltNetworkModes.Server)]
+	[BoltGlobalBehaviour(BoltNetworkModes.Server, "PhotonGame")]
 	public class PhotonServerCallbacks : Bolt.GlobalEventListener
 	{
 		public override void Connected(BoltConnection connection)

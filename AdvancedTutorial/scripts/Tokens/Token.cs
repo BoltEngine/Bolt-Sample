@@ -1,32 +1,35 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
-using System;
+using UnityEngine;
 
 namespace Bolt.AdvancedTutorial
 {
-    public class TestToken : Bolt.IProtocolToken
+	/// <summary>
+	/// 
+	/// </summary>
+	public class TestToken : Bolt.IProtocolToken
 	{
 		static int NumberCounter;
 		public int Number = 0;
 
-		public TestToken ()
+		public TestToken()
 		{
 			Number = ++NumberCounter;
 		}
 
-		void Bolt.IProtocolToken.Read (UdpKit.UdpPacket packet)
+		void Bolt.IProtocolToken.Read(UdpKit.UdpPacket packet)
 		{
-			Number = packet.ReadInt ();
+			Number = packet.ReadInt();
 		}
 
-		void Bolt.IProtocolToken.Write (UdpKit.UdpPacket packet)
+		void Bolt.IProtocolToken.Write(UdpKit.UdpPacket packet)
 		{
-			packet.WriteInt (Number);
+			packet.WriteInt(Number);
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
-			return string.Format ("[TestToken {0}]", Number);
+			return string.Format("[TestToken {0}]", Number);
 		}
 	}
 }

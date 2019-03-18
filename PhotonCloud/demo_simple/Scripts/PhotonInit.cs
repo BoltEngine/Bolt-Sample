@@ -1,8 +1,7 @@
 using System;
-using Bolt.photon;
+using Bolt.Photon;
 using Bolt.Utils;
 using udpkit.platform.photon;
-using udpkit.platform.photon.photon;
 using UdpKit;
 using UnityEngine;
 

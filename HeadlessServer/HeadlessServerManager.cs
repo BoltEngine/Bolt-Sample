@@ -1,5 +1,5 @@
 ﻿using System;
-using Bolt.photon;
+using Bolt.Photon;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

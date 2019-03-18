@@ -5,7 +5,7 @@
 	using UdpKit;
 	using Bolt;
 	using Bolt.zeuz;
-	using ExitGames.Client.Photon.LoadBalancing;
+	using global::Photon.Realtime;
 
 	public class ZeuzClientCallbacks : GlobalEventListener
 	{
@@ -107,7 +107,14 @@
 			
 			BoltLog.Info("Connected! Joining room: {0}, max players: {1}, Server Group ID: {2}, Game Profile ID: {3}", roomName, m_MaxPlayersInRoom, m_ZeuzServerGroupID, profileID);
 
-			m_Client.OpJoinOrCreateRoom(roomName, roomOptions, TypedLobby.Default);
+			EnterRoomParams enterParams = new EnterRoomParams()
+			{
+				RoomName = roomName,
+				RoomOptions = roomOptions,
+				Lobby = TypedLobby.Default
+			};
+
+			m_Client.OpJoinOrCreateRoom(enterParams);
 			
 			// Wait up to 5 seconds and check if we're in the room
 

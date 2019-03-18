@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using UdpKit;
 using UnityEngine.SceneManagement;
-using udpkit.platform.photon.photon;
+using udpkit.platform.photon;
 
 namespace Bolt.Samples
 {

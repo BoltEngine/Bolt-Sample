@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+namespace Bolt.Samples.GettingStarted
+{
 public class InteractiveBehavior : Bolt.EntityBehaviour<IInteractiveState>
 {
 	[Range(2, 10)]
@@ -36,12 +38,18 @@ public class InteractiveBehavior : Bolt.EntityBehaviour<IInteractiveState>
 	{
 		if (entity.isAttached && entity.isOwner)
 		{
-			bool anyNearbyPlayer = (from player in GameObject.FindGameObjectsWithTag("Player")
+			var nearbyPlayer = (from player in GameObject.FindGameObjectsWithTag("Player")
 									where Vector3.Distance(transform.position, player.transform.position) < interactiveRadius
-									select player).Any();
+									select player).FirstOrDefault();
 
-			if (anyNearbyPlayer)
+			if (nearbyPlayer != null)
 			{
+				// var robot = nearbyPlayer.GetComponent<RobotBehavior>();
+				// if (robot != null)
+				// {
+				// 	robot.AddBox(entity);
+				// }
+
 				state.Color = activeColor;
 			}
 			else
@@ -56,4 +64,5 @@ public class InteractiveBehavior : Bolt.EntityBehaviour<IInteractiveState>
 		Gizmos.color = Color.yellow;
 		Gizmos.DrawWireSphere(transform.position, interactiveRadius);
 	}
+}
 }

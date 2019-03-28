@@ -23,7 +23,7 @@ namespace Bolt.Samples.GettingStarted
                 // NEW: On the owner, we want to setup the weapons, we randomize the selected weapon by the index on the Weapon list and the Ammo between 50 to 100.
                 for (int i = 0; i < state.WeaponArray.Length; ++i)
                 {
-                    state.WeaponArray[i].WeaponId = Random.Range(0, WeaponObjects.Length - 1);
+                    state.WeaponArray[i].WeaponId = i;
                     state.WeaponArray[i].WeaponAmmo = Random.Range(50, 100);
                 }
 

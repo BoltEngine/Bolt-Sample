@@ -7,7 +7,7 @@ namespace Bolt.AdvancedTutorial
 	{
 		public override void OnOwner (PlayerCommand cmd, BoltEntity entity)
 		{
-			if (entity.isOwner) {
+			if (entity.IsOwner) {
 				IPlayerState state = entity.GetState<IPlayerState> ();
 				PlayerController controller = entity.GetComponent<PlayerController> ();
 

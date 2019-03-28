@@ -45,7 +45,7 @@ namespace Bolt.AdvancedTutorial
 		{
 			PollKeys(true);
 
-			if (entity.isOwner && entity.hasControl && Input.GetKey(KeyCode.L))
+			if (entity.IsOwner && entity.HasControl && Input.GetKey(KeyCode.L))
 			{
 				for (int i = 0; i < 100; ++i)
 				{
@@ -85,7 +85,7 @@ namespace Bolt.AdvancedTutorial
 
 		public override void Attached()
 		{
-			if (entity.isOwner)
+			if (entity.IsOwner)
 			{
 				state.tokenTest = new TestToken() { Number = 1337 };
 			}
@@ -146,7 +146,7 @@ namespace Bolt.AdvancedTutorial
 
 			if (state.health == 0)
 			{
-				entity.controller.GetPlayer().Kill();
+				entity.Controller.GetPlayer().Kill();
 			}
 		}
 
@@ -222,7 +222,7 @@ namespace Bolt.AdvancedTutorial
 					}
 				}
 
-				if (entity.isOwner)
+				if (entity.IsOwner)
 				{
 					cmd.Result.Token = new TestToken();
 				}
@@ -267,7 +267,7 @@ namespace Bolt.AdvancedTutorial
 				state.Fire();
 
 				// if we are the owner and the active weapon is a hitscan weapon, do logic
-				if (entity.isOwner)
+				if (entity.IsOwner)
 				{
 					activeWeapon.OnOwner(cmd, entity);
 				}

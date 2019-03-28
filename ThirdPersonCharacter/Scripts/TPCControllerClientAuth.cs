@@ -13,7 +13,7 @@ public class TPCControllerClientAuth : Bolt.EntityEventListener<ITPCstate>
 
 		anim = GetComponent<Animator>();
 
-		if (!entity.isOwner)
+		if (!entity.IsOwner)
 		{
 			Destroy(GetComponent<ThirdPersonUserControl>());
 			Destroy(GetComponent<ThirdPersonCharacter>());
@@ -38,7 +38,7 @@ public class TPCControllerClientAuth : Bolt.EntityEventListener<ITPCstate>
 
 	void FixedUpdate()
 	{
-		if (entity.isOwner)
+		if (entity.IsOwner)
 		{
 			state.grounded = anim.GetBool("OnGround");
 			state.crouch = anim.GetBool("Crouch");

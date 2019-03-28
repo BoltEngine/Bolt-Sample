@@ -70,7 +70,7 @@ public class TPCcontroller : Bolt.EntityEventListener<ITPCstate>
 
 	void FixedUpdate()
 	{
-		if (entity.isControllerOrOwner)
+		if (entity.IsControllerOrOwner)
 		{
 			//  if (_velocity != null)
 			//     _cc.Move(_velocity);
@@ -154,7 +154,7 @@ public class TPCcontroller : Bolt.EntityEventListener<ITPCstate>
 			m_Animator.SetBool("Crouch", cmd.Input.crouch);
 			m_Animator.SetBool("OnGround", cmd.Result.isGrounded);
 
-			if (entity.isOwner)
+			if (entity.IsOwner)
 			{
 				state.forward = m_Animator.GetFloat("Forward");
 				state.turn = m_Animator.GetFloat("Turn");

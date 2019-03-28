@@ -30,9 +30,9 @@ namespace Bolt.AdvancedTutorial
 
 		void Update ()
 		{
-			text.GetComponent<Renderer> ().enabled = !entity.hasControl;
+			text.GetComponent<Renderer> ().enabled = !entity.HasControl;
 
-			if (!entity.hasControl) {
+			if (!entity.HasControl) {
 				try {
 					transform.LookAt (PlayerCamera.instance.transform);
 					transform.rotation = Quaternion.LookRotation (-transform.forward);

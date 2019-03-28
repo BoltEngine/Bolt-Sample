@@ -332,7 +332,7 @@ namespace Bolt.Samples.Photon.Lobby
         {
             BoltConsole.Write("EntityAttached");
 
-            if (!entity.isControlled)
+            if (!entity.IsControlled)
             {
                 LobbyPhotonPlayer photonPlayer =  entity.gameObject.GetComponent<LobbyPhotonPlayer>();
 

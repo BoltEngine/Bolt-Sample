@@ -23,7 +23,7 @@ public class InteractiveBehavior : Bolt.EntityBehaviour<IInteractiveState>
 	{
 		state.SetTransforms(state.Transform, transform);
 
-		if (entity.isOwner)
+		if (entity.IsOwner)
 		{
 			state.Color = normalColor;
 		}
@@ -36,7 +36,7 @@ public class InteractiveBehavior : Bolt.EntityBehaviour<IInteractiveState>
 
 	private void Update()
 	{
-		if (entity.isAttached && entity.isOwner)
+		if (entity.IsAttached && entity.IsOwner)
 		{
 			var nearbyPlayer = (from player in GameObject.FindGameObjectsWithTag("Player")
 									where Vector3.Distance(transform.position, player.transform.position) < interactiveRadius

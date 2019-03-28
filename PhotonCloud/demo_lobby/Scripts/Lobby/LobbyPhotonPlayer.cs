@@ -42,7 +42,7 @@ namespace Bolt.Samples.Photon.Lobby
 
         public override void Attached()
         {
-            if (entity.isOwner)
+            if (entity.IsOwner)
             {
                 state.Color = Random.ColorHSV();
                 state.Name = "Player #" + Random.Range(1, 100);
@@ -106,7 +106,7 @@ namespace Bolt.Samples.Photon.Lobby
 
         public override void ExecuteCommand(Command command, bool resetState)
         {
-            if (!entity.isOwner) { return; }
+            if (!entity.IsOwner) { return; }
 
             if (!resetState && command.IsFirstExecution)
             {
@@ -233,14 +233,14 @@ namespace Bolt.Samples.Photon.Lobby
             }
             else
             {
-                ChangeReadyButtonColor(entity.isControlled ? JoinColor : NotReadyColor);
+                ChangeReadyButtonColor(entity.IsControlled ? JoinColor : NotReadyColor);
 
                 Text textComponent = readyButton.transform.GetChild(0).GetComponent<Text>();
-                textComponent.text = entity.isControlled ? "JOIN" : "...";
+                textComponent.text = entity.IsControlled ? "JOIN" : "...";
                 textComponent.color = Color.white;
-                readyButton.interactable = entity.isControlled;
-                colorButton.interactable = entity.isControlled;
-                nameInput.interactable = entity.isControlled;
+                readyButton.interactable = entity.IsControlled;
+                colorButton.interactable = entity.IsControlled;
+                nameInput.interactable = entity.IsControlled;
             }
         }
     }

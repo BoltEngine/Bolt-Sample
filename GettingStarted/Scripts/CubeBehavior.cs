@@ -16,7 +16,7 @@ namespace Bolt.Samples.GettingStarted
 
             state.SetTransforms(state.CubeTransform, transform);
 
-            if (entity.isOwner)
+            if (entity.IsOwner)
             {
                 state.CubeColor = new Color(Random.value, Random.value, Random.value);
 
@@ -39,7 +39,7 @@ namespace Bolt.Samples.GettingStarted
 
         void OnGUI()
         {
-            if (entity.isOwner)
+            if (entity.IsOwner)
             {
                 GUI.color = state.CubeColor;
                 GUILayout.Label("@@@");

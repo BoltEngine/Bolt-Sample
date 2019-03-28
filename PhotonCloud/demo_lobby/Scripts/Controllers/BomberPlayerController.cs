@@ -12,7 +12,7 @@ namespace Bolt.Samples.Photon.Lobby
 
 			state.SetTransforms(state.Transform, transform);
 
-			if (entity.isOwner)
+			if (entity.IsOwner)
 			{
 				state.Color = Color.white;
 			}
@@ -60,7 +60,7 @@ namespace Bolt.Samples.Photon.Lobby
 		{
 			BoltConsole.Write("Setup BomberPlayer");
 
-			if (entity.isOwner)
+			if (entity.IsOwner)
 			{
 				state.Color = playerColor;
 				state.Name = playerName;

@@ -13,7 +13,7 @@ namespace Bolt.Samples.GettingStarted
 		{
 			state.SetTransforms(state.Transform, transform);
 			state.SetAnimator(GetComponent<Animator>());
-			state.Animator.applyRootMotion = entity.isOwner;
+			state.Animator.applyRootMotion = entity.IsOwner;
 		}
 
 		public void AddBox(BoltEntity box)

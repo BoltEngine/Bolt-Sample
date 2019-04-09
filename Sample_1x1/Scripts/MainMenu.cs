@@ -168,9 +168,9 @@ namespace FailedToJoin
 					if (photonSession.Source == UdpSessionSource.Photon)
 					{
 						var matchName = photonSession.HostName;
-						var label = string.Format("Join: {0} | {1}/{2}", matchName, photonSession.ConnectionsCurrent, photonSession.ConnectionsMax);
+						var label = string.Format("Join: {0} | {1}/{2} | {3}", matchName, photonSession.ConnectionsCurrent, photonSession.ConnectionsMax, photonSession.IsOpen ? "Open" : "Closed");
 
-						if (ExpandButton(label) || autoConnect)
+						if ((ExpandButton(label) || autoConnect) && photonSession.IsOpen)
 						{
 							BoltNetwork.Connect(photonSession);
 

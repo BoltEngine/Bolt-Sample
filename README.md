@@ -27,8 +27,8 @@ This repository contains samples that highlight the most important Bolt features
 3. Follow the instructions on the *Wizard* Window. If it did not show up, run it from `Window/Bolt/Wizard`;
 4. Download this repository and place it inside your Unity Project. [Download link](https://github.com/BoltEngine/Bolt-Sample/archive/master.zip);
 5. Replace the Bolt Assets files:
-    1. `data/bolt.user.dll.backup` -> `Assets/bolt/assemblies/bolt.user.dll`;
-    2. `data/project.bytes.backup` -> `Assets/bolt/project.bytes`
+    1. `data/bolt.user.dll.backup` -> `Assets/Photon/PhotonBolt/assemblies/bolt.user.dll`;
+    2. `data/project.bytes.backup` -> `Assets/Photon/PhotonBolt/project.bytes`
 6. Compile Bolt: `Assets/Bolt/Compile Assembly`.
 
 Any of the gameplay scenes from the included samples can be directly tested from Bolt's Scenes window (found on `Window/Bolt/Scenes` by following the instructions bellow:

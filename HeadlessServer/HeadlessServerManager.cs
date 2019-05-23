@@ -33,8 +33,8 @@ namespace Bolt.Samples.HeadlessServer
                 // If RoomID was not set, create a random one
                 if (RoomID.Length == 0)
                 {
-                    RoomID = new Guid().ToString();
-                }
+                    RoomID = Guid.NewGuid().ToString();
+				}
 
                 // Create the Photon Room
                 BoltNetwork.SetServerInfo(RoomID, roomProperties);

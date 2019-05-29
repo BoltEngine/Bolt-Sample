@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 
 using Bolt.Samples.Photon.Lobby.Utilities;
 using Bolt.Samples.Photon.Simple;
+using Bolt.Matchmaking;
 
 namespace Bolt.Samples.Photon.Lobby
 {
@@ -219,8 +220,13 @@ namespace Bolt.Samples.Photon.Lobby
                 };
 
                 BoltLog.Info("Starting Server");
+
                 // Start Photon Room
-                BoltNetwork.SetServerInfo(_matchName, token);
+				BoltMatchmaking.CreateSession(
+					sessionID: _matchName, 
+					token: token
+				);
+                // BoltNetwork.SetServerInfo(_matchName, token);
 
                 // Setup Host
                 infoPanel.gameObject.SetActive(false);

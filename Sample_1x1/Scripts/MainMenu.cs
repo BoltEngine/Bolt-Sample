@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Bolt;
+using Bolt.Matchmaking;
 using Bolt.Photon;
 using udpkit.platform.photon;
 using UdpKit;
@@ -63,8 +64,14 @@ namespace FailedToJoin
 
 				var matchName = Guid.NewGuid().ToString();
 
-				BoltNetwork.SetServerInfo(matchName, token);
-				BoltNetwork.LoadScene("Game");
+				BoltMatchmaking.CreateSession(
+					sessionID: matchName, 
+					token: token, 
+					sceneToLoad: "Game"
+				);
+
+				// BoltNetwork.SetServerInfo(matchName, token);
+				// BoltNetwork.LoadScene("Game");
 			}
 		}
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Bolt.Matchmaking;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -77,8 +78,13 @@ namespace Bolt.Samples
 				var id = Guid.NewGuid().ToString().Split('-')[0];
 				var matchName = string.Format("{0} - {1}", id, map);
 
-				BoltNetwork.SetServerInfo(matchName, null);
-				BoltNetwork.LoadScene(map);
+				BoltMatchmaking.CreateSession(
+					sessionID: matchName, 
+					sceneToLoad: map
+				);
+
+				// BoltNetwork.SetServerInfo(matchName, null);
+				// BoltNetwork.LoadScene(map);
 			}
 		}
 

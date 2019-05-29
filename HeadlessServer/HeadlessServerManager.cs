@@ -1,4 +1,5 @@
 ﻿using System;
+using Bolt.Matchmaking;
 using Bolt.Photon;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -37,10 +38,14 @@ namespace Bolt.Samples.HeadlessServer
 				}
 
                 // Create the Photon Room
-                BoltNetwork.SetServerInfo(RoomID, roomProperties);
+				BoltMatchmaking.CreateSession(
+					sessionID: RoomID, 
+					token: roomProperties, 
+					sceneToLoad: Map
+				);
 
-                // Load the requested Level
-                BoltNetwork.LoadScene(Map);
+                // BoltNetwork.SetServerInfo(RoomID, roomProperties);
+                // BoltNetwork.LoadScene(Map);
             }
         }
 

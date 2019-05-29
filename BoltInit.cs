@@ -3,6 +3,7 @@ using System;
 using UdpKit;
 using UnityEngine.SceneManagement;
 using udpkit.platform.photon;
+using Bolt.Matchmaking;
 
 namespace Bolt.Samples
 {
@@ -140,8 +141,13 @@ namespace Bolt.Samples
 				var id = Guid.NewGuid().ToString().Split('-')[0];
 				var matchName = string.Format("{0} - {1}", id, map);
 
-				BoltNetwork.SetServerInfo(matchName, null);
-				BoltNetwork.LoadScene(map);
+				BoltMatchmaking.CreateSession(
+					sessionID: matchName, 
+					sceneToLoad: map
+				);
+
+				// BoltNetwork.SetServerInfo(matchName, null);
+				// BoltNetwork.LoadScene(map);
 			}
 		}
 

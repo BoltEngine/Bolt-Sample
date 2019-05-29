@@ -1,4 +1,5 @@
 using System;
+using Bolt.Matchmaking;
 using Bolt.Photon;
 using Bolt.Utils;
 using udpkit.platform.photon;
@@ -95,8 +96,14 @@ namespace Bolt.Samples.Photon.Simple
 
 							string matchName = "MyPhotonGame #" + UnityEngine.Random.Range(1, 100);
 
-							BoltNetwork.SetServerInfo(matchName, token);
-							BoltNetwork.LoadScene("PhotonGame");
+							BoltMatchmaking.CreateSession(
+								sessionID: matchName, 
+								token: token,
+								sceneToLoad: "PhotonGame"
+							);
+
+							// BoltNetwork.SetServerInfo(matchName, token);
+							// BoltNetwork.LoadScene("PhotonGame");
 						}
 					}
 					break;

@@ -6,7 +6,7 @@ namespace Bolt.Samples.GettingStarted
 {
 	public class RobotBehavior : Bolt.EntityBehaviour<IRobotState>
 	{
-		private List<BoltEntity> boxes = new List<BoltEntity>();
+		// private List<BoltEntity> boxes = new List<BoltEntity>();
 		// private Color myColor = Random.ColorHSV();
 
 		public override void Attached()

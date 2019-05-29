@@ -1,5 +1,6 @@
 using System;
 using Bolt;
+using Bolt.Matchmaking;
 using Bolt.Photon;
 using UdpKit;
 using UnityEngine;
@@ -32,9 +33,10 @@ namespace FailedToJoin
 						IsVisible = true
 					};
 
-					var matchName = Guid.NewGuid().ToString();
+					BoltMatchmaking.UpdateSession(roomProperties);
+					// var matchName = Guid.NewGuid().ToString();
+					// BoltNetwork.SetServerInfo(matchName, roomProperties);
 
-					BoltNetwork.SetServerInfo(matchName, roomProperties);
 					BoltNetwork.Accept(endpoint);
 
 					Debug.Log("Accept Client");
@@ -59,9 +61,10 @@ namespace FailedToJoin
 					IsOpen = true, IsVisible = true
 				};
 
-				var matchName = Guid.NewGuid().ToString();
+				BoltMatchmaking.UpdateSession(roomProperties);
 
-				BoltNetwork.SetServerInfo(matchName, roomProperties);
+				// var matchName = Guid.NewGuid().ToString();
+				// BoltNetwork.SetServerInfo(matchName, roomProperties);
 			}
 		}
 	}

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Bolt.Matchmaking;
 using UdpKit;
 using UnityEngine;
 
@@ -48,8 +49,13 @@ namespace Bolt.Samples.GettingStarted
             {
                 string matchName = Guid.NewGuid().ToString();
 
-                BoltNetwork.SetServerInfo(matchName, null);
-                BoltNetwork.LoadScene("Tutorial1");
+				BoltMatchmaking.CreateSession(
+					sessionID: matchName, 
+					sceneToLoad: "Tutorial1"
+				);
+
+                // BoltNetwork.SetServerInfo(matchName, null);
+                // BoltNetwork.LoadScene("Tutorial1");
             }
         }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Linq;
 using Bolt.Tokens;
+using udpkit.platform.photon;
 using UdpKit;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,7 +14,7 @@ namespace Bolt.Samples.GettingStarted
 		public override void Connected(BoltConnection connection)
 		{
 			var log = LogEvent.Create();
-			log.Message = string.Format("{0} connected", connection.RemoteEndPoint);
+			log.Message = string.Format("{0} connected with token {1}", connection.RemoteEndPoint, connection.ConnectToken);
 			log.Send();
 		}
 
@@ -31,6 +32,25 @@ namespace Bolt.Samples.GettingStarted
 				Debug.LogFormat("Shutdown Done with Reason: {0}", disconnectReason);
 				SceneManager.LoadScene(0);
 			});
+		}
+
+		public override void SessionCreated(UdpSession session)
+		{
+			Debug.LogWarning("Session created");
+			
+			var photonSession = session as PhotonSession;
+
+			if (photonSession != null)
+			{
+				Debug.LogWarning(photonSession.HostName);
+				Debug.LogWarning(photonSession.IsOpen);
+				Debug.LogWarning(photonSession.IsVisible);
+
+				foreach(var key in photonSession.Properties.Keys)
+				{
+					Debug.LogWarningFormat("{0} = {1}", key, photonSession.Properties[key]);
+				}
+			}
 		}
 	}
 }

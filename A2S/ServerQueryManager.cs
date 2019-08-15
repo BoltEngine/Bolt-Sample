@@ -1,8 +1,11 @@
-﻿using Bolt.a2s;
+﻿#if !BOLT_CLOUD
+using Bolt.a2s;
+#endif
 
 [BoltGlobalBehaviour(BoltNetworkModes.Server)]
 public class ServerQueryManager : Bolt.GlobalEventListener
 {
+#if !BOLT_CLOUD
 	void Awake()
 	{
 		DontDestroyOnLoad(gameObject);
@@ -32,4 +35,5 @@ public class ServerQueryManager : Bolt.GlobalEventListener
 	{
 		A2SManager.SetPlayerInfo(connection, "Conn: " + connection.ConnectionId.ToString(), 0);
 	}
+#endif
 }

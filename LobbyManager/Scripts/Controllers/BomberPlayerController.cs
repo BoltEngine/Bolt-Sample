@@ -75,7 +75,7 @@ namespace Bolt.Samples.Photon.Lobby
 
 			BomberPlayerController playerController = playerEntity.GetComponent<BomberPlayerController>();
 
-			Photon.Lobby.LobbyPhotonPlayer lobbyPlayer = Photon.Lobby.LobbyPhotonPlayer.localPlayer;
+			Photon.Lobby.LobbyPlayer lobbyPlayer = Photon.Lobby.LobbyPlayer.localPlayer;
 
 			if (lobbyPlayer)
 			{

@@ -30,7 +30,17 @@ namespace Bolt.Samples.Photon.Lobby.Utilities
 
         public int SceneIndex
         {
-            get { return SceneManager.GetSceneByName(sceneName).buildIndex; }
+            get { return SceneManager.GetSceneByName(SimpleSceneName).buildIndex; }
+        }
+
+        public bool IsLoaded
+        {
+            get
+            {
+                Debug.LogFormat( "Current Scene: {0}, local: {1}", SceneManager.GetActiveScene().buildIndex, SceneIndex);
+                
+                return SceneManager.GetActiveScene().buildIndex == SceneIndex;
+            }
         }
 
         // makes it work with the existing Unity methods (LoadLevel/LoadScene)
@@ -39,7 +49,7 @@ namespace Bolt.Samples.Photon.Lobby.Utilities
             return sceneField.SceneName;
         }
     }
-
+    
 #if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(SceneField))]
     public class SceneFieldPropertyDrawer : PropertyDrawer

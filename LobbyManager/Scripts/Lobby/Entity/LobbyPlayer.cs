@@ -1,10 +1,12 @@
-﻿using Bolt;
+﻿using System;
+using Bolt;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace Bolt.Samples.Photon.Lobby
 {
-    public class LobbyPhotonPlayer : Bolt.EntityEventListener<ILobbyPlayerInfoState>
+    public class LobbyPlayer : Bolt.EntityEventListener<ILobbyPlayerInfoState>
     {
         // Bolt
         public BoltConnection connection;
@@ -15,8 +17,17 @@ namespace Bolt.Samples.Photon.Lobby
         }
 
         // Lobby
-        public string playerName = "";
-        public Color playerColor = Color.white;
+        public string playerName
+        {
+            get { return nameInput.text; }
+        }
+
+        public Color playerColor
+        {
+            get { return colorButton.GetComponent<Image>().color; }
+            set { colorButton.GetComponent<Image>().color = value; }
+        }
+        
         public bool ready = false;
 
         public Button colorButton;
@@ -36,34 +47,24 @@ namespace Bolt.Samples.Photon.Lobby
         static Color ReadyColor = new Color(0.0f, 204.0f / 255.0f, 204.0f / 255.0f, 1.0f);
         static Color TransparentColor = new Color(0, 0, 0, 0);
 
-        public static LobbyPhotonPlayer localPlayer;
+        public static LobbyPlayer localPlayer;
+
+        public event Action<LobbyPlayer> OnDetach;
 
         // Handlers
 
         public override void Attached()
         {
+            state.AddCallback("Name", () => nameInput.text = state.Name);
+            state.AddCallback("Color", () => playerColor = state.Color);
+            state.AddCallback("Ready", callback: () => OnClientReady(state.Ready));
+            
             if (entity.IsOwner)
             {
                 state.Color = Random.ColorHSV();
-                state.Name = "Player #" + Random.Range(1, 100);
+                state.Name = string.Format("{0} #{1}", GenerateFullName(), Random.Range(1, 100));
+                state.Ready = ready = false;
             }
-
-            state.AddCallback("Name", () =>
-            {
-                //OnNameChanged(state.Name);
-                nameInput.text = state.Name;
-            });
-
-            state.AddCallback("Color", () =>
-            {
-                //OnColorChanged(state.Color);
-                colorButton.GetComponent<Image>().color = state.Color;
-            });
-
-            state.AddCallback("Ready", () =>
-            {
-                OnClientReady(state.Ready);
-            });
         }
 
         public override void ControlGained()
@@ -89,13 +90,15 @@ namespace Bolt.Samples.Photon.Lobby
 
         public override void OnEvent(LobbyPlayerKick evnt)
         {
-            BoltConsole.Write("Received Kick event", Color.yellow);
-            BoltLauncher.Shutdown();
+            BoltNetwork.Shutdown();
         }
 
         public override void SimulateController()
         {
-            ILobbyCommandInput input = LobbyCommand.Create();
+            // Update every 5 frames
+            if (BoltNetwork.Frame % 5 != 0) return;
+            
+            var input = LobbyCommand.Create();
             
             input.Name = playerName;
             input.Color = playerColor;
@@ -124,8 +127,6 @@ namespace Bolt.Samples.Photon.Lobby
         {
             BoltConsole.Write("SetupOtherPlayer", Color.green);
 
-            LobbyPlayerList._instance.AddPlayer(this);
-
             nameInput.interactable = false;
 
             removePlayerButton.gameObject.SetActive(BoltNetwork.IsServer);
@@ -143,7 +144,6 @@ namespace Bolt.Samples.Photon.Lobby
         {
             BoltConsole.Write("SetupPlayer", Color.green);
 
-            LobbyPlayerList._instance.AddPlayer(this);
             localPlayer = this;
 
             nameInput.interactable = true;
@@ -163,10 +163,10 @@ namespace Bolt.Samples.Photon.Lobby
             nameInput.interactable = true;
 
             nameInput.onEndEdit.RemoveAllListeners();
-            nameInput.onEndEdit.AddListener(OnNameChanged);
+//            nameInput.onEndEdit.AddListener((text => { playerName = text; }));
 
             colorButton.onClick.RemoveAllListeners();
-            colorButton.onClick.AddListener(OnColorClicked);
+            colorButton.onClick.AddListener(() => { playerColor = Random.ColorHSV(); });
 
             readyButton.onClick.RemoveAllListeners();
             readyButton.onClick.AddListener(OnReadyClicked);
@@ -176,14 +176,49 @@ namespace Bolt.Samples.Photon.Lobby
 
         public void RemovePlayer()
         {
-            LobbyPlayerList._instance.RemovePlayer(this);
-
-            if (entity != null)
+            if (entity && entity.IsAttached)
             {
-                BoltNetwork.Destroy(entity.gameObject);
+                BoltNetwork.Destroy(gameObject);
             }
         }
 
+        public override void Detached()
+        {
+//            if (OnDetach != null) OnDetach.Invoke(this);
+        }
+        // Utils
+
+        private string GenerateFullName()
+        {
+            return string.Format("{0} {1}", 
+                GenerateName(new System.Random(DateTime.Now.Second - 1000).Next(4, 10)), 
+                GenerateName(new System.Random(DateTime.Now.Second + 1000).Next(4, 10))
+            );
+        }
+        
+        private string GenerateName(int len)
+        { 
+            var rand = new System.Random(DateTime.Now.Second);
+            
+            string[] consonants = { "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "l", "n", "p", "q", "r", "s", "sh", "zh", "t", "v", "w", "x" };
+            string[] vowels = { "a", "e", "i", "o", "u", "ae", "y" };
+            string name = "";
+            
+            name += consonants[rand.Next(consonants.Length)].ToUpper();
+            name += vowels[rand.Next(vowels.Length)];
+            
+            var b = 2;
+            while (b < len)
+            {
+                name += consonants[rand.Next(consonants.Length)];
+                b++;
+                name += vowels[rand.Next(vowels.Length)];
+                b++;
+            }
+
+            return name;
+        }
+        
         // UI
 
         void ChangeReadyButtonColor(Color c)
@@ -196,26 +231,9 @@ namespace Bolt.Samples.Photon.Lobby
             readyButton.colors = b;
         }
 
-        public void OnColorChanged(Color newColor)
-        {
-            //playerColor = newColor;
-            colorButton.GetComponent<Image>().color = newColor;
-        }
-
-        public void OnColorClicked()
-        {
-            playerColor = Random.ColorHSV();
-        }
-
         public void OnReadyClicked()
         {
             ready = !ready;
-        }
-
-        public void OnNameChanged(string newName)
-        {
-            playerName = newName;
-            //nameInput.text = newName;
         }
 
         public void OnClientReady(bool readyState)

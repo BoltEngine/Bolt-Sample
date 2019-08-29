@@ -8,14 +8,15 @@ namespace Bolt.Samples.Photon.Lobby
 {
     public static class LobbyExtensions
     {
-        public static LobbyPhotonPlayer GetLobbyPlayer(this BoltConnection connection)
+        public static LobbyPlayer GetLobbyPlayer(this BoltConnection connection)
         {
-            if (connection == null)
-            {
-                return LobbyPlayerList._instance.ServerPlayer;
-            }
-
-            return (LobbyPhotonPlayer)connection.UserData;
+//            if (connection == null)
+//            {
+//                return LobbyUIRoom._instance.ServerPlayer;
+//            }
+//
+//            return (LobbyPhotonPlayer)connection.UserData;
+            return null;
         }
 
         public static bool CanJoin(this UdpSession session)

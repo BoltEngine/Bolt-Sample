@@ -71,7 +71,8 @@ namespace Bolt.Samples.Photon.Lobby
 
         private void StartClientRandomEvent()
         {
-            
+            uiInfoPanel.Display("Connecting to Cloud...");
+            StartClientEventHandler(true);
         }
 
         private void JoinSessionEvent(UdpSession session)

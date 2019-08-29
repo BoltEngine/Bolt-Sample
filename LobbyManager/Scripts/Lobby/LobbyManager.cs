@@ -24,6 +24,7 @@ namespace Bolt.Samples.Photon.Lobby
 
         private bool isCountdown = false;
         private string matchName;
+        private bool randomJoin = false;
 
         private void Awake()
         {
@@ -135,11 +136,12 @@ namespace Bolt.Samples.Photon.Lobby
             BoltLauncher.StartServer();
         }
 
-        private void StartClientEventHandler()
+        private void StartClientEventHandler(bool randomJoin = false)
         {
+            this.randomJoin = randomJoin;
             BoltLauncher.StartClient();
         }
-
+        
         private void JoinEventHandler(UdpSession session)
         {
             if (BoltNetwork.IsClient)
@@ -181,7 +183,16 @@ namespace Bolt.Samples.Photon.Lobby
             }
             else if (BoltNetwork.IsClient)
             {
-                ClientStaredUIHandler();
+                if (randomJoin)
+                {
+                    BoltMatchmaking.JoinRandomSession();
+                }
+                else
+                {
+                    ClientStaredUIHandler();
+                }
+
+                randomJoin = false;
             }
         }
 

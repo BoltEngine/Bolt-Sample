@@ -1,5 +1,4 @@
 ﻿using System;
-using Bolt;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -48,10 +47,6 @@ namespace Bolt.Samples.Photon.Lobby
         static Color TransparentColor = new Color(0, 0, 0, 0);
 
         public static LobbyPlayer localPlayer;
-
-        public event Action<LobbyPlayer> OnDetach;
-
-        // Handlers
 
         public override void Attached()
         {

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using Bolt.Matchmaking;
 using Bolt.Samples.Photon.Lobby.Utilities;

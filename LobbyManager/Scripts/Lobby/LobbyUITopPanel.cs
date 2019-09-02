@@ -6,42 +6,34 @@ namespace Bolt.Samples.Photon.Lobby
 {
     public class LobbyUITopPanel : MonoBehaviour, ILobbyUI
     {
-        public event Action OnBackButtonClick;
-        
         [SerializeField] private GameObject ui;
         [SerializeField] private Text statusLabel;
         [SerializeField] private Text hostLabel;
         [SerializeField] private Button backButton;
         
-        private bool isInGame = false;
-        private bool isDisplayed = true;
+        private bool _isInGame = false;
+        private bool _isDisplayed = true;
 
         private void OnEnable()
         {
-            backButton.onClick.RemoveAllListeners();
-            backButton.onClick.AddListener(() =>
-            {
-                if (OnBackButtonClick != null) OnBackButtonClick();
-            });
-            
-            backButton.gameObject.SetActive(false);
+            HideBackButton();
         }
 
         private void Update()
         {
-            if (isInGame == false)
+            if (_isInGame == false)
                 return;
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                ToggleVisibility(!isDisplayed);
+                ToggleVisibility(!_isDisplayed);
             }
 
         }
 
         public void SetInGame(bool value)
         {
-            isInGame = value;
+            _isInGame = value;
         }
 
         public void SetHeaderInfo(string status = null, string host = null)
@@ -50,9 +42,28 @@ namespace Bolt.Samples.Photon.Lobby
             hostLabel.text = host ?? hostLabel.text;
         }
         
+        public void SetupBackButton(string label, Action callback)
+        {
+            var labelUi = backButton.GetComponentInChildren<Text>();
+            if (labelUi)
+            {
+                labelUi.text = label;
+            }
+            
+            backButton.onClick.RemoveAllListeners();
+            backButton.onClick.AddListener(callback.Invoke);
+            backButton.gameObject.SetActive(true);
+        }
+
+        public void HideBackButton()
+        {
+            backButton.onClick.RemoveAllListeners();
+            backButton.gameObject.SetActive(false);
+        }
+        
         public void ToggleVisibility(bool visible)
         {
-            isDisplayed = visible;
+            _isDisplayed = visible;
             ui.SetActive(visible);
         }
     }

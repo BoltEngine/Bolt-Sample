@@ -1,11 +1,8 @@
 using System;
-using System.Collections;
 using Bolt.Matchmaking;
 using UdpKit;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
-using Debug = System.Diagnostics.Debug;
 
 namespace Bolt.Samples.Photon.Lobby
 {
@@ -21,10 +18,7 @@ namespace Bolt.Samples.Photon.Lobby
         [SerializeField] private LobbyUIInfoPanel uiInfoPanel;
         [SerializeField] private LobbyUICountdownPanel uiCountdownPanel;
         
-        [SerializeField] private GameObject addPlayerButton;
-        [SerializeField] private Button backButton;
-
-        private ILobbyUI currentPanel;
+        private ILobbyUI _currentPanel;
 
         private void StartUI()
         {
@@ -43,12 +37,10 @@ namespace Bolt.Samples.Photon.Lobby
         private void LoadingUI()
         {
             uiInfoPanel.Display("Please wait...");
-//            ChangeBodyTo(null);
         }
         
         private void ResetUI()
         {
-//            uiRoom.ResetUI();
             uiServerList.ResetUI();
             
             uiInfoPanel.ToggleVisibility(false);
@@ -113,9 +105,9 @@ namespace Bolt.Samples.Photon.Lobby
 
         private void ChangeBodyTo(ILobbyUI newPanel)
         {
-            if (currentPanel != null)
+            if (_currentPanel != null)
             {
-                currentPanel.ToggleVisibility(false);
+                _currentPanel.ToggleVisibility(false);
             }
 
             if (newPanel != null)
@@ -123,35 +115,16 @@ namespace Bolt.Samples.Photon.Lobby
                 newPanel.ToggleVisibility(true);
             }
 
-            currentPanel = newPanel;
+            _currentPanel = newPanel;
 
-            if (uiMainMenu == currentPanel as LobbyUIMainMenu)
+            if (uiMainMenu == _currentPanel as LobbyUIMainMenu)
             {
-                HideBackButton();
+                uiTopPanel.HideBackButton();
             }
             else
             {
-                SetupBackButton("Shutdown", ShutdownEventHandler);
+                uiTopPanel.SetupBackButton("Shutdown", ShutdownEventHandler);
             }
-        }
-
-        private void SetupBackButton(string label, Action callback)
-        {
-            var labelUi = backButton.GetComponentInChildren<Text>();
-            if (labelUi)
-            {
-                labelUi.text = label;
-            }
-            
-            backButton.onClick.RemoveAllListeners();
-            backButton.onClick.AddListener(callback.Invoke);
-            backButton.gameObject.SetActive(true);
-        }
-
-        private void HideBackButton()
-        {
-            backButton.onClick.RemoveAllListeners();
-            backButton.gameObject.SetActive(false);
         }
         
         // Bolt Events
@@ -166,7 +139,7 @@ namespace Bolt.Samples.Photon.Lobby
                 {
                     ChangeBodyTo(uiMainMenu);
                     
-                    HideBackButton();
+                    uiTopPanel.HideBackButton();
                     uiTopPanel.SetInGame(false);
                 }
                 else
@@ -175,8 +148,7 @@ namespace Bolt.Samples.Photon.Lobby
                     
                     uiTopPanel.SetInGame(true);
                     uiTopPanel.ToggleVisibility(false);
-                    
-                    SetupBackButton("Menu", ShutdownEventHandler);
+                    uiTopPanel.SetupBackButton("Menu", ShutdownEventHandler);
                 }
 
             } catch (Exception e)

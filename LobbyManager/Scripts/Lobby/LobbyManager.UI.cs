@@ -45,7 +45,7 @@ namespace Bolt.Samples.Photon.Lobby
             
             uiInfoPanel.ToggleVisibility(false);
             uiTopPanel.ToggleVisibility(true);
-            uiTopPanel.SetHeaderInfo("Offline", "None");
+            uiTopPanel.SetHeaderInfo("Offline", "None", "None");
             ChangeBodyTo(uiMainMenu);
         }
 
@@ -76,7 +76,11 @@ namespace Bolt.Samples.Photon.Lobby
         private void SessionCreatedUIHandler(UdpSession session)
         {
             uiInfoPanel.ToggleVisibility(false);
-            uiTopPanel.SetHeaderInfo("Host", "self");
+            
+            object region;
+            BoltMatchmaking.CurrentMetadata.TryGetValue("region", out region);
+            
+            uiTopPanel.SetHeaderInfo("Host", "self", ((string) region).ToUpper());
             
             ChangeBodyTo(uiRoom);
         }
@@ -84,7 +88,11 @@ namespace Bolt.Samples.Photon.Lobby
         private void ClientStaredUIHandler()
         {
             uiInfoPanel.ToggleVisibility(false);
-            uiTopPanel.SetHeaderInfo("Client", "none");
+            
+            object region;
+            BoltMatchmaking.CurrentMetadata.TryGetValue("region", out region);
+            
+            uiTopPanel.SetHeaderInfo("Client", "none", ((string) region).ToUpper());
             
             ChangeBodyTo(uiServerList);
         }
@@ -92,7 +100,11 @@ namespace Bolt.Samples.Photon.Lobby
         private void ClientConnectedUIHandler()
         {
             uiInfoPanel.ToggleVisibility(false);
-            uiTopPanel.SetHeaderInfo("Client", BoltMatchmaking.CurrentSession.HostName);
+            
+            object region;
+            BoltMatchmaking.CurrentMetadata.TryGetValue("region", out region);
+            
+            uiTopPanel.SetHeaderInfo("Client", BoltMatchmaking.CurrentSession.HostName, ((string) region).ToUpper());
             
             ChangeBodyTo(uiRoom);
         }

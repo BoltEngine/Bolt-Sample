@@ -8,6 +8,7 @@ namespace Bolt.Samples.Photon.Lobby
     {
         [SerializeField] private GameObject ui;
         [SerializeField] private Text statusLabel;
+        [SerializeField] private Text regionLabel;
         [SerializeField] private Text hostLabel;
         [SerializeField] private Button backButton;
         
@@ -36,10 +37,11 @@ namespace Bolt.Samples.Photon.Lobby
             _isInGame = value;
         }
 
-        public void SetHeaderInfo(string status = null, string host = null)
+        public void SetHeaderInfo(string status = null, string host = null, string region = null)
         {
             statusLabel.text = status ?? statusLabel.text;
             hostLabel.text = host ?? hostLabel.text;
+            regionLabel.text = region ?? regionLabel.text;
         }
         
         public void SetupBackButton(string label, Action callback)

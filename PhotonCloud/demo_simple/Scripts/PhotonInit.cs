@@ -2,8 +2,8 @@ using System;
 using Bolt.Matchmaking;
 using Bolt.Photon;
 using Bolt.Utils;
-using udpkit.platform.photon;
 using UdpKit;
+using UdpKit.platform.photon;
 using UnityEngine;
 
 namespace Bolt.Samples.Photon.Simple

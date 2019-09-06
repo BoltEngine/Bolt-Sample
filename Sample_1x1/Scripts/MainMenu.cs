@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using Bolt;
 using Bolt.Matchmaking;
 using Bolt.Photon;
-using udpkit.platform.photon;
 using UdpKit;
+using UdpKit.platform.photon;
 using UnityEngine;
 
 namespace FailedToJoin

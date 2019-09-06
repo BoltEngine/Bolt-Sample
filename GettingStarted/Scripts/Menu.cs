@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Bolt.Matchmaking;
 using UdpKit;
 using UnityEngine;
@@ -9,7 +8,8 @@ namespace Bolt.Samples.GettingStarted
 {
 	public class Menu : Bolt.GlobalEventListener
 	{
-		bool ShowGui = true;
+		private bool _showGui = true;
+		private Coroutine _timerRoutine;
 
 		private void Awake()
 		{
@@ -17,9 +17,9 @@ namespace Bolt.Samples.GettingStarted
 			BoltLauncher.SetUdpPlatform(new PhotonPlatform());
 		}
 
-		void OnGUI()
+		private void OnGUI()
 		{
-			if (!ShowGui) { return; }
+			if (!_showGui) { return; }
 
 			GUILayout.BeginArea(new Rect(10, 10, Screen.width - 20, Screen.height - 20));
 
@@ -40,7 +40,7 @@ namespace Bolt.Samples.GettingStarted
 
 		public override void BoltStartBegin()
 		{
-			ShowGui = false;
+			_showGui = false;
 		}
 
 		public override void BoltStartDone()
@@ -54,10 +54,29 @@ namespace Bolt.Samples.GettingStarted
 					sceneToLoad: "Tutorial1"
 				);
 			}
+
+			if (BoltNetwork.IsClient)
+			{
+				// This will start a server after 10secs of wait
+				// if not server was found
+				_timerRoutine = StartCoroutine(ShutdownAndServe());
+			}
+		}
+		
+		public override void BoltShutdownBegin(AddCallback registerDoneCallback)
+		{
+			registerDoneCallback(() => {
+				BoltLauncher.StartServer();
+			});
 		}
 
 		public override void SessionListUpdated(Map<Guid, UdpSession> sessionList)
 		{
+			if (_timerRoutine != null)  { 
+				StopCoroutine(_timerRoutine);
+				_timerRoutine = null;
+			}
+			
 			Debug.LogFormat("Session list updated: {0} total sessions", sessionList.Count);
 
 			foreach (var session in sessionList)
@@ -69,6 +88,16 @@ namespace Bolt.Samples.GettingStarted
 					BoltNetwork.Connect(photonSession);
 				}
 			}
+		}
+		
+		// Utils
+		
+		private static IEnumerator ShutdownAndServe(int timeout = 10)
+		{
+			yield return new WaitForSeconds(timeout);
+
+			BoltLog.Warn("No server found, restarting");
+			BoltNetwork.ShutdownImmediate();
 		}
 	}
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Bolt.Matchmaking;
+using Bolt.Photon;
 using UdpKit;
 using UnityEngine;
 
@@ -41,6 +42,7 @@ namespace Bolt.Samples.GettingStarted
 		public override void BoltStartBegin()
 		{
 			_showGui = false;
+			BoltNetwork.RegisterTokenClass<PhotonRoomProperties>();
 		}
 
 		public override void BoltStartDone()
@@ -51,15 +53,25 @@ namespace Bolt.Samples.GettingStarted
 
 				BoltMatchmaking.CreateSession(
 					sessionID: matchName,
-					sceneToLoad: "Tutorial1"
+					sceneToLoad: "Tutorial1",
+					token: new PhotonRoomProperties()
+					{
+						IsVisible = true,
+						IsOpen = true,
+						CustomRoomProperties =
+						{
+							{"type", "game01"},
+							{"map", "Tutorial1"}
+						}
+					}
 				);
 			}
 
 			if (BoltNetwork.IsClient)
 			{
 				// This will start a server after 10secs of wait
-				// if not server was found
-				_timerRoutine = StartCoroutine(ShutdownAndServe());
+				// if no server was found
+				_timerRoutine = StartCoroutine(ShutdownAndStartServer());
 			}
 		}
 		
@@ -92,7 +104,7 @@ namespace Bolt.Samples.GettingStarted
 		
 		// Utils
 		
-		private static IEnumerator ShutdownAndServe(int timeout = 10)
+		private static IEnumerator ShutdownAndStartServer(int timeout = 10)
 		{
 			yield return new WaitForSeconds(timeout);
 

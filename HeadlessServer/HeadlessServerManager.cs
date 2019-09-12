@@ -35,14 +35,14 @@ namespace Bolt.Samples.HeadlessServer
                 if (RoomID.Length == 0)
                 {
                     RoomID = Guid.NewGuid().ToString();
-				}
+                }
 
                 // Create the Photon Room
-				BoltMatchmaking.CreateSession(
-					sessionID: RoomID, 
-					token: roomProperties, 
-					sceneToLoad: Map
-				);
+                BoltMatchmaking.CreateSession(
+                    sessionID: RoomID,
+                    token: roomProperties,
+                    sceneToLoad: Map
+                );
 
                 // BoltNetwork.SetServerInfo(RoomID, roomProperties);
                 // BoltNetwork.LoadScene(Map);

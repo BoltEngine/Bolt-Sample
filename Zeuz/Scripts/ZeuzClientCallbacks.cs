@@ -4,6 +4,7 @@
 	using UnityEngine;
 	using Bolt;
 	using Bolt.zeuz;
+	using UdpKit;
 	using global::Photon.Realtime;
 
 	public class ZeuzClientCallbacks : GlobalEventListener

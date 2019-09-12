@@ -3,6 +3,7 @@ using System;
 using UdpKit;
 using UnityEngine.SceneManagement;
 using Bolt.Matchmaking;
+using Bolt.Photon;
 using UdpKit.platform.photon;
 
 namespace Bolt.Samples
@@ -134,6 +135,12 @@ namespace Bolt.Samples
 			state = State.SelectRoom;
 		}
 
+		public override void BoltStartBegin()
+		{
+			// Register any Protocol Token that are you using
+			BoltNetwork.RegisterTokenClass<PhotonRoomProperties>();
+		}
+		
 		public override void BoltStartDone()
 		{
 			if (BoltNetwork.IsServer)

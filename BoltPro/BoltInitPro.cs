@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using UdpKit;
 using UnityEngine;
@@ -40,6 +40,13 @@ public class BoltInitPro : Bolt.GlobalEventListener
 	string serverAddress = "127.0.0.1";
 	int serverPort = 25000;
 
+	private void Awake()
+	{
+#if !BOLT_CLOUD
+		BoltLauncher.SetUdpPlatform(new DotNetPlatform());
+#endif
+	}
+	
 	void OnGUI()
 	{
 		Rect tex = new Rect(10, 10, 140, 75);
@@ -68,13 +75,6 @@ public class BoltInitPro : Bolt.GlobalEventListener
 		}
 
 		GUILayout.EndArea();
-	}
-
-	public override void BoltStartBegin()
-	{
-#if !BOLT_CLOUD
-		BoltLauncher.SetUdpPlatform(new DotNetPlatform());
-#endif
 	}
 
 	private void State_EnterServerIp()

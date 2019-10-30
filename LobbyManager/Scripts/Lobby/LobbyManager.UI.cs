@@ -20,6 +20,19 @@ namespace Bolt.Samples.Photon.Lobby
         
         private ILobbyUI _currentPanel;
 
+        private void Update()
+        {
+            if (BoltNetwork.IsRunning && BoltMatchmaking.CurrentMetadata.ContainsKey("region"))
+            {
+                var region = BoltMatchmaking.CurrentMetadata["region"];
+
+                if (region != null)
+                {
+                    uiTopPanel.SetHeaderInfo(null, null, ((string)region).ToUpper());
+                }
+            }
+        }
+
         private void StartUI()
         {
             ResetUI();
@@ -88,13 +101,9 @@ namespace Bolt.Samples.Photon.Lobby
         private void ClientStaredUIHandler()
         {
             uiInfoPanel.ToggleVisibility(false);
-            
-            object region;
-            BoltMatchmaking.CurrentMetadata.TryGetValue("region", out region);
-            
-            uiTopPanel.SetHeaderInfo("Client", "none", ((string) region).ToUpper());
-            
             ChangeBodyTo(uiServerList);
+            
+            uiTopPanel.SetHeaderInfo("Client", "None", "None");
         }
 
         private void ClientConnectedUIHandler()

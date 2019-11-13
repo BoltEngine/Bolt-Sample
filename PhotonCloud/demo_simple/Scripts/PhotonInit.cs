@@ -148,7 +148,7 @@ namespace Bolt.Samples.Photon.Simple
 
 								if (photonSession.Properties.ContainsKey("m"))
 								{
-									value_t = photonSession.Properties["m"];
+									value_m = photonSession.Properties["m"];
 								}
 
 								sessionDescription += String.Format(" :: {0}/{1}", value_t, value_m);

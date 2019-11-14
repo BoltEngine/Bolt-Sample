@@ -51,28 +51,27 @@ namespace Bolt.Samples.GettingStarted
 			{
 				string matchName = Guid.NewGuid().ToString();
 
-				BoltMatchmaking.CreateSession(
+                var props = new PhotonRoomProperties();
+
+                props.IsOpen = true;
+                props.IsVisible = true;
+
+                props["type"] = "game01";
+                props["map"] = "Tutorial1";
+
+                BoltMatchmaking.CreateSession(
 					sessionID: matchName,
 					sceneToLoad: "Tutorial1",
-					token: new PhotonRoomProperties()
-					{
-						IsVisible = true,
-						IsOpen = true,
-						CustomRoomProperties =
-						{
-							{"type", "game01"},
-							{"map", "Tutorial1"}
-						}
-					}
+					token: props
 				);
 			}
 
 			if (BoltNetwork.IsClient)
 			{
-				// This will start a server after 10secs of wait
-				// if no server was found
-				_timerRoutine = StartCoroutine(ShutdownAndStartServer());
-			}
+                // This will start a server after 10secs of wait
+                // if no server was found
+                _timerRoutine = StartCoroutine(ShutdownAndStartServer());
+            }
 		}
 		
 		public override void BoltShutdownBegin(AddCallback registerDoneCallback)

@@ -31,7 +31,7 @@ This repository contains samples that highlight the most important Bolt features
     2. `data/project.bytes.backup` -> `Assets/Photon/PhotonBolt/project.bytes`
 6. Compile Bolt: `Assets/Bolt/Compile Assembly`.
 
-Any of the gameplay scenes from the included samples can be directly tested from Bolt's Scenes window (found on `Window/Bolt/Scenes` by following the instructions bellow:
+Any of the gameplay scenes from the included samples can be directly tested from Bolt's Scenes window (found on `Window/Bolt/Scenes` by following the instructions below:
 
 1. Make sure the scene is added to Unity's `Build Settings`.
     - If you skip this, Bolt's Scene window won't show any scene.

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Bolt.Samples.PlayFab
 {
@@ -35,8 +36,8 @@ namespace Bolt.Samples.PlayFab
 			}
 			else
 			{
-				Debug.LogError(MessageInvalidArguments);
-				StartCoroutine(ShutdownRoutine());
+				// Load Client Menu Scene
+				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 			}
 		}
 
@@ -55,8 +56,7 @@ namespace Bolt.Samples.PlayFab
 				{
 					config.AutoRun = Convert.ToBoolean(autoRun);
 				}
-				catch (InvalidCastException)
-				{ }
+				catch (InvalidCastException) { }
 			}
 
 			return string.IsNullOrEmpty(config.Map) == false && BoltScenes.AllScenes.Contains(config.Map);
@@ -91,9 +91,9 @@ namespace Bolt.Samples.PlayFab
 			return null;
 		}
 
-		#if !ENABLE_PLAYFABSERVER_API
-		private void PlayFabStart() {}
-		private void OnServerActive() {}
-		#endif
+#if !ENABLE_PLAYFABSERVER_API
+		private void PlayFabStart() { }
+		private void OnServerActive() { }
+#endif
 	}
 }

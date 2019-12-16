@@ -11,15 +11,23 @@ namespace Bolt.Samples.PlayFab
 {
 	/// <summary>
 	/// Bolt Related Calls
+	/// 
+	/// This class contains the calls and handles to Photon Bolt SDK
 	/// </summary>
 	public partial class PlayFabHeadlessServer
 	{
+		/// <summary>
+		/// Register the PhotonRoomProperties Token to be used on the Session creation
+		/// </summary>
 		public override void BoltStartBegin()
 		{
 			// Register PhotonRoomProperties to be used when creating the Photon Session
 			BoltNetwork.RegisterTokenClass<PhotonRoomProperties>();
 		}
 
+		/// <summary>
+		/// If running as Server, creates the session and load the Game scene
+		/// </summary>
 		public override void BoltStartDone()
 		{
 			if (BoltNetwork.IsServer)
@@ -41,7 +49,7 @@ namespace Bolt.Samples.PlayFab
 				);
 			}
 		}
-
+		
 		public override void BoltShutdownBegin(AddCallback registerDoneCallback)
 		{
 			registerDoneCallback(() =>
@@ -51,23 +59,33 @@ namespace Bolt.Samples.PlayFab
 			});
 		}
 
+		/// <summary>
+		/// Start this peer as the Game Server
+		/// </summary>
 		private void OnServerActive()
 		{
 			if (BoltNetwork.IsRunning) { return; }
 
 			try
-			{
+			{	
+				// In order to start the server property when running on the PlayFab stack, it's necessary
+				// to setup the local port where the server will listen and suppress the STUN request by passing
+				// the binding information provided by PlayFab
 				BindingInfo info;
 				if (BuildBindingInfo(out info))
 				{
+					// Override the STUN information sent by this peer, in other words, the public IP:PORT of this 
+					// instance. This information is gattered directly from the PlayFab stack, that provides statically
+					// the binding data of each Virtual Machine
 					BoltLauncher.SetUdpPlatform(new PhotonPlatform(new PhotonPlatformConfig()
 					{
 						ForceExternalEndPoint = info.externalInfo
 					}));
 
+					// Set the Server port using the information from the binding configuration
 					BoltLauncher.StartServer(info.internalServerPort);
 				}
-				else
+				else // Shutdow if the binding info was not found
 				{
 					BoltLog.Error(MessageInvalidBinding);
 					OnShutdown();
@@ -81,12 +99,18 @@ namespace Bolt.Samples.PlayFab
 			}
 		}
 
+		/// <summary>
+		/// Shutdown Bolt
+		/// </summary>
 		private void OnShutdown()
 		{
 			BoltLog.Info(MessageBoltShutdown);
 			BoltNetwork.Shutdown();
 		}
 
+		/// <summary>
+		/// Connected Handler, update the number of connected players to the Server in the PlayFab stack
+		/// </summary>
 		public override void Connected(BoltConnection connection)
 		{
 			if (BoltNetwork.IsServer)
@@ -95,6 +119,9 @@ namespace Bolt.Samples.PlayFab
 			}
 		}
 
+		/// <summary>
+		/// Disconnected Handler, update the number of connected players to the Server in the PlayFab stack
+		/// </summary>
 		public override void Disconnected(BoltConnection connection)
 		{
 			if (BoltNetwork.IsServer)

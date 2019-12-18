@@ -49,7 +49,7 @@ namespace Bolt.Samples.PlayFab
 				);
 			}
 		}
-		
+
 		public override void BoltShutdownBegin(AddCallback registerDoneCallback)
 		{
 			registerDoneCallback(() =>
@@ -67,7 +67,7 @@ namespace Bolt.Samples.PlayFab
 			if (BoltNetwork.IsRunning) { return; }
 
 			try
-			{	
+			{
 				// In order to start the server property when running on the PlayFab stack, it's necessary
 				// to setup the local port where the server will listen and suppress the STUN request by passing
 				// the binding information provided by PlayFab
@@ -97,15 +97,6 @@ namespace Bolt.Samples.PlayFab
 				BoltLog.Exception(ex);
 				OnShutdown();
 			}
-		}
-
-		/// <summary>
-		/// Shutdown Bolt
-		/// </summary>
-		private void OnShutdown()
-		{
-			BoltLog.Info(MessageBoltShutdown);
-			BoltNetwork.Shutdown();
 		}
 
 		/// <summary>

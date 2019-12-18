@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using PlayFab;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -34,7 +35,7 @@ namespace Bolt.Samples.PlayFab
 
 		private void Start()
 		{
-			if (IsHeadlessMode() && BuildConfig())
+			if (BuildConfig() && IsHeadlessMode())
 			{
 				Application.targetFrameRate = 60;
 				DontDestroyOnLoad(this.gameObject);

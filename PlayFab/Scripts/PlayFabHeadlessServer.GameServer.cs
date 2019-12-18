@@ -18,11 +18,12 @@ namespace Bolt.Samples.PlayFab
 	{
 		private List<ConnectedPlayer> _connectedPlayers;
 
+		// Use this for initialization
 		private void PlayFabStart()
 		{
-			_connectedPlayers = new List<ConnectedPlayer>();
+			Debug.Log("Starting PlayFabMultiplayerAgentAPI");
 
-			// Playfab Agent Initialization
+			_connectedPlayers = new List<ConnectedPlayer>();
 			PlayFabMultiplayerAgentAPI.Start();
 			PlayFabMultiplayerAgentAPI.IsDebugging = Debugging;
 			PlayFabMultiplayerAgentAPI.OnMaintenanceCallback += OnMaintenance;
@@ -30,29 +31,39 @@ namespace Bolt.Samples.PlayFab
 			PlayFabMultiplayerAgentAPI.OnServerActiveCallback += OnServerActive;
 			PlayFabMultiplayerAgentAPI.OnAgentErrorCallback += OnAgentError;
 
-			ConfigurePlayFabLogs();
+			this.gameObject.AddComponent<PlayFabMultiplayerAgentView>();
 
-			// Notify Playfab Server is ready to accept connections
 			StartCoroutine(ReadyForPlayers());
 		}
 
 		private IEnumerator ReadyForPlayers()
 		{
+			Debug.Log("Starting ReadyForPlayers");
 			yield return new WaitForSeconds(.5f);
 			PlayFabMultiplayerAgentAPI.ReadyForPlayers();
 		}
 
-		// Events
-
 		private void OnAgentError(string error)
 		{
-			BoltLog.Warn(error);
+			Debug.Log(error);
+		}
+
+		private void OnShutdown()
+		{
+			Debug.Log("Server is Shutting down");
+			StartCoroutine(Shutdown());
 		}
 
 		private void OnMaintenance(DateTime? NextScheduledMaintenanceUtc)
 		{
-			BoltLog.Warn(MessageMaintenance);
-			OnShutdown();
+			Debug.LogFormat("Maintenance Scheduled for: {0}", NextScheduledMaintenanceUtc.Value.ToLongDateString());
+			StartCoroutine(Shutdown());
+		}
+
+		private IEnumerator Shutdown()
+		{
+			yield return new WaitForSeconds(5f);
+			Application.Quit();
 		}
 
 		private void OnPlayerRemoved(string playfabId)

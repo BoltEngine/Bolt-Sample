@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Linq;
-using PlayFab;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

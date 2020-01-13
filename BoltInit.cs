@@ -4,7 +4,7 @@ using UdpKit;
 using UnityEngine.SceneManagement;
 using Bolt.Matchmaking;
 using Bolt.Photon;
-using UdpKit.platform.photon;
+using UdpKit.Platform.Photon;
 
 namespace Bolt.Samples
 {

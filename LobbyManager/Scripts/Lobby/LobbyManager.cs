@@ -3,6 +3,7 @@ using Bolt.Matchmaking;
 using Bolt.Samples.Photon.Lobby.Utilities;
 using Bolt.Samples.Photon.Simple;
 using UdpKit;
+using UdpKit.Platform;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

@@ -1,5 +1,5 @@
 using UdpKit;
-using UdpKit.platform.photon;
+using UdpKit.Platform.Photon;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

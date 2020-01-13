@@ -3,6 +3,7 @@ using System.Collections;
 using Bolt.Matchmaking;
 using Bolt.Photon;
 using UdpKit;
+using UdpKit.Platform;
 using UnityEngine;
 
 namespace Bolt.Samples.GettingStarted

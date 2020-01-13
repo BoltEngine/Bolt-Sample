@@ -3,7 +3,7 @@ using Bolt;
 using Bolt.Matchmaking;
 using Bolt.Photon;
 using UdpKit;
-using UdpKit.platform.photon;
+using UdpKit.Platform.Photon;
 using UnityEngine;
 
 namespace FailedToJoin

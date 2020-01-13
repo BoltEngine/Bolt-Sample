@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Text;
-using UdpKit;
 using UnityEngine;
 using System.Linq;
 
@@ -11,7 +7,6 @@ namespace Bolt.Samples.StreamData
 	[BoltGlobalBehaviour("StreamDataGameScene")]
 	public class StreamNetworkCallbacks : Bolt.GlobalEventListener
 	{
-		private UdpChannelName testChannel;
 		private string ID;
 
 		private readonly float updateInterval = 1.0f;
@@ -79,6 +74,8 @@ namespace Bolt.Samples.StreamData
 
 		public void SendData()
 		{
+			BoltLog.Info("Send!");
+
 			var now = Time.timeSinceLevelLoad;
 
 			if (BoltNetwork.IsClient && BoltNetwork.Server != null)

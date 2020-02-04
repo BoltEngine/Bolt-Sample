@@ -25,6 +25,12 @@ namespace Bolt.Samples.GettingStarted
 
 			GUILayout.BeginArea(new Rect(10, 10, Screen.width - 20, Screen.height - 20));
 
+			if (GUILayout.Button("Start Single Player", GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true)))
+			{
+				// START SINGLE PLAYER
+				BoltLauncher.StartSinglePlayer();
+			}
+
 			if (GUILayout.Button("Start Server", GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true)))
 			{
 				// START SERVER
@@ -46,21 +52,32 @@ namespace Bolt.Samples.GettingStarted
 			BoltNetwork.RegisterTokenClass<PhotonRoomProperties>();
 		}
 
+		public override void BoltStartFailed()
+		{
+			_showGui = true;
+			Debug.LogError("BoltStartFailed");
+		}
+
 		public override void BoltStartDone()
 		{
+			if (BoltNetwork.IsSinglePlayer)
+			{
+				BoltNetwork.LoadScene("Tutorial1");
+			}
+
 			if (BoltNetwork.IsServer)
 			{
 				string matchName = Guid.NewGuid().ToString();
 
-                var props = new PhotonRoomProperties();
+				var props = new PhotonRoomProperties();
 
-                props.IsOpen = true;
-                props.IsVisible = true;
+				props.IsOpen = true;
+				props.IsVisible = true;
 
-                props["type"] = "game01";
-                props["map"] = "Tutorial1";
+				props["type"] = "game01";
+				props["map"] = "Tutorial1";
 
-                BoltMatchmaking.CreateSession(
+				BoltMatchmaking.CreateSession(
 					sessionID: matchName,
 					sceneToLoad: "Tutorial1",
 					token: props
@@ -69,26 +86,28 @@ namespace Bolt.Samples.GettingStarted
 
 			if (BoltNetwork.IsClient)
 			{
-                // This will start a server after 10secs of wait
-                // if no server was found
-                _timerRoutine = StartCoroutine(ShutdownAndStartServer());
-            }
+				// This will start a server after 10secs of wait
+				// if no server was found
+				_timerRoutine = StartCoroutine(ShutdownAndStartServer());
+			}
 		}
-		
+
 		public override void BoltShutdownBegin(AddCallback registerDoneCallback)
 		{
-			registerDoneCallback(() => {
+			registerDoneCallback(() =>
+			{
 				BoltLauncher.StartServer();
 			});
 		}
 
 		public override void SessionListUpdated(Map<Guid, UdpSession> sessionList)
 		{
-			if (_timerRoutine != null)  { 
+			if (_timerRoutine != null)
+			{
 				StopCoroutine(_timerRoutine);
 				_timerRoutine = null;
 			}
-			
+
 			Debug.LogFormat("Session list updated: {0} total sessions", sessionList.Count);
 
 			foreach (var session in sessionList)
@@ -101,9 +120,9 @@ namespace Bolt.Samples.GettingStarted
 				}
 			}
 		}
-		
+
 		// Utils
-		
+
 		private static IEnumerator ShutdownAndStartServer(int timeout = 10)
 		{
 			yield return new WaitForSeconds(timeout);

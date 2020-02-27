@@ -92,7 +92,7 @@ namespace Bolt.Samples.GettingStarted
 			}
 		}
 
-		public override void BoltShutdownBegin(AddCallback registerDoneCallback)
+		public override void BoltShutdownBegin(AddCallback registerDoneCallback, UdpConnectionDisconnectReason disconnectReason)
 		{
 			registerDoneCallback(() =>
 			{

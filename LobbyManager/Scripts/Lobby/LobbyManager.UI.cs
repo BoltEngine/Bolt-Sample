@@ -150,7 +150,7 @@ namespace Bolt.Samples.Photon.Lobby
         
         // Bolt Events
         
-        public override void SceneLoadLocalDone(string scene)
+        public override void SceneLoadLocalDone(string scene, IProtocolToken token)
         {
             BoltLog.Info(string.Format("New scene: {0}", scene));
 

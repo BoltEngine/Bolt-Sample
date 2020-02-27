@@ -85,12 +85,12 @@ namespace Bolt.AdvancedTutorial
 			connection.SetStreamBandwidth(1024 * 1024);
 		}
 
-		public override void SceneLoadRemoteDone(BoltConnection connection)
+		public override void SceneLoadRemoteDone(BoltConnection connection, IProtocolToken token)
 		{
 			connection.GetPlayer().InstantiateEntity();
 		}
 
-		public override void SceneLoadLocalDone(string scene)
+		public override void SceneLoadLocalDone(string scene, IProtocolToken token)
 		{
 			if (Player.serverIsPlaying)
 			{
@@ -98,7 +98,7 @@ namespace Bolt.AdvancedTutorial
 			}
 		}
 
-		public override void SceneLoadLocalBegin(string scene)
+		public override void SceneLoadLocalBegin(string scene, IProtocolToken token)
 		{
 			foreach (Player p in Player.allPlayers)
 			{

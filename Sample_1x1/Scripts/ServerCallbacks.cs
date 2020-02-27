@@ -12,7 +12,7 @@ namespace FailedToJoin
 	{
 		bool full;
 
-		public override void SceneLoadLocalDone(string scene)
+		public override void SceneLoadLocalDone(string scene, IProtocolToken token)
 		{
 			Camera.main.backgroundColor = Color.clear;
 

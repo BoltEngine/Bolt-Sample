@@ -205,7 +205,7 @@ namespace Bolt.Samples.Photon.Lobby
             entity.TakeControl();
         }
 
-        public override void BoltShutdownBegin(AddCallback registerDoneCallback)
+        public override void BoltShutdownBegin(AddCallback registerDoneCallback, UdpConnectionDisconnectReason disconnectReason)
         {
             LoadingUI();
 

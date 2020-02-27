@@ -9,7 +9,7 @@ namespace Bolt.Samples.GettingStarted
     {
         List<string> logMessages = new List<string>();
 
-        public override void SceneLoadLocalDone(string scene)
+        public override void SceneLoadLocalDone(string scene, IProtocolToken token)
         {
             // randomize a position
             var spawnPosition = new Vector3(Random.Range(-8, 8), 1, Random.Range(-8, 8));

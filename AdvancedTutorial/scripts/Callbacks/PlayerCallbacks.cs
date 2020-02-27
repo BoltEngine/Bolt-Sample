@@ -7,18 +7,14 @@ namespace Bolt.AdvancedTutorial
 	[BoltGlobalBehaviour("Level1")]
 	public class PlayerCallbacks : Bolt.GlobalEventListener
 	{
-		public override void SceneLoadLocalDone(string scene)
+		public override void SceneLoadLocalBegin(string scene, Bolt.IProtocolToken token)
 		{
+			BoltLog.Info("SceneLoadLocalBegin-Token: {0}", token);
 			// ui
 			GameUI.Instantiate();
 
 			// camera
 			PlayerCamera.Instantiate();
-		}
-
-		public override void SceneLoadLocalBegin(string scene, Bolt.IProtocolToken token)
-		{
-			BoltLog.Info("SceneLoadLocalBegin-Token: {0}", token);
 		}
 
 		public override void SceneLoadLocalDone(string scene, Bolt.IProtocolToken token)

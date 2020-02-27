@@ -8,13 +8,13 @@ namespace Bolt.Samples.ClickToMove
 	[BoltGlobalBehaviour(BoltNetworkModes.Server, "ClickToMoveGameScene")]
 	public class ClickToMoveNetworkCallbacks : Bolt.GlobalEventListener
 	{
-		public override void SceneLoadLocalDone(string scene)
+		public override void SceneLoadLocalDone(string scene, IProtocolToken token)
 		{
 			var player = InstantiateEntity();
 			player.TakeControl();
 		}
 
-		public override void SceneLoadRemoteDone(BoltConnection connection)
+		public override void SceneLoadRemoteDone(BoltConnection connection, IProtocolToken token)
 		{
 			var player = InstantiateEntity();
 			player.AssignControl(connection);

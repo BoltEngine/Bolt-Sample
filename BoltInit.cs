@@ -48,6 +48,17 @@ namespace Bolt.Samples
 
 			GUI.Box(tex, Resources.Load("BoltLogo") as Texture2D);
 
+			if (BoltNetwork.IsRunning)
+			{
+				tex = new Rect(160, 10, 140, 75);
+				GUILayout.BeginArea(tex);
+				if (GUILayout.Button("Shutdown", GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true)))
+				{
+					BoltNetwork.Shutdown();
+				}
+				GUILayout.EndArea();
+			}
+
 			GUILayout.BeginArea(area);
 
 			switch (state)
@@ -140,7 +151,7 @@ namespace Bolt.Samples
 			// Register any Protocol Token that are you using
 			BoltNetwork.RegisterTokenClass<PhotonRoomProperties>();
 		}
-		
+
 		public override void BoltStartDone()
 		{
 			if (BoltNetwork.IsServer)
@@ -149,13 +160,18 @@ namespace Bolt.Samples
 				var matchName = string.Format("{0} - {1}", id, map);
 
 				BoltMatchmaking.CreateSession(
-					sessionID: matchName, 
+					sessionID: matchName,
 					sceneToLoad: map
 				);
-
-				// BoltNetwork.SetServerInfo(matchName, null);
-				// BoltNetwork.LoadScene(map);
 			}
+		}
+
+		public override void BoltShutdownBegin(AddCallback registerDoneCallback, UdpConnectionDisconnectReason disconnectReason)
+		{
+			registerDoneCallback(() =>
+			{
+				state = State.SelectMode;
+			});
 		}
 
 		bool ExpandButton(string text)

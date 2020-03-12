@@ -205,7 +205,7 @@ namespace Bolt.Samples.Photon.Lobby
             entity.TakeControl();
         }
 
-        public override void BoltShutdownBegin(AddCallback registerDoneCallback, UdpConnectionDisconnectReason disconnectReason)
+        public override void BoltShutdownBegin(AddCallback registerDoneCallback)
         {
             LoadingUI();
 
@@ -248,7 +248,12 @@ namespace Bolt.Samples.Photon.Lobby
             }
         }
 
-        public override void Connected(BoltConnection connection)
+		public override void EntityDetached(BoltEntity entity)
+		{
+            EntityDetachedEventHandler(entity);
+        }
+
+		public override void Connected(BoltConnection connection)
         {
             if (BoltNetwork.IsClient)
             {

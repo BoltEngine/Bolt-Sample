@@ -55,6 +55,8 @@ namespace Bolt.Samples.Photon.Lobby
 
         public void AddPlayer(LobbyPlayer player)
         {
+            if (player == null) { return; }
+
             if (_players.Contains(player))
                 return;
 
@@ -63,6 +65,17 @@ namespace Bolt.Samples.Photon.Lobby
             
             addButtonRow.transform.SetAsLastSibling();
             PlayerListModified();
+        }
+
+		public void RemovePlayer(LobbyPlayer player)
+		{
+			if (player == null) { return; }
+
+            if (_players.Contains(player))
+			{
+                _players.Remove(player);
+				PlayerListModified();
+			}
         }
 
         public void PlayerListModified()

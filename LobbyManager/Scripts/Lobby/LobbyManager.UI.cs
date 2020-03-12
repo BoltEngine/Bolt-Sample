@@ -124,6 +124,12 @@ namespace Bolt.Samples.Photon.Lobby
             uiRoom.AddPlayer(lobbyPlayer);
         }
 
+		private void EntityDetachedEventHandler(BoltEntity entity)
+		{
+            var lobbyPlayer = entity.gameObject.GetComponent<LobbyPlayer>();
+            uiRoom.RemovePlayer(lobbyPlayer);
+        }
+
         private void ChangeBodyTo(ILobbyUI newPanel)
         {
             if (_currentPanel != null)
@@ -150,7 +156,7 @@ namespace Bolt.Samples.Photon.Lobby
         
         // Bolt Events
         
-        public override void SceneLoadLocalDone(string scene, IProtocolToken token)
+        public override void SceneLoadLocalDone(string scene)
         {
             BoltLog.Info(string.Format("New scene: {0}", scene));
 

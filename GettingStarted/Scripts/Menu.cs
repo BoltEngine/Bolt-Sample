@@ -52,7 +52,7 @@ namespace Bolt.Samples.GettingStarted
 			BoltNetwork.RegisterTokenClass<PhotonRoomProperties>();
 		}
 
-		public override void BoltStartFailed()
+		public override void BoltStartFailed(UdpConnectionDisconnectReason disconnectReason)
 		{
 			_showGui = true;
 			Debug.LogError("BoltStartFailed");

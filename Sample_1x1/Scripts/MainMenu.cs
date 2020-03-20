@@ -177,7 +177,7 @@ namespace FailedToJoin
 
 						if ((ExpandButton(label) || autoConnect) && photonSession.IsOpen)
 						{
-							BoltNetwork.Connect(photonSession);
+							BoltMatchmaking.JoinSession(photonSession);
 
 							autoConnect = false;
 							watch.Stop();

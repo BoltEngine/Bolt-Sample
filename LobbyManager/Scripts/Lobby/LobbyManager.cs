@@ -146,7 +146,7 @@ namespace Bolt.Samples.Photon.Lobby
         {
             if (BoltNetwork.IsClient)
             {
-                BoltNetwork.Connect(session);
+                BoltMatchmaking.JoinSession(session);
             }
         }
 

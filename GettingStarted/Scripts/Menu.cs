@@ -116,7 +116,7 @@ namespace Bolt.Samples.GettingStarted
 
 				if (photonSession.Source == UdpSessionSource.Photon)
 				{
-					BoltNetwork.Connect(photonSession);
+					BoltMatchmaking.JoinSession(photonSession);
 				}
 			}
 		}

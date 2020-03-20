@@ -162,7 +162,7 @@ namespace Bolt.Samples.Photon.Simple
 									data = "ConnectTokenData"
 								};
 
-								BoltNetwork.Connect(photonSession, connectToken);
+								BoltMatchmaking.JoinSession(photonSession, connectToken);
 							}
 						}
 					}

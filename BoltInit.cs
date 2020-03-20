@@ -93,7 +93,7 @@ namespace Bolt.Samples
 
 						if (ExpandButton(label))
 						{
-							BoltNetwork.Connect(photonSession);
+							BoltMatchmaking.JoinSession(photonSession);
 							state = State.Started;
 						}
 					}

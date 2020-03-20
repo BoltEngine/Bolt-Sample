@@ -55,7 +55,7 @@ public class StreamReliableData : Bolt.GlobalEventListener
 
 			if (photonSession.Source == UdpSessionSource.Photon)
 			{
-				BoltNetwork.Connect(photonSession);
+				BoltMatchmaking.JoinSession(photonSession);
 			}
 		}
 	}

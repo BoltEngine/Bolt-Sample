@@ -172,7 +172,7 @@ namespace Bolt.Samples.Photon.Simple
 			GUILayout.EndArea();
 		}
 
-		public override void SessionConnectFailed(UdpSession session, IProtocolToken token)
+		public override void SessionConnectFailed(UdpSession session, IProtocolToken token, UdpSessionError error)
 		{
 			var photonSession = session as PhotonSession;
 

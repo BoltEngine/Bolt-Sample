@@ -97,7 +97,7 @@ namespace FailedToJoin
 			Debug.LogFormat("Bolt Shutdown Begin with reason {0}", disconnectReason);
 		}
 
-		public override void SessionConnectFailed(UdpSession session, IProtocolToken token)
+		public override void SessionConnectFailed(UdpSession session, IProtocolToken token, UdpSessionError error)
 		{
 			BoltLog.Warn("Session Connect Failed");
 			Debug.LogFormat("Session Connect Failed");

@@ -82,9 +82,6 @@ namespace Bolt.Samples
 					sessionID: matchName, 
 					sceneToLoad: map
 				);
-
-				// BoltNetwork.SetServerInfo(matchName, null);
-				// BoltNetwork.LoadScene(map);
 			}
 		}
 

@@ -102,9 +102,6 @@ namespace Bolt.Samples.Photon.Simple
 								token: token,
 								sceneToLoad: "PhotonGame"
 							);
-
-							// BoltNetwork.SetServerInfo(matchName, token);
-							// BoltNetwork.LoadScene("PhotonGame");
 						}
 					}
 					break;

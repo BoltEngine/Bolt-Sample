@@ -43,9 +43,6 @@ namespace Bolt.Samples.HeadlessServer
                     token: roomProperties,
                     sceneToLoad: Map
                 );
-
-                // BoltNetwork.SetServerInfo(RoomID, roomProperties);
-                // BoltNetwork.LoadScene(Map);
             }
         }
 

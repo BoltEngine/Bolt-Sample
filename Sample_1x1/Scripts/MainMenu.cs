@@ -67,28 +67,12 @@ namespace FailedToJoin
 					token: token, 
 					sceneToLoad: "Game"
 				);
-
-				// BoltNetwork.SetServerInfo(matchName, token);
-				// BoltNetwork.LoadScene("Game");
 			}
 		}
 
 		public override void SessionListUpdated(Map<Guid, UdpSession> sessionList)
 		{
 			BoltLog.Warn("{0} :: Session list updated: {1} total sessions", Time.frameCount, sessionList.Count);
-			// BoltLog.Warn("{0} :: Session list updated: {1} total sessions", Time.frameCount, sessionList.Count);
-			Debug.LogFormat("{0} :: Session list updated: {1} total sessions", Time.frameCount, sessionList.Count);
-
-			// foreach (var session in sessionList)
-			// {
-			// 	UdpSession udpSession = session.Value as UdpSession;
-			// 	PhotonSession photonSession = udpSession as PhotonSession;
-
-			// 	if (photonSession.Source == UdpSessionSource.Photon)
-			// 	{
-			// 		// BoltNetwork.Connect(photonSession);
-			// 	}
-			// }
 		}
 
 		public override void BoltShutdownBegin(AddCallback registerDoneCallback, UdpConnectionDisconnectReason disconnectReason)

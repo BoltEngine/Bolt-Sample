@@ -34,8 +34,6 @@ namespace FailedToJoin
 					};
 
 					BoltMatchmaking.UpdateSession(roomProperties);
-					// var matchName = Guid.NewGuid().ToString();
-					// BoltNetwork.SetServerInfo(matchName, roomProperties);
 
 					BoltNetwork.Accept(endpoint);
 
@@ -62,9 +60,6 @@ namespace FailedToJoin
 				};
 
 				BoltMatchmaking.UpdateSession(roomProperties);
-
-				// var matchName = Guid.NewGuid().ToString();
-				// BoltNetwork.SetServerInfo(matchName, roomProperties);
 			}
 		}
 	}

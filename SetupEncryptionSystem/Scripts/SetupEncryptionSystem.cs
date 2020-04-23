@@ -4,13 +4,33 @@ using UnityEngine;
 
 namespace Bolt.Samples.Encryption
 {
+    /// <summary>
+    /// Example class to fill the Encryption Keys
+    ///
+    /// Please take a look on the "SetupEncryption" prefab.
+    /// If you want to use new keys, just press the "Generate keys" button on the Inspector
+    /// </summary>
     public class SetupEncryptionSystem : MonoBehaviour
     {
+        /// <summary>
+        /// Initialization Vector
+        /// </summary>
         [SerializeField] private string EncodedIV;
-
+        
+        /// <summary>
+        /// Encryption Key
+        /// </summary>
         [SerializeField] private string EncodedKey;
-
+        
+        /// <summary>
+        /// Hash Secret
+        /// </summary>
         [SerializeField] private string EncodedSecret;
+
+        private void Awake()
+        {
+            DontDestroyOnLoad(gameObject);
+        }
 
         private void Start()
         {
@@ -22,6 +42,9 @@ namespace Bolt.Samples.Encryption
             EncryptionManager.Instance.DeinitializeEncryption();
         }
 
+        /// <summary>
+        /// Generate new keys and store them
+        /// </summary>
         public void GenerateKeys()
         {
             var IV = EncryptionManager.GenerateAesIV();

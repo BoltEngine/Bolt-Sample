@@ -31,10 +31,10 @@ namespace Bolt.Samples.GettingStarted
 			});
 		}
 
-		public override void SessionCreated(UdpSession session)
+		public override void SessionCreatedOrUpdated(UdpSession session)
 		{
 			Debug.LogWarning("Session created");
-			
+
 			var photonSession = session as PhotonSession;
 
 			if (photonSession != null)
@@ -43,7 +43,7 @@ namespace Bolt.Samples.GettingStarted
 				Debug.LogWarning(photonSession.IsOpen);
 				Debug.LogWarning(photonSession.IsVisible);
 
-				foreach(var key in photonSession.Properties.Keys)
+				foreach (var key in photonSession.Properties.Keys)
 				{
 					Debug.LogWarningFormat("{0} = {1}", key, photonSession.Properties[key]);
 				}

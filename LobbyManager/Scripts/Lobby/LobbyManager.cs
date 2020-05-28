@@ -196,7 +196,7 @@ namespace Bolt.Samples.Photon.Lobby
             }
         }
 
-        public override void SessionCreated(UdpSession session)
+        public override void SessionCreatedOrUpdated(UdpSession session)
         {
             SessionCreatedUIHandler(session);
 

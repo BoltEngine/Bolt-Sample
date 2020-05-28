@@ -4,6 +4,7 @@ using Bolt.Matchmaking;
 using Bolt.Photon;
 using UdpKit;
 using UdpKit.Platform;
+using UdpKit.Platform.Photon;
 using UnityEngine;
 
 namespace Bolt.Samples.GettingStarted
@@ -112,10 +113,21 @@ namespace Bolt.Samples.GettingStarted
 
 			foreach (var session in sessionList)
 			{
-				UdpSession photonSession = session.Value as UdpSession;
+				PhotonSession photonSession = session.Value as PhotonSession;
 
-				if (photonSession.Source == UdpSessionSource.Photon)
+				if (photonSession != null && photonSession.Source == UdpSessionSource.Photon)
 				{
+					object value;
+					if (photonSession.Properties.TryGetValue("type", out value))
+					{
+						BoltLog.Info("Room with type: {0}", value);
+					}
+
+					if (photonSession.Properties.TryGetValue("map", out value))
+					{
+						BoltLog.Info("Room with map: {0}", value);
+					}
+
 					BoltMatchmaking.JoinSession(photonSession);
 				}
 			}

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using Bolt.Matchmaking;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,6 +24,7 @@ public class MultiSceneMenu : Bolt.GlobalEventListener
 		_startServerButton.onClick.AddListener(StartServer);
 		_joinRandomButton.onClick.AddListener(StartClient);
 
+		// Configure Bolt to not sync scenes automatically
 		_config = BoltRuntimeSettings.instance.GetConfigCopy();
 		_config.disableAutoSceneLoading = true;
 	}
@@ -34,11 +33,6 @@ public class MultiSceneMenu : Bolt.GlobalEventListener
 	{
 		_startServerButton.onClick.RemoveAllListeners();
 		_joinRandomButton.onClick.RemoveAllListeners();
-	}
-
-	void Update()
-	{
-
 	}
 
 	private void StartServer()
@@ -71,6 +65,10 @@ public class MultiSceneMenu : Bolt.GlobalEventListener
 		}
 	}
 
+	/// <summary>
+	/// When a client first connects to the server, we want it to sync at least the
+	/// InGame scene, for this, we call BoltNetwork.LoadSceneSync()
+	/// </summary>
 	public override void Connected(BoltConnection connection)
 	{
 		if (BoltNetwork.IsClient)

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MultiScenePlayerController : Bolt.EntityEventListener<IMultiScenePlayer>
 {
@@ -9,8 +7,8 @@ public class MultiScenePlayerController : Bolt.EntityEventListener<IMultiScenePl
 	private const string VerticalAxisName = "Vertical";
 	private const string HorizontalAxisName = "Horizontal";
 
-	private float Speed = 30;
-	private float MoveSpeed = 5;
+	private readonly float Speed = 30;
+	private readonly float MoveSpeed = 5;
 
 	private int SpawnRate;
 	private int LastSpawn;
@@ -36,6 +34,8 @@ public class MultiScenePlayerController : Bolt.EntityEventListener<IMultiScenePl
 
 	private void Update()
 	{
+		// Give the ability to the local player spawn new small items,
+		// this can be done only at a certain frequency set by the SpawnRate
 		if (LastSpawn < BoltNetwork.ServerFrame && entity.IsOwner && Input.GetKeyDown(KeyCode.Space))
 		{
 			var pos = transform.position + transform.forward * 0.5f;

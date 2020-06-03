@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Bolt;
 using UnityEngine;
@@ -8,6 +7,9 @@ using UnityEngine.UI;
 
 public class MultiSceneLoader : Bolt.GlobalEventListener
 {
+	/// <summary>
+	/// Stores the binding between the Action Button and the Scene to be loaded
+	/// </summary>
 	[Serializable]
 	public struct LoadSceneBundle
 	{
@@ -15,14 +17,17 @@ public class MultiSceneLoader : Bolt.GlobalEventListener
 		public Button ActionButton;
 	}
 
+	// List of scenes and Action Buttons
 	[SerializeField] private LoadSceneBundle[] sceneBundles;
 
+	// List of currently loaded scenes locally
 	private List<string> loadedScenes;
 
 	void Start()
 	{
 		loadedScenes = new List<string>();
 
+		// On Server, we configure the buttons the load the Target Scenes
 		if (BoltNetwork.IsServer)
 		{
 			foreach (var item in sceneBundles)
@@ -40,6 +45,7 @@ public class MultiSceneLoader : Bolt.GlobalEventListener
 				});
 			}
 		}
+		// On Client, we just disable the Buttons
 		else if (BoltNetwork.IsClient)
 		{
 			foreach (var item in sceneBundles)
@@ -49,6 +55,9 @@ public class MultiSceneLoader : Bolt.GlobalEventListener
 		}
 	}
 
+	/// <summary>
+	/// On Destroy remove all button callbacks
+	/// </summary>
 	private void OnDestroy()
 	{
 		foreach (var item in sceneBundles)
@@ -57,6 +66,10 @@ public class MultiSceneLoader : Bolt.GlobalEventListener
 		}
 	}
 
+	/// <summary>
+	/// Loads the Scene locally and request the clients to do the same
+	/// </summary>
+	/// <param name="sceneName">Target Scene Name</param>
 	private void LoadScene(string sceneName)
 	{
 		if (BoltNetwork.IsServer)
@@ -72,6 +85,10 @@ public class MultiSceneLoader : Bolt.GlobalEventListener
 		}
 	}
 
+	/// <summary>
+	/// Unloads the Scene locally and request the clients to do the same
+	/// </summary>
+	/// <param name="sceneName">Target Scene Name</param>
 	private void UnloadScene(string sceneName)
 	{
 		if (BoltNetwork.IsServer)
@@ -86,6 +103,11 @@ public class MultiSceneLoader : Bolt.GlobalEventListener
 		}
 	}
 
+	/// <summary>
+	/// Runs only the client side.
+	/// The Server requests that a certain scene to be loaded, and the client replies with Response
+	/// confirming the scene load.
+	/// </summary>
 	public override void OnEvent(LoadSceneRequest evnt)
 	{
 		if (BoltNetwork.IsClient)
@@ -111,6 +133,9 @@ public class MultiSceneLoader : Bolt.GlobalEventListener
 		}
 	}
 
+	/// <summary>
+	/// Runs only on the Server, just so signal that a remote client has loaded scene
+	/// </summary>
 	public override void OnEvent(LoadSceneResponse evnt)
 	{
 		if (BoltNetwork.IsServer)
@@ -126,6 +151,10 @@ public class MultiSceneLoader : Bolt.GlobalEventListener
 		}
 	}
 
+	/// <summary>
+	/// When a new client connects after the game was already started, this makes sure that it will
+	/// load all already loaded additive scenes.
+	/// </summary>
 	public override void SceneLoadRemoteDone(BoltConnection connection, IProtocolToken token)
 	{
 		if (BoltNetwork.IsServer)

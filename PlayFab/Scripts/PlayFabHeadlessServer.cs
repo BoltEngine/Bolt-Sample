@@ -20,14 +20,12 @@ namespace Bolt.Samples.PlayFab
 		/// <summary>
 		/// Game Scene to be loaded by the Server
 		/// </summary>
-		[SerializeField]
-		private string GameScene;
+		[SerializeField] private string GameScene;
 
 		/// <summary>
 		/// Flag to signal PlayFabMultiplayerAgentAPI to show debug info
 		/// </summary>
-		[SerializeField]
-		private bool Debugging = true;
+		[SerializeField] private bool Debugging = true;
 
 		private HeadlessServerConfig config;
 

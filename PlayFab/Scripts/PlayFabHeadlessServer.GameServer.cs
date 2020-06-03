@@ -31,7 +31,7 @@ namespace Bolt.Samples.PlayFab
 			PlayFabMultiplayerAgentAPI.OnServerActiveCallback += OnServerActive;
 			PlayFabMultiplayerAgentAPI.OnAgentErrorCallback += OnAgentError;
 
-			this.gameObject.AddComponent<PlayFabMultiplayerAgentView>();
+			ConfigurePlayFabLogs();
 
 			StartCoroutine(ReadyForPlayers());
 		}
@@ -81,19 +81,26 @@ namespace Bolt.Samples.PlayFab
 
 		// Utils
 
-		// Configure Logger to output file to Playfab Logs folder
+		/// <summary>
+		/// Configure Logger to output file to Playfab Logs folder
+		/// </summary>
 		private void ConfigurePlayFabLogs()
 		{
 			var logFolderPath = PlayFabMultiplayerAgentAPI.GetConfigSettings() [PlayFabMultiplayerAgentAPI.LogFolderKey];
 			BoltLog.Add(new PlayfabLogger(logFolderPath));
 		}
 
+		/// <summary>
+		/// Build the Binding Info for the Local Bolt server.
+		/// It contains informations about the private and public ports that PlayFab has made available for the server.
+		/// </summary>
+		/// <param name="bindingInfo">Reference for a BindingInfo</param>
+		/// <returns>True if the BindingInfo is valid, false otherwise</returns>
 		private bool BuildBindingInfo(out BindingInfo bindingInfo)
 		{
 			var connectionInfo = PlayFabMultiplayerAgentAPI.GetGameServerConnectionInfo();
 
-			IPAddress address;
-			if (IPAddress.TryParse(connectionInfo.PublicIpV4Adress, out address))
+			if (IPAddress.TryParse(connectionInfo.PublicIPv4Address, out IPAddress address))
 			{
 				try
 				{
@@ -103,7 +110,7 @@ namespace Bolt.Samples.PlayFab
 					bindingInfo = new BindingInfo
 					{
 						externalInfo = externalIP,
-							internalServerPort = portInfo.ServerListeningPort
+						internalServerPort = portInfo.ServerListeningPort
 					};
 
 					return true;

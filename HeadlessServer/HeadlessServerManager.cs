@@ -6,104 +6,114 @@ using UnityEngine.SceneManagement;
 
 namespace Bolt.Samples.HeadlessServer
 {
-    public class HeadlessServerManager : Bolt.GlobalEventListener
-    {
-        public string Map = "";
-        public string GameType = "";
-        public string RoomID = "";
+	public class HeadlessServerManager : Bolt.GlobalEventListener
+	{
+		public string Map = "";
+		public string GameType = "";
+		public string RoomID = "";
 
-        public override void BoltStartBegin()
-        {
-            // Register any Protocol Token that are you using
-            BoltNetwork.RegisterTokenClass<PhotonRoomProperties>();
-        }
+		private void Awake()
+		{
+			// Without this setting, your server will run as fast it can, probably using all your Host resources
+			Application.targetFrameRate = 60;
+		}
 
-        public override void BoltStartDone()
-        {
-            if (BoltNetwork.IsServer)
-            {
-                // Create some room custom properties
-                PhotonRoomProperties roomProperties = new PhotonRoomProperties();
+		// Use this for initialization
+		private void Start()
+		{
+			// Get custom arguments from command line
+			Map = GetArg("-m", "-map") ?? Map;
+			GameType = GetArg("-t", "-gameType") ?? GameType; // ex: get game type from command line
+			RoomID = GetArg("-r", "-room") ?? RoomID;
 
-                roomProperties.AddRoomProperty("t", GameType); // ex: game type
-                roomProperties.AddRoomProperty("m", Map); // ex: map id
+			// Validate the requested Level
+			var validMap = false;
 
-                roomProperties.IsOpen = true;
-                roomProperties.IsVisible = true;
+			foreach (string value in BoltScenes.AllScenes)
+			{
+				if (SceneManager.GetActiveScene().name != value)
+				{
+					if (Map == value)
+					{
+						validMap = true;
+						break;
+					}
+				}
+			}
 
-                // If RoomID was not set, create a random one
-                if (RoomID.Length == 0)
-                {
-                    RoomID = Guid.NewGuid().ToString();
-                }
+			if (!validMap)
+			{
+				BoltLog.Error("Invalid configuration: please verify level name");
+				Application.Quit();
+			}
 
-                // Create the Photon Room
-                BoltMatchmaking.CreateSession(
-                    sessionID: RoomID,
-                    token: roomProperties,
-                    sceneToLoad: Map
-                );
-            }
-        }
+			// Start the Server
+			BoltLauncher.StartServer();
+			DontDestroyOnLoad(this);
+		}
 
-        // Use this for initialization
-        void Start()
-        {
-            // Get custom arguments from command line
-            Map = GetArg("-m", "-map") ?? Map;
-            GameType = GetArg("-t", "-gameType") ?? GameType; // ex: get game type from command line
-            RoomID = GetArg("-r", "-room") ?? RoomID;
+		#region Bolt Callbacks
+		public override void BoltStartBegin()
+		{
+			// Register any Protocol Token that are you using
+			BoltNetwork.RegisterTokenClass<PhotonRoomProperties>();
+		}
 
-            // Validate the requested Level
-            var validMap = false;
+		public override void BoltStartDone()
+		{
+			if (BoltNetwork.IsServer)
+			{
+				// Create some room custom properties
+				PhotonRoomProperties roomProperties = new PhotonRoomProperties();
 
-            foreach (string value in BoltScenes.AllScenes)
-            {
-                if (SceneManager.GetActiveScene().name != value)
-                {
-                    if (Map == value)
-                    {
-                        validMap = true;
-                        break;
-                    }
-                }
-            }
+				roomProperties.AddRoomProperty("t", GameType); // ex: game type
+				roomProperties.AddRoomProperty("m", Map); // ex: map id
 
-            if (!validMap)
-            {
-                BoltLog.Error("Invalid configuration: please verify level name");
-                Application.Quit();
-            }
+				roomProperties.IsOpen = true;
+				roomProperties.IsVisible = true;
 
-            // Start the Server
-            BoltLauncher.StartServer();
-            DontDestroyOnLoad(this);
-        }
+				// If RoomID was not set, create a random one
+				if (RoomID.Length == 0)
+				{
+					RoomID = Guid.NewGuid().ToString();
+				}
 
-        /// <summary>
-        /// Utility function to detect if the game instance was started in headless mode.
-        /// </summary>
-        /// <returns><c>true</c>, if headless mode was ised, <c>false</c> otherwise.</returns>
-        public static bool IsHeadlessMode()
-        {
-            return Environment.CommandLine.Contains("-batchmode") && Environment.CommandLine.Contains("-nographics");
-        }
+				// Create the Photon Room
+				BoltMatchmaking.CreateSession(
+						sessionID: RoomID,
+						token: roomProperties,
+						sceneToLoad: Map
+				);
+			}
+		}
+		#endregion
 
-        static string GetArg(params string[] names)
-        {
-            var args = Environment.GetCommandLineArgs();
-            for (int i = 0; i < args.Length; i++)
-            {
-                foreach (var name in names)
-                {
-                    if (args[i] == name && args.Length > i + 1)
-                    {
-                        return args[i + 1];
-                    }
-                }
-            }
+		#region Utils
+		/// <summary>
+		/// Utility function to detect if the game instance was started in headless mode.
+		/// </summary>
+		/// <returns><c>true</c>, if headless mode was ised, <c>false</c> otherwise.</returns>
+		public static bool IsHeadlessMode()
+		{
+			return Environment.CommandLine.Contains("-batchmode") && Environment.CommandLine.Contains("-nographics");
+		}
 
-            return null;
-        }
-    }
+		static string GetArg(params string[] names)
+		{
+			var args = Environment.GetCommandLineArgs();
+			for (int i = 0; i < args.Length; i++)
+			{
+				foreach (var name in names)
+				{
+					if (args[i] == name && args.Length > i + 1)
+					{
+						return args[i + 1];
+					}
+				}
+			}
+
+			return null;
+		}
+		#endregion
+	}
 }

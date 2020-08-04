@@ -1,68 +1,66 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Linq;
 
 namespace Bolt.Samples.GettingStarted
 {
-public class InteractiveBehavior : Bolt.EntityBehaviour<IInteractiveState>
-{
-	[Range(2, 10)]
-	public int interactiveRadius;
-
-	private Color activeColor;
-	private Color normalColor;
-
-	private void Awake()
+	public class InteractiveBehavior : Bolt.EntityBehaviour<IInteractiveState>
 	{
-		activeColor = Color.blue;
-		normalColor = GetComponent<Renderer>().material.color;
-	}
+		[Range(2, 10)]
+		public int interactiveRadius;
 
-	public override void Attached()
-	{
-		state.SetTransforms(state.Transform, transform);
+		private Color activeColor;
+		private Color normalColor;
 
-		if (entity.IsOwner)
+		private void Awake()
 		{
-			state.Color = normalColor;
+			activeColor = Color.blue;
+			normalColor = GetComponent<Renderer>().material.color;
 		}
 
-		state.AddCallback("Color", () =>
+		public override void Attached()
 		{
-			GetComponent<MeshRenderer>().material.color = state.Color;
-		});
-	}
+			state.SetTransforms(state.Transform, transform);
 
-	private void Update()
-	{
-		if (entity.IsAttached && entity.IsOwner)
-		{
-			var nearbyPlayer = (from player in GameObject.FindGameObjectsWithTag("Player")
-									where Vector3.Distance(transform.position, player.transform.position) < interactiveRadius
-									select player).FirstOrDefault();
-
-			if (nearbyPlayer != null)
-			{
-				// var robot = nearbyPlayer.GetComponent<RobotBehavior>();
-				// if (robot != null)
-				// {
-				// 	robot.AddBox(entity);
-				// }
-
-				state.Color = activeColor;
-			}
-			else
+			if (entity.IsOwner)
 			{
 				state.Color = normalColor;
 			}
+
+			state.AddCallback("Color", () =>
+			{
+				GetComponent<MeshRenderer>().material.color = state.Color;
+			});
+		}
+
+		private void Update()
+		{
+			if (entity.IsAttached && entity.IsOwner)
+			{
+				var nearbyPlayer = (from player in GameObject.FindGameObjectsWithTag("Player")
+														where Vector3.Distance(transform.position, player.transform.position) < interactiveRadius
+														select player).FirstOrDefault();
+
+				if (nearbyPlayer != null)
+				{
+					// var robot = nearbyPlayer.GetComponent<RobotBehavior>();
+					// if (robot != null)
+					// {
+					// 	robot.AddBox(entity);
+					// }
+
+					state.Color = activeColor;
+				}
+				else
+				{
+					state.Color = normalColor;
+				}
+			}
+		}
+
+		private void OnDrawGizmos()
+		{
+			Gizmos.color = Color.yellow;
+			Gizmos.DrawWireSphere(transform.position, interactiveRadius);
 		}
 	}
-
-	private void OnDrawGizmos()
-	{
-		Gizmos.color = Color.yellow;
-		Gizmos.DrawWireSphere(transform.position, interactiveRadius);
-	}
-}
 }

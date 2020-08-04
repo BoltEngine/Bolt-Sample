@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace Bolt.Samples.GettingStarted
 {
-	[BoltGlobalBehaviour(BoltNetworkModes.Server, "Tutorial1")]
+	[BoltGlobalBehaviour(BoltNetworkModes.Server, "Tutorial1_Game")]
 	public class GS_ServerCallbacks : Bolt.GlobalEventListener
 	{
 		public override void Connected(BoltConnection connection)

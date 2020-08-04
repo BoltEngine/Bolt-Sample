@@ -80,7 +80,7 @@ namespace Bolt.Samples.GettingStarted
 
 				BoltMatchmaking.CreateSession(
 					sessionID: matchName,
-					sceneToLoad: "Tutorial1",
+					sceneToLoad: "Tutorial1_Game",
 					token: props
 				);
 			}

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace FailedToJoin
 {
-	[BoltGlobalBehaviour(BoltNetworkModes.Server, "Game")]
+	[BoltGlobalBehaviour(BoltNetworkModes.Server, "Sample1x1_Game")]
 	public class ServerCallbacks : Bolt.GlobalEventListener
 	{
 		bool full;

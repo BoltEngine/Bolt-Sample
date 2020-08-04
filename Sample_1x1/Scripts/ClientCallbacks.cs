@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 namespace FailedToJoin
 {
-	[BoltGlobalBehaviour(BoltNetworkModes.Client, "Game")]
+	[BoltGlobalBehaviour(BoltNetworkModes.Client, "Sample1x1_Game")]
 	public class ClientCallbacks : Bolt.GlobalEventListener
 	{
 		public override void SceneLoadLocalDone(string scene, IProtocolToken token)

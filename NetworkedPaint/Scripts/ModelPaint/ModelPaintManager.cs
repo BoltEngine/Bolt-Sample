@@ -1,0 +1,122 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class ModelPaintManager : MonoBehaviour
+{
+	public Renderer Renderer;
+	public Texture2D BrushTexture;
+
+	private Camera _cam;
+	private Texture2D _texture;
+	private Texture2D _originalTexture;
+	private TextureManager _brushTextureManager;
+
+	private Color _currentColor;
+
+	void Awake()
+	{
+		// Subscribe to color changes
+		BrokerSystem.OnColorPicker += OnColorChanged;
+	}
+
+	void Start()
+	{
+		Debug.Log("Starting Manager");
+		_cam = Camera.main;
+
+		// Brush
+		_brushTextureManager = new TextureManager(BrushTexture);
+		Debug.LogFormat("Loading Brush with size: {0}:{1}", _brushTextureManager.Width, _brushTextureManager.Height);
+
+		SetupTextureReferences();
+
+		// Set starting color
+		Invoke("SetupCurrentColor", 1f);
+	}
+
+	void OnDisable()
+	{
+		BrokerSystem.OnColorPicker -= OnColorChanged;
+	}
+
+	void Update()
+	{
+		if (_brushTextureManager != null)
+		{
+			if (Input.mouseScrollDelta.y > 0)
+			{
+				_brushTextureManager.Scale += 0.1f;
+				Debug.LogFormat("Set Scale to {0}", _brushTextureManager.Scale);
+			}
+			else if (Input.mouseScrollDelta.y < 0)
+			{
+				_brushTextureManager.Scale -= 0.1f;
+				Debug.LogFormat("Set Scale to {0}", _brushTextureManager.Scale);
+			}
+		}
+
+		if (_cam == null || !Input.GetMouseButton(0))
+			return;
+
+		RaycastHit hit;
+		if (Physics.Raycast(_cam.ScreenPointToRay(Input.mousePosition), out hit) == false)
+			return;
+
+		if (hit.transform.Equals(transform))
+		{
+			Paint(hit);
+		}
+	}
+
+	private void SetupTextureReferences()
+	{
+		var baseTexture = Renderer.material.mainTexture as Texture2D;
+		_texture = new Texture2D(baseTexture.width, baseTexture.height, baseTexture.format, false);
+		_originalTexture = new Texture2D(baseTexture.width, baseTexture.height, baseTexture.format, false);
+
+		Graphics.CopyTexture(baseTexture, _texture);
+		Graphics.CopyTexture(baseTexture, _originalTexture);
+
+		Renderer.material.mainTexture = _texture;
+		Debug.LogFormat("Loading Base Texture with size: {0}:{1}", _texture.width, _texture.height);
+	}
+
+	private void Paint(RaycastHit hit)
+	{
+		Vector2 pixelUV = hit.textureCoord;
+		pixelUV.x *= _texture.width;
+		pixelUV.y *= _texture.height;
+
+		for (int i = 0; i < _brushTextureManager.Width; i++)
+		{
+			for (int j = 0; j < _brushTextureManager.Height; j++)
+			{
+				if (_brushTextureManager.GetPixel(i, j).a > 0.5)
+				{
+					var x = (int) pixelUV.x - (_brushTextureManager.Width / 2) + i;
+					var y = (int) pixelUV.y - (_brushTextureManager.Height / 2) + j;
+
+					if (x >= 0 && y >= 0 && x < _texture.width && y < _texture.height)
+					{
+						_texture.SetPixel(x, y, _currentColor);
+					}
+				}
+			}
+		}
+
+		_texture.Apply();
+	}
+
+	private void OnColorChanged(Color newColor)
+	{
+		_currentColor = newColor;
+		Debug.LogFormat("Color changed to {0}", _currentColor);
+	}
+
+	private void SetupCurrentColor()
+	{
+		BrokerSystem.PublishColorPicker(Color.white);
+	}
+}

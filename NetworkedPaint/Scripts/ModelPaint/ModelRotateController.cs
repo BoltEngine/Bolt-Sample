@@ -1,56 +1,44 @@
-﻿using UnityEngine;
+using UnityEngine;
+using UnityEngine.Serialization;
 
-public class ModelRotateController : MonoBehaviour
+public class ModelRotateController : Bolt.EntityBehaviour<ICharacterPaintState>
 {
-	public float RotateSpeed = 10;
-	public bool Control = false;
+	[FormerlySerializedAs("_rotateSpeed")] [SerializeField] private float rotateSpeed = 10;
 
 	private Quaternion _targetRotation = Quaternion.identity;
-	private float AjustSpeed = 0.8f;
+	private readonly float _ajustSpeed = 0.8f;
 
-	/// <summary>
-	/// Start is called on the frame when a script is enabled just before
-	/// any of the Update methods is called the first time.
-	/// </summary>
-	void Start()
+	public override void Attached()
 	{
-		if (Control == false)
-		{
-			BrokerSystem.OnCharacterRorationChanged += OnCharacterRorationChanged;
-		}
-	}
+		state.AddCallback("Rotation", OnRotationChanged);
 
-	/// <summary>
-	/// This function is called when the behaviour becomes disabled or inactive.
-	/// </summary>
-	void OnDisable()
-	{
-		if (Control == false)
-		{
-			BrokerSystem.OnCharacterRorationChanged -= OnCharacterRorationChanged;
-		}
+		Debug.Log("ModelRotateController attached");
 	}
 
 	void Update()
 	{
-		if (Control && Input.GetMouseButton(1))
+		if (entity.IsControlled && Input.GetMouseButton(1))
 		{
-			var x = (Input.GetAxis("Mouse Y") * RotateSpeed * Time.deltaTime);
-			var y = -(Input.GetAxis("Mouse X") * RotateSpeed * Time.deltaTime);
-
-			transform.Rotate(x, y, 0, Space.World);
-
-			BrokerSystem.PublishCharacterRoration(transform.rotation);
+			RotateCharacter();
 		}
 
-		if (Control == false && _targetRotation != Quaternion.identity)
+		if (entity.IsControlled == false && _targetRotation != Quaternion.identity)
 		{
-			transform.rotation = Quaternion.Lerp(transform.rotation, _targetRotation, Time.deltaTime * AjustSpeed);
+			transform.rotation = Quaternion.Lerp(transform.rotation, _targetRotation, Time.deltaTime * _ajustSpeed);
 		}
 	}
 
-	private void OnCharacterRorationChanged(Quaternion newRotation)
+	private void RotateCharacter()
 	{
-		_targetRotation = newRotation;
+		var x = (Input.GetAxis("Mouse Y") * rotateSpeed * Time.deltaTime);
+		var y = -(Input.GetAxis("Mouse X") * rotateSpeed * Time.deltaTime);
+
+		transform.Rotate(x, y, 0, Space.World);
+	}
+
+	// State Callbacks
+	public void OnRotationChanged()
+	{
+		_targetRotation = state.Rotation;
 	}
 }

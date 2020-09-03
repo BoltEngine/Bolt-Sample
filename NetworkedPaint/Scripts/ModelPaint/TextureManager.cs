@@ -14,41 +14,33 @@ public class TextureManager
 		}
 	}
 
-	public int Height
-	{
-		get { return (int) (this.baseTexture.height * Scale); }
-	}
-
-	public int Width
-	{
-		get { return (int) (this.baseTexture.width * Scale); }
-	}
-
-	private readonly Texture2D baseTexture;
-	private int OriginalHeight { get { return this.baseTexture.height; } }
-	private int OriginalWidth { get { return this.baseTexture.width; } }
+	public int Height { get { return (int) (this._baseTexture.height * Scale); } }
+	public int Width { get { return (int) (this._baseTexture.width * Scale); } }
+	private int OriginalHeight { get { return this._baseTexture.height; } }
+	private int OriginalWidth { get { return this._baseTexture.width; } }
 	private float _scale;
+	private readonly Texture2D _baseTexture;
+
+	public TextureManager(Texture2D baseTexture)
+	{
+		this._baseTexture = baseTexture;
+		this.Scale = 1;
+	}
 
 	public Color GetPixel(int x, int y)
 	{
 		x = (int) ScaleValues(0, Width, 0, OriginalWidth, x);
 		y = (int) ScaleValues(0, Height, 0, OriginalHeight, y);
 
-		return this.baseTexture.GetPixel(x, y);
+		return this._baseTexture.GetPixel(x, y);
 	}
 
-	public TextureManager(Texture2D baseTexture)
+	private static float ScaleValues(float oldMin, float oldMax, float newMin, float newMax, float oldValue)
 	{
-		this.baseTexture = baseTexture;
-		this.Scale = 1;
-	}
+		float oldRange = (oldMax - oldMin);
+		float newRange = (newMax - newMin);
+		float newValue = (((oldValue - oldMin) * newRange) / oldRange) + newMin;
 
-	private float ScaleValues(float OldMin, float OldMax, float NewMin, float NewMax, float OldValue)
-	{
-		float OldRange = (OldMax - OldMin);
-		float NewRange = (NewMax - NewMin);
-		float NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin;
-
-		return (NewValue);
+		return (newValue);
 	}
 }

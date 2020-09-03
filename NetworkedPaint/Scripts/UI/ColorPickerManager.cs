@@ -6,7 +6,7 @@ public class ColorPickerManager : MonoBehaviour, IPointerClickHandler
 {
 	public void OnPointerClick(PointerEventData eventData)
 	{
-		Vector2 localCursor = new Vector2(0, 0);
+		Vector2 localCursor;
 		var image = GetComponent<RawImage>();
 
 		if (RectTransformUtility.ScreenPointToLocalPointInRectangle(image.rectTransform, eventData.pressPosition, eventData.pressEventCamera, out localCursor))

@@ -10,7 +10,7 @@ public class CurrentColorController : MonoBehaviour
 
 	void Awake()
 	{
-		BrokerSystem.OnColorPicker += OnColorChanged;
+		BrokerSystem.OnColorChanged += OnColorChanged;
 	}
 
 	void Start()
@@ -20,7 +20,7 @@ public class CurrentColorController : MonoBehaviour
 
 	void OnDisable()
 	{
-		BrokerSystem.OnColorPicker -= OnColorChanged;
+		BrokerSystem.OnColorChanged -= OnColorChanged;
 	}
 
 	private void OnColorChanged(Color newColor)

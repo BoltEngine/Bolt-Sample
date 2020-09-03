@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Bolt.Matchmaking;
@@ -11,18 +11,6 @@ public class CharacterPaintMenu : Bolt.GlobalEventListener
 	{
 		Application.targetFrameRate = 60;
 		BoltLauncher.SetUdpPlatform(new PhotonPlatform());
-	}
-
-	// Use this for initialization
-	void Start()
-	{
-
-	}
-
-	// Update is called once per frame
-	void Update()
-	{
-
 	}
 
 	public void StartServer()
@@ -55,8 +43,6 @@ public class CharacterPaintMenu : Bolt.GlobalEventListener
 
 	public override void SessionConnectFailed(UdpKit.UdpSession session, Bolt.IProtocolToken token, UdpKit.UdpSessionError errorReason)
 	{
-		
-
 		// switch (errorReason)
 		// {
 		// 	case UdpKit.UdpSessionError.GameDoesNotExist:

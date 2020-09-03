@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using UdpKit;
 using UnityEngine;
 
-[BoltGlobalBehaviour("NetworkedPaint_Menu", "NetworkedPaint_Game")]
-public class CharacterPaintChannelManager : Bolt.GlobalEventListener
+namespace Bolt.Samples.NetworkPaintStreamSample.Network
 {
-	private const string TextureTransmitChannelName = "TextureTransmitChannel";
-	private UdpKit.UdpChannelName _textureTransmitChannel;
-
-	public override void BoltStartBegin()
+	[BoltGlobalBehaviour("NetworkedPaint_Menu", "NetworkedPaint_Game")]
+	public class CharacterPaintChannelManager : Bolt.GlobalEventListener
 	{
-		// Define Reliable Channel
-		BoltNetwork.CreateStreamChannel(TextureTransmitChannelName, UdpChannelMode.Reliable, 1);
+		private const string TextureTransmitChannelName = "TextureTransmitChannel";
+		private UdpKit.UdpChannelName _textureTransmitChannel;
+
+		public override void BoltStartBegin()
+		{
+			// Define Reliable Channel
+			BoltNetwork.CreateStreamChannel(TextureTransmitChannelName, UdpChannelMode.Reliable, 1);
+		}
 	}
 }

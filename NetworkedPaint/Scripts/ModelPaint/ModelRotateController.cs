@@ -1,44 +1,48 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class ModelRotateController : Bolt.EntityBehaviour<ICharacterPaintState>
+namespace Bolt.Samples.NetworkPaintStreamSample.Core
 {
-	[FormerlySerializedAs("_rotateSpeed")] [SerializeField] private float rotateSpeed = 10;
-
-	private Quaternion _targetRotation = Quaternion.identity;
-	private readonly float _ajustSpeed = 0.8f;
-
-	public override void Attached()
+	public class ModelRotateController : Bolt.EntityBehaviour<ICharacterPaintState>
 	{
-		state.AddCallback("Rotation", OnRotationChanged);
+		[FormerlySerializedAs("_rotateSpeed")] [SerializeField]
+		private float rotateSpeed = 10;
 
-		Debug.Log("ModelRotateController attached");
-	}
+		private Quaternion _targetRotation = Quaternion.identity;
+		private readonly float _ajustSpeed = 0.8f;
 
-	void Update()
-	{
-		if (entity.IsControlled && Input.GetMouseButton(1))
+		public override void Attached()
 		{
-			RotateCharacter();
+			state.AddCallback("Rotation", OnRotationChanged);
+
+			Debug.Log("ModelRotateController attached");
 		}
 
-		if (entity.IsControlled == false && _targetRotation != Quaternion.identity)
+		void Update()
 		{
-			transform.rotation = Quaternion.Lerp(transform.rotation, _targetRotation, Time.deltaTime * _ajustSpeed);
+			if (entity.IsControlled && Input.GetMouseButton(1))
+			{
+				RotateCharacter();
+			}
+
+			if (entity.IsControlled == false && _targetRotation != Quaternion.identity)
+			{
+				transform.rotation = Quaternion.Lerp(transform.rotation, _targetRotation, Time.deltaTime * _ajustSpeed);
+			}
 		}
-	}
 
-	private void RotateCharacter()
-	{
-		var x = (Input.GetAxis("Mouse Y") * rotateSpeed * Time.deltaTime);
-		var y = -(Input.GetAxis("Mouse X") * rotateSpeed * Time.deltaTime);
+		private void RotateCharacter()
+		{
+			var x = (Input.GetAxis("Mouse Y") * rotateSpeed * Time.deltaTime);
+			var y = -(Input.GetAxis("Mouse X") * rotateSpeed * Time.deltaTime);
 
-		transform.Rotate(x, y, 0, Space.World);
-	}
+			transform.Rotate(x, y, 0, Space.World);
+		}
 
-	// State Callbacks
-	public void OnRotationChanged()
-	{
-		_targetRotation = state.Rotation;
+		// State Callbacks
+		public void OnRotationChanged()
+		{
+			_targetRotation = state.Rotation;
+		}
 	}
 }

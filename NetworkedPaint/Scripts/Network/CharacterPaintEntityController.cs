@@ -2,20 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterPaintEntityController : Bolt.EntityEventListener<ICharacterPaintState>
+namespace Bolt.Samples.NetworkPaintStreamSample.Network
 {
-	public override void Attached()
+	public class CharacterPaintEntityController : Bolt.EntityEventListener<ICharacterPaintState>
 	{
-		BrokerSystem.PublishAddOtherCharacter(gameObject);
-	}
+		public override void Attached()
+		{
+			BrokerSystem.PublishAddOtherCharacter(gameObject);
+		}
 
-	public override void SimulateOwner()
-	{
-		state.Rotation = this.transform.localRotation;
-	}
+		public override void SimulateOwner()
+		{
+			state.Rotation = this.transform.localRotation;
+		}
 
-	public override void ControlGained()
-	{
-		BrokerSystem.PublishNewMainCharacter(gameObject);
+		public override void ControlGained()
+		{
+			BrokerSystem.PublishNewMainCharacter(gameObject);
+		}
 	}
 }

@@ -3,28 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Image))]
-public class CurrentColorController : MonoBehaviour
+namespace Bolt.Samples.NetworkPaintStreamSample.UI
 {
-	private Image _image;
-
-	void Awake()
+	[RequireComponent(typeof(Image))]
+	public class CurrentColorController : MonoBehaviour
 	{
-		BrokerSystem.OnColorChanged += OnColorChanged;
-	}
+		private Image _image;
 
-	void Start()
-	{
-		_image = GetComponent<Image>();
-	}
+		void Awake()
+		{
+			BrokerSystem.OnColorChanged += OnColorChanged;
+		}
 
-	void OnDisable()
-	{
-		BrokerSystem.OnColorChanged -= OnColorChanged;
-	}
+		void Start()
+		{
+			_image = GetComponent<Image>();
+		}
 
-	private void OnColorChanged(Color newColor)
-	{
-		_image.color = newColor;
+		void OnDisable()
+		{
+			BrokerSystem.OnColorChanged -= OnColorChanged;
+		}
+
+		private void OnColorChanged(Color newColor)
+		{
+			_image.color = newColor;
+		}
 	}
 }

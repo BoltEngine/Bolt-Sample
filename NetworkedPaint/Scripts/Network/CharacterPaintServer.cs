@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using Bolt;
 using UnityEngine;
 
-[BoltGlobalBehaviour(BoltNetworkModes.Server, "NetworkedPaint_Game")]
-public class CharacterPaintServer : Bolt.GlobalEventListener
+namespace Bolt.Samples.NetworkPaintStreamSample.Network
 {
-	public override void SceneLoadLocalDone(string scene, Bolt.IProtocolToken token)
+	[BoltGlobalBehaviour(BoltNetworkModes.Server, "NetworkedPaint_Game")]
+	public class CharacterPaintServer : Bolt.GlobalEventListener
 	{
-		var entity = BoltNetwork.Instantiate(BoltPrefabs.CharacterPainter);
-		entity.TakeControl();
+		public override void SceneLoadLocalDone(string scene, Bolt.IProtocolToken token)
+		{
+			var entity = BoltNetwork.Instantiate(BoltPrefabs.CharacterPainter);
+			entity.TakeControl();
+		}
 	}
 }

@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace Bolt.Samples.NetworkPaintStreamSample.Network
+﻿namespace Bolt.Samples.NetworkPaintStreamSample.Network
 {
 	[BoltGlobalBehaviour(BoltNetworkModes.Client, "NetworkedPaint_Game")]
 	public class CharacterPaintClient : Bolt.GlobalEventListener

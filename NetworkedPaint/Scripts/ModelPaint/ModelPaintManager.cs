@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Bolt.Samples.NetworkPaintStreamSample.Core
 {
-	public class ModelPaintManager : MonoBehaviour
+	public class ModelPaintManager : Bolt.EntityBehaviour<ICharacterPaintState>
 	{
 		public Renderer Renderer;
 		public Texture2D BrushTexture;
@@ -20,7 +17,7 @@ namespace Bolt.Samples.NetworkPaintStreamSample.Core
 
 		private readonly object _textureLock = new object();
 		private bool _textureChanged = false;
-		private int _updateRate = 60 * 3 * 1000; // every 3 secs
+		private readonly int _updateRate = 5; // every 3 secs
 		private float _timeCounter = 0;
 
 		void Awake()
@@ -31,12 +28,11 @@ namespace Bolt.Samples.NetworkPaintStreamSample.Core
 
 		void Start()
 		{
-			Debug.Log("Starting Manager");
 			_cam = Camera.main;
 
 			// Brush
 			_brushTextureManager = new TextureManager(BrushTexture);
-			Debug.LogFormat("Loading Brush with size: {0}:{1}", _brushTextureManager.Width, _brushTextureManager.Height);
+			// Debug.LogFormat("Loading Brush with size: {0}:{1}", _brushTextureManager.Width, _brushTextureManager.Height);
 
 			SetupTextureReferences();
 
@@ -44,35 +40,31 @@ namespace Bolt.Samples.NetworkPaintStreamSample.Core
 			Invoke("SetupCurrentColor", 1f);
 		}
 
-		void OnDisable()
+		public override void Attached()
+		{
+			if (entity.IsOwner == false)
+			{
+				BrokerSystem.OnTextureChanged += OnTextureChangedFromRemote;
+			}
+		}
+
+		private void OnDestroy()
 		{
 			BrokerSystem.OnColorChanged -= OnColorChanged;
+			BrokerSystem.OnTextureChanged -= OnTextureChangedFromRemote;
 		}
 
 		void Update()
 		{
-			if (_brushTextureManager != null)
-			{
-				if (Input.mouseScrollDelta.y > 0)
-				{
-					_brushTextureManager.Scale += 0.1f;
-					Debug.LogFormat("Set Scale to {0}", _brushTextureManager.Scale);
-				}
-				else if (Input.mouseScrollDelta.y < 0)
-				{
-					_brushTextureManager.Scale -= 0.1f;
-					Debug.LogFormat("Set Scale to {0}", _brushTextureManager.Scale);
-				}
-			}
+			if (entity.IsOwner == false || _cam == null) { return; }
 
-			if (_cam == null || !Input.GetMouseButton(0))
-				return;
+			// Change Brush Size
+			// ChangeBrushSize();
 
 			RaycastHit hit;
-			if (Physics.Raycast(_cam.ScreenPointToRay(Input.mousePosition), out hit) == false)
-				return;
-
-			if (hit.transform.Equals(transform))
+			if (Input.GetMouseButton(0) && // If mouse is pressed
+			    Physics.Raycast(_cam.ScreenPointToRay(Input.mousePosition), out hit) && // If we hit something
+			    hit.transform.Equals(transform)) // if something is this transform
 			{
 				Paint(hit);
 			}
@@ -100,7 +92,6 @@ namespace Bolt.Samples.NetworkPaintStreamSample.Core
 			}
 
 			Renderer.material.mainTexture = _texture;
-			Debug.LogFormat("Loading Base Texture with size: {0}:{1}", _texture.width, _texture.height);
 		}
 
 		private void Paint(RaycastHit hit)
@@ -123,13 +114,25 @@ namespace Bolt.Samples.NetworkPaintStreamSample.Core
 							if (x >= 0 && y >= 0 && x < _texture.width && y < _texture.height)
 							{
 								_texture.SetPixel(x, y, _currentColor);
+								_textureChanged = true;
 							}
 						}
 					}
 				}
 
+				if (_textureChanged)
+				{
+					_texture.Apply();
+				}
+			}
+		}
+
+		private void ReplaceTexture(Texture2D newTexture)
+		{
+			lock (_textureLock)
+			{
+				_texture.LoadRawTextureData(newTexture.GetRawTextureData());
 				_texture.Apply();
-				_textureChanged = true;
 			}
 		}
 
@@ -138,9 +141,19 @@ namespace Bolt.Samples.NetworkPaintStreamSample.Core
 			lock (_textureLock)
 			{
 				Graphics.CopyTexture(_texture, _transitTexture);
-				BrokerSystem.PublishTexture(_transitTexture);
+
+				// Publish current texture
+				BrokerSystem.PublishTexture(entity.NetworkId, _transitTexture);
 
 				_textureChanged = false;
+			}
+		}
+
+		private void OnTextureChangedFromRemote(NetworkId entityId, Texture2D texture, BoltConnection origin)
+		{
+			if (entity.NetworkId.Equals((entityId)))
+			{
+				ReplaceTexture(texture);
 			}
 		}
 
@@ -152,6 +165,23 @@ namespace Bolt.Samples.NetworkPaintStreamSample.Core
 		private void SetupCurrentColor()
 		{
 			BrokerSystem.PublishColorPicker(Color.white);
+		}
+
+		private void ChangeBrushSize()
+		{
+			if (_brushTextureManager != null)
+			{
+				if (Input.mouseScrollDelta.y > 0)
+				{
+					_brushTextureManager.Scale += 0.1f;
+					// Debug.LogFormat("Set Scale to {0}", _brushTextureManager.Scale);
+				}
+				else if (Input.mouseScrollDelta.y < 0)
+				{
+					_brushTextureManager.Scale -= 0.1f;
+					// Debug.LogFormat("Set Scale to {0}", _brushTextureManager.Scale);
+				}
+			}
 		}
 	}
 }

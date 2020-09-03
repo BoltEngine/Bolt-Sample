@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Bolt.Matchmaking;
 using UdpKit.Platform;
 using UnityEngine;
@@ -41,16 +39,6 @@ namespace Bolt.Samples.NetworkPaintStreamSample.Network
 			{
 				BoltMatchmaking.JoinRandomSession();
 			}
-		}
-
-		public override void SessionConnectFailed(UdpKit.UdpSession session, Bolt.IProtocolToken token,
-			UdpKit.UdpSessionError errorReason)
-		{
-			// switch (errorReason)
-			// {
-			// 	case UdpKit.UdpSessionError.GameDoesNotExist:
-			// 		break;
-			// }
 		}
 	}
 }

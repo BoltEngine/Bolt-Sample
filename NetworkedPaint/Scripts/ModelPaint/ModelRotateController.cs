@@ -9,7 +9,7 @@ namespace Bolt.Samples.NetworkPaintStreamSample.Core
 		private float rotateSpeed = 10;
 
 		private Quaternion _targetRotation = Quaternion.identity;
-		private readonly float _ajustSpeed = 0.8f;
+		private readonly float _ajustSpeed = 1.5f;
 
 		public override void Attached()
 		{

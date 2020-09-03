@@ -26,7 +26,7 @@ namespace Bolt.Samples.NetworkPaintStreamSample.Core
 		public TextureManager(Texture2D baseTexture)
 		{
 			this._baseTexture = baseTexture;
-			this.Scale = 1;
+			this.Scale = 0.5f;
 		}
 
 		public Color GetPixel(int x, int y)

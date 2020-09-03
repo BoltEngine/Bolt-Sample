@@ -10,11 +10,14 @@ namespace Bolt.Samples.NetworkPaintStreamSample
 		public static event Action<GameObject> OnMainCharacterChanged;
 		public static event Action<GameObject> OnAddOtherCharacter;
 		public static event Action<GameObject> OnRemoveOtherCharacter;
-		public static event Action<Texture2D> OnTextureChanged;
+		public static event Action<NetworkId, Texture2D, BoltConnection> OnTextureChanged;
 
-		public static void PublishTexture(Texture2D texture)
+		public static void PublishTexture(NetworkId entityId, Texture2D texture, BoltConnection origin = null)
 		{
-			FireEvent(OnTextureChanged, texture);
+			if (OnTextureChanged != null)
+			{
+				OnTextureChanged.Invoke(entityId, texture, origin);
+			}
 		}
 
 		public static void PublishColorPicker(Color newColor)

@@ -14,7 +14,7 @@ namespace Bolt.Samples.PlayFab
 {
 	/// <summary>
 	/// Bolt Related Calls
-	/// 
+	///
 	/// This class contains the calls and handles to Photon Bolt SDK
 	/// </summary>
 	public partial class PlayFabHeadlessServer
@@ -92,8 +92,8 @@ namespace Bolt.Samples.PlayFab
 				// the binding information provided by PlayFab
 				if (BuildBindingInfo(out BindingInfo info))
 				{
-					// Override the STUN information sent by this peer, in other words, the public IP:PORT of this 
-					// instance. This information is gattered directly from the PlayFab stack, that provides statically
+					// Override the STUN information sent by this peer, in other words, the public IP:PORT of this
+					// instance. This information is gathered directly from the PlayFab stack, that provides statically
 					// the binding data of each Virtual Machine
 					BoltLauncher.SetUdpPlatform(new PhotonPlatform(new PhotonPlatformConfig()
 					{
@@ -103,7 +103,7 @@ namespace Bolt.Samples.PlayFab
 					// Set the Server port using the information from the binding configuration
 					BoltLauncher.StartServer(info.internalServerPort);
 				}
-				else // Shutdow if the binding info was not found
+				else // Shutdown if the binding info was not found
 				{
 					BoltLog.Error(MessageInvalidBinding);
 					OnShutdown();

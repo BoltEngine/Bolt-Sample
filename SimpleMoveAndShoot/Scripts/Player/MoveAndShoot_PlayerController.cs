@@ -15,11 +15,22 @@ namespace Bolt.Samples.MoveAndShoot
 			public bool? _fired;
 		}
 
+		[Serializable]
+		private class WeaponData
+		{
+			public int fireRate;
+			public ParticleSystem fx;
+			public int amount;
+
+			internal int nextFireFrame;
+			internal Action triggerState;
+		}
+
 		[SerializeField] private float moveSpeed = 4f;
 		[SerializeField] private Transform view;
 		[SerializeField] private LayerMask groundMask;
-		[SerializeField] private ParticleSystem fireFxHeal;
-		[SerializeField] private ParticleSystem fireFxDamage;
+		[SerializeField] private WeaponData weaponDamage;
+		[SerializeField] private WeaponData weaponHeal;
 
 		private Camera _camera;
 		private CharacterController _cc;
@@ -46,10 +57,17 @@ namespace Bolt.Samples.MoveAndShoot
 			if (entity.IsOwner)
 			{
 				state.Team = 1;
+				state.Health = 100;
 			}
 
 			state.OnFireDamage += OnFireDamageHandler;
 			state.OnFireHeal += OnFireHeadHandler;
+
+			if (entity.IsControllerOrOwner)
+			{
+				weaponDamage.triggerState = () => { state.FireDamage(); };
+				weaponHeal.triggerState = () => { state.FireHeal(); };
+			}
 		}
 
 		public override void ControlGained()
@@ -121,34 +139,39 @@ namespace Bolt.Samples.MoveAndShoot
 			}
 			else if (fireCommand.IsFirstExecution)
 			{
-				if (fireCommand.Input.Type)
-				{
-					state.FireDamage();
-				}
-				else
-				{
-					state.FireHeal();
-				}
+				var inputType = fireCommand.Input.Type;
+				var weapon = inputType ? weaponDamage : weaponHeal;
 
-				if (entity.IsOwner)
+				if (weapon.nextFireFrame <= BoltNetwork.ServerFrame)
 				{
-					var fireOrigin = (fireCommand.Input.Type ? fireFxDamage : fireFxHeal).transform;
-					Vector3 pos = fireOrigin.position + (fireOrigin.forward * 0.5f);
-					Quaternion look = fireOrigin.rotation;
+					weapon.nextFireFrame = BoltNetwork.ServerFrame + weapon.fireRate;
 
-					// Debug.DrawRay(pos, look * Vector3.forward * 3, Color.yellow);
+					if (weapon.triggerState != null) { weapon.triggerState.Invoke(); }
 
-					using (var hits = BoltNetwork.RaycastAll(new Ray(pos, look * Vector3.forward), fireCommand.ServerFrame))
+					if (entity.IsOwner)
 					{
-						for (int i = 0; i < hits.count; ++i)
-						{
-							var hit = hits.GetHit(i);
-							var serializer = hit.body.GetComponent<MoveAndShoot_PlayerController>();
+						var fireOrigin = weapon.fx.transform;
+						var fireOriginForward = fireOrigin.forward;
+						Vector3 pos = fireOrigin.position + (fireOriginForward * 0.5f);
+						// Quaternion look = fireOrigin.rotation;
 
-							if (serializer != null)
+						Debug.DrawRay(pos, fireOriginForward * 10, Color.yellow);
+
+						using (var hits = BoltNetwork.RaycastAll(new Ray(pos, fireOriginForward), fireCommand.ServerFrame))
+						{
+							BoltLog.Warn("Hits: {0}", hits.count);
+
+							for (int i = 0; i < hits.count; ++i)
 							{
-								BoltLog.Info("Hit {0}", serializer.entity.NetworkId);
-								// serializer.ApplyDamage (controller.activeWeapon.damagePerBullet);
+								var hit = hits.GetHit(i);
+								var serializer = hit.body.GetComponent<MoveAndShoot_PlayerController>();
+
+								if (serializer != null)
+								{
+									BoltLog.Warn("HIT: {0}", serializer.entity.NetworkId);
+
+									HitHandler(serializer.entity, weapon.amount);
+								}
 							}
 						}
 					}
@@ -163,17 +186,28 @@ namespace Bolt.Samples.MoveAndShoot
 
 		private void OnFireDamageHandler()
 		{
-			if (fireFxDamage != null)
-			{
-				fireFxDamage.Play();
-			}
+			if (weaponDamage.fx != null) { weaponDamage.fx.Play(); }
 		}
 
 		private void OnFireHeadHandler()
 		{
-			if (fireFxHeal != null)
+			if (weaponHeal.fx != null) { weaponHeal.fx.Play(); }
+		}
+
+		private void HitHandler(BoltEntity entity, int weaponAmount)
+		{
+			if (entity.IsOwner)
 			{
-				fireFxHeal.Play();
+				BoltLog.Info("Hit {0} with {1}", entity.NetworkId, weaponAmount);
+
+				// Get Player State
+				var moveAndShootPlayerState = entity.GetState<IMoveAndShootPlayer>();
+
+				// Get Current Health and Apply weapon change
+				var targetHealth = moveAndShootPlayerState.Health + weaponAmount;
+
+				// Clamp result value a put back on the state
+				moveAndShootPlayerState.Health = Mathf.Clamp(targetHealth, 0, 100);
 			}
 		}
 

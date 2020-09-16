@@ -8,9 +8,9 @@ namespace Bolt.Samples.MoveAndShoot
 	{
 		private struct PlayerInput
 		{
-			public Vector3 _dir;
-			public float _angle;
-			public bool? _fired;
+			public Vector3 Dir;
+			public float Angle;
+			public bool? Fired;
 		}
 
 		[Serializable]
@@ -19,9 +19,10 @@ namespace Bolt.Samples.MoveAndShoot
 			public int fireRate;
 			public ParticleSystem fx;
 			public int amount;
+			public float maxEffectRange;
 
-			internal int nextFireFrame;
-			internal Action triggerState;
+			internal int NextFireFrame;
+			internal Action TriggerState;
 		}
 
 		[SerializeField] private float moveSpeed = 4f;
@@ -63,8 +64,8 @@ namespace Bolt.Samples.MoveAndShoot
 
 			if (entity.IsControllerOrOwner)
 			{
-				weaponDamage.triggerState = () => { state.FireDamage(); };
-				weaponHeal.triggerState = () => { state.FireHeal(); };
+				weaponDamage.TriggerState = () => { state.FireDamage(); };
+				weaponHeal.TriggerState = () => { state.FireHeal(); };
 			}
 		}
 
@@ -77,20 +78,20 @@ namespace Bolt.Samples.MoveAndShoot
 		{
 			var cmd = MoveAndShootMoveCommand.Create();
 
-			cmd.Direction = _input._dir;
-			cmd.Yaw = _input._angle;
+			cmd.Direction = _input.Dir;
+			cmd.Yaw = _input.Angle;
 
 			entity.QueueInput(cmd);
 
-			if (_input._fired.HasValue)
+			if (_input.Fired.HasValue)
 			{
 				var fireCommandInput = MoveAndShootFireCommand.Create();
-				fireCommandInput.Type = _input._fired.Value;
+				fireCommandInput.Type = _input.Fired.Value;
 
 				entity.QueueInput(fireCommandInput);
 
 				// reset fire input
-				_input._fired = null;
+				_input.Fired = null;
 			}
 		}
 
@@ -140,11 +141,11 @@ namespace Bolt.Samples.MoveAndShoot
 				var inputType = fireCommand.Input.Type;
 				var weapon = inputType ? weaponDamage : weaponHeal;
 
-				if (weapon.nextFireFrame <= BoltNetwork.ServerFrame)
+				if (weapon.NextFireFrame <= BoltNetwork.ServerFrame)
 				{
-					weapon.nextFireFrame = BoltNetwork.ServerFrame + weapon.fireRate;
+					weapon.NextFireFrame = BoltNetwork.ServerFrame + weapon.fireRate;
 
-					if (weapon.triggerState != null) { weapon.triggerState.Invoke(); }
+					if (weapon.TriggerState != null) { weapon.TriggerState.Invoke(); }
 
 					if (entity.IsOwner)
 					{
@@ -152,16 +153,23 @@ namespace Bolt.Samples.MoveAndShoot
 						var fireOriginForward = fireOrigin.forward;
 						Vector3 pos = fireOrigin.position + (fireOriginForward * 0.5f);
 
+						// Debug.DrawLine(pos, pos + (fireOriginForward * weapon.maxEffectRange), Color.red, 0.5f);
+
 						using (var hits = BoltNetwork.RaycastAll(new Ray(pos, fireOriginForward), fireCommand.ServerFrame))
 						{
 							for (int i = 0; i < hits.count; ++i)
 							{
 								var hit = hits.GetHit(i);
-								var serializer = hit.body.GetComponent<MoveAndShoot_PlayerController>();
 
-								if (serializer != null)
+								// Check if weapon can effect at that distance based on the weapon range
+								if (hit.distance <= weapon.maxEffectRange)
 								{
-									HitHandler(serializer.entity, weapon.amount);
+									var serializer = hit.body.GetComponent<MoveAndShoot_PlayerController>();
+
+									if (serializer != null)
+									{
+										HitHandler(serializer.entity, weapon.amount);
+									}
 								}
 							}
 						}
@@ -247,23 +255,23 @@ namespace Bolt.Samples.MoveAndShoot
 
 			if (forward ^ backward)
 			{
-				_input._dir.z = forward ? 1 : -1;
+				_input.Dir.z = forward ? 1 : -1;
 			}
 			else
 			{
-				_input._dir.z = 0;
+				_input.Dir.z = 0;
 			}
 
 			if (left ^ right)
 			{
-				_input._dir.x = right ? 1 : -1;
+				_input.Dir.x = right ? 1 : -1;
 			}
 			else
 			{
-				_input._dir.x = 0;
+				_input.Dir.x = 0;
 			}
 
-			_input._dir.Normalize();
+			_input.Dir.Normalize();
 
 			var ray = _camera.ScreenPointToRay(Input.mousePosition);
 
@@ -272,18 +280,18 @@ namespace Bolt.Samples.MoveAndShoot
 			{
 				var point = hitInfo.point;
 
-				Debug.DrawRay(point, Vector3.up * 10, Color.yellow);
+				// Debug.DrawRay(point, Vector3.up * 10, Color.yellow);
 
 				var origin = transform.localPosition;
 				origin.y = point.y;
 
 				var dir = point - origin;
 
-				_input._angle = Vector3.SignedAngle(Vector3.forward, dir, Vector3.up);
+				_input.Angle = Vector3.SignedAngle(Vector3.forward, dir, Vector3.up);
 
-				if (_input._angle < 0)
+				if (_input.Angle < 0)
 				{
-					_input._angle = 360 + _input._angle;
+					_input.Angle = 360 + _input.Angle;
 				}
 			}
 
@@ -292,7 +300,7 @@ namespace Bolt.Samples.MoveAndShoot
 
 			if (button1 ^ button2)
 			{
-				_input._fired = button1;
+				_input.Fired = button1;
 			}
 		}
 

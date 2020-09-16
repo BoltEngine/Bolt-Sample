@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Bolt.Samples.MoveAndShoot
@@ -153,14 +151,9 @@ namespace Bolt.Samples.MoveAndShoot
 						var fireOrigin = weapon.fx.transform;
 						var fireOriginForward = fireOrigin.forward;
 						Vector3 pos = fireOrigin.position + (fireOriginForward * 0.5f);
-						// Quaternion look = fireOrigin.rotation;
-
-						Debug.DrawRay(pos, fireOriginForward * 10, Color.yellow);
 
 						using (var hits = BoltNetwork.RaycastAll(new Ray(pos, fireOriginForward), fireCommand.ServerFrame))
 						{
-							BoltLog.Warn("Hits: {0}", hits.count);
-
 							for (int i = 0; i < hits.count; ++i)
 							{
 								var hit = hits.GetHit(i);
@@ -168,8 +161,6 @@ namespace Bolt.Samples.MoveAndShoot
 
 								if (serializer != null)
 								{
-									BoltLog.Warn("HIT: {0}", serializer.entity.NetworkId);
-
 									HitHandler(serializer.entity, weapon.amount);
 								}
 							}
@@ -194,21 +185,21 @@ namespace Bolt.Samples.MoveAndShoot
 			if (weaponHeal.fx != null) { weaponHeal.fx.Play(); }
 		}
 
-		private void HitHandler(BoltEntity entity, int weaponAmount)
+		private void HitHandler(BoltEntity targetEntity, int weaponAmount)
 		{
-			if (entity.IsOwner)
-			{
-				BoltLog.Info("Hit {0} with {1}", entity.NetworkId, weaponAmount);
+			// If we are not the owner if the target entity, just return, we can do nothing
+			if (targetEntity.IsOwner == false) { return; }
 
-				// Get Player State
-				var moveAndShootPlayerState = entity.GetState<IMoveAndShootPlayer>();
+			BoltLog.Info("Hit {0} with {1}", targetEntity.NetworkId, weaponAmount);
 
-				// Get Current Health and Apply weapon change
-				var targetHealth = moveAndShootPlayerState.Health + weaponAmount;
+			// Get Player State
+			var moveAndShootPlayerState = targetEntity.GetState<IMoveAndShootPlayer>();
 
-				// Clamp result value a put back on the state
-				moveAndShootPlayerState.Health = Mathf.Clamp(targetHealth, 0, 100);
-			}
+			// Get Current Health and Apply weapon change
+			var targetHealth = moveAndShootPlayerState.Health + weaponAmount;
+
+			// Clamp result value a put back on the state
+			moveAndShootPlayerState.Health = Mathf.Clamp(targetHealth, 0, 100);
 		}
 
 		#endregion

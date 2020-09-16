@@ -57,6 +57,7 @@ namespace Bolt.Samples.MoveAndShoot
 			{
 				state.Team = 1;
 				state.Health = 100;
+				state.AddCallback("Health", OnHealthChanged);
 			}
 
 			state.OnFireDamage += OnFireDamageHandler;
@@ -191,16 +192,28 @@ namespace Bolt.Samples.MoveAndShoot
 			if (weaponHeal.fx != null) { weaponHeal.fx.Play(); }
 		}
 
+		private void OnHealthChanged()
+		{
+			// Dead
+			if (entity.IsOwner && state.Health <= 0)
+			{
+
+			}
+		}
+
 		private void HitHandler(BoltEntity targetEntity, int weaponAmount)
 		{
 			// If we are not the owner if the target entity, just return, we can do nothing
 			if (targetEntity.IsOwner == false) { return; }
-			if (targetEntity.Equals(entity)) { return; }
 
-			BoltLog.Info("Hit {0} with {1}", targetEntity.NetworkId, weaponAmount);
+			// Ignore if we try to hit ourself
+			if (targetEntity.Equals(entity)) { return; }
 
 			// Get Player State
 			var moveAndShootPlayerState = targetEntity.GetState<IMoveAndShootPlayer>();
+
+			// Ignore if is the same Team
+			if (moveAndShootPlayerState.Team == state.Team) { return; }
 
 			// Get Current Health and Apply weapon change
 			var targetHealth = moveAndShootPlayerState.Health + weaponAmount;

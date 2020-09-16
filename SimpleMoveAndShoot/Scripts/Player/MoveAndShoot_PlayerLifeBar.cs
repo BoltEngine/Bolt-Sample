@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace Bolt.Samples.MoveAndShoot
@@ -9,6 +6,9 @@ namespace Bolt.Samples.MoveAndShoot
 	public class MoveAndShoot_PlayerLifeBar : Bolt.EntityBehaviour<IMoveAndShootPlayer>
 	{
 		[SerializeField] private Image lifeBar;
+		[SerializeField] private Image teamFlag;
+		[SerializeField] private Color teamA;
+		[SerializeField] private Color teamB;
 
 		private Camera _main;
 
@@ -20,11 +20,21 @@ namespace Bolt.Samples.MoveAndShoot
 		public override void Attached()
 		{
 			state.AddCallback("Health", OnHealthChanged);
+			state.AddCallback("Team", OnTeamChanged);
 		}
 
 		private void LateUpdate()
 		{
 			transform.LookAt(_main.transform);
+		}
+
+		private void OnTeamChanged()
+		{
+			if (teamFlag != null)
+			{
+				var color = state.Team == 1 ? teamA : teamB;
+				teamFlag.GetComponent<Image>().color = color;
+			}
 		}
 
 		private void OnHealthChanged()

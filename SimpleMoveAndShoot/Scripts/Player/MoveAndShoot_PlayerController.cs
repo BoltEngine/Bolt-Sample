@@ -153,8 +153,6 @@ namespace Bolt.Samples.MoveAndShoot
 						var fireOriginForward = fireOrigin.forward;
 						Vector3 pos = fireOrigin.position + (fireOriginForward * 0.5f);
 
-						// Debug.DrawLine(pos, pos + (fireOriginForward * weapon.maxEffectRange), Color.red, 0.5f);
-
 						using (var hits = BoltNetwork.RaycastAll(new Ray(pos, fireOriginForward), fireCommand.ServerFrame))
 						{
 							for (int i = 0; i < hits.count; ++i)
@@ -197,6 +195,7 @@ namespace Bolt.Samples.MoveAndShoot
 		{
 			// If we are not the owner if the target entity, just return, we can do nothing
 			if (targetEntity.IsOwner == false) { return; }
+			if (targetEntity.Equals(entity)) { return; }
 
 			BoltLog.Info("Hit {0} with {1}", targetEntity.NetworkId, weaponAmount);
 
@@ -305,5 +304,24 @@ namespace Bolt.Samples.MoveAndShoot
 		}
 
 		#endregion
+
+		private void OnDrawGizmos()
+		{
+			// Draw Damage Range
+			var fireOrigin = weaponDamage.fx.transform;
+			var fireOriginForward = fireOrigin.forward;
+			Vector3 pos = fireOrigin.position + (fireOriginForward * 0.5f);
+
+			Gizmos.color = Color.red;
+			Gizmos.DrawLine(pos, pos + (fireOriginForward * weaponDamage.maxEffectRange));
+
+			// Draw Heal Range
+			fireOrigin = weaponHeal.fx.transform;
+			fireOriginForward = fireOrigin.forward;
+			pos = fireOrigin.position + (fireOriginForward * 0.5f);
+
+			Gizmos.color = Color.green;
+			Gizmos.DrawLine(pos, pos + (fireOriginForward * weaponHeal.maxEffectRange));
+		}
 	}
 }

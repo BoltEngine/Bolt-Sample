@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Bolt.Samples.MoveAndShoot
@@ -14,12 +15,20 @@ namespace Bolt.Samples.MoveAndShoot
 		}
 
 		[Serializable]
+		public enum WeaponType
+		{
+			HEAL,
+			DAMAGE
+		}
+
+		[Serializable]
 		private class WeaponData
 		{
-			public int fireRate;
 			public ParticleSystem fx;
-			public int amount;
+			public int fireRate;
 			public float maxEffectRange;
+			public int amount;
+			public WeaponType type;
 
 			internal int NextFireFrame;
 			internal Action TriggerState;
@@ -38,6 +47,8 @@ namespace Bolt.Samples.MoveAndShoot
 
 		private PlayerInput _input;
 
+		private static int _lastTeam = 2;
+
 		private void Awake()
 		{
 			_cc = GetComponent<CharacterController>();
@@ -55,9 +66,11 @@ namespace Bolt.Samples.MoveAndShoot
 
 			if (entity.IsOwner)
 			{
-				state.Team = 1;
+				state.Team = _lastTeam == 2 ? 1 : 2; // toggle between teams
 				state.Health = 100;
 				state.AddCallback("Health", OnHealthChanged);
+
+				_lastTeam = state.Team;
 			}
 
 			state.OnFireDamage += OnFireDamageHandler;
@@ -77,6 +90,9 @@ namespace Bolt.Samples.MoveAndShoot
 
 		public override void SimulateController()
 		{
+			// If player is "dead" ignore inputs
+			if (state.Health <= 0) { return; }
+
 			var cmd = MoveAndShootMoveCommand.Create();
 
 			cmd.Direction = _input.Dir;
@@ -167,7 +183,7 @@ namespace Bolt.Samples.MoveAndShoot
 
 									if (serializer != null)
 									{
-										HitHandler(serializer.entity, weapon.amount);
+										HitHandler(serializer.entity, weapon.amount, weapon.type);
 									}
 								}
 							}
@@ -197,11 +213,25 @@ namespace Bolt.Samples.MoveAndShoot
 			// Dead
 			if (entity.IsOwner && state.Health <= 0)
 			{
-
+				BoltLog.Warn("Player is dead: {0}", entity.NetworkId);
+				StartCoroutine(RespawnRoutine());
 			}
 		}
 
-		private void HitHandler(BoltEntity targetEntity, int weaponAmount)
+		private IEnumerator RespawnRoutine()
+		{
+			if (entity.IsOwner && state.Health <= 0)
+			{
+				yield return new WaitForSeconds(3);
+
+				SetState(SpawnPointsManager.GetSpawnPosition(), Vector3.zero, 0);
+				state.Health = 100;
+
+				BoltLog.Warn("Player respawn: {0}", entity.NetworkId);
+			}
+		}
+
+		private void HitHandler(BoltEntity targetEntity, int weaponAmount, WeaponType weaponType)
 		{
 			// If we are not the owner if the target entity, just return, we can do nothing
 			if (targetEntity.IsOwner == false) { return; }
@@ -211,12 +241,28 @@ namespace Bolt.Samples.MoveAndShoot
 
 			// Get Player State
 			var moveAndShootPlayerState = targetEntity.GetState<IMoveAndShootPlayer>();
+			var healthChange = 0;
 
-			// Ignore if is the same Team
-			if (moveAndShootPlayerState.Team == state.Team) { return; }
+			switch (weaponType)
+			{
+				case WeaponType.HEAL:
+					// Ignore if is the other Team
+					if (moveAndShootPlayerState.Team != state.Team) { return; }
+
+					// Increase health
+					healthChange = weaponAmount;
+					break;
+				case WeaponType.DAMAGE:
+					// Ignore if is the same Team
+					if (moveAndShootPlayerState.Team == state.Team) { return; }
+
+					// Decrease health
+					healthChange = -weaponAmount;
+					break;
+			}
 
 			// Get Current Health and Apply weapon change
-			var targetHealth = moveAndShootPlayerState.Health + weaponAmount;
+			var targetHealth = moveAndShootPlayerState.Health + healthChange;
 
 			// Clamp result value a put back on the state
 			moveAndShootPlayerState.Health = Mathf.Clamp(targetHealth, 0, 100);

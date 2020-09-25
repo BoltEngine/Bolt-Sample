@@ -306,6 +306,8 @@ namespace Bolt.Samples.MoveAndShoot
 
 		private void PollInput()
 		{
+			_input.Dir = Vector3.zero;
+
 			var forward = Input.GetKey(KeyCode.W);
 			var backward = Input.GetKey(KeyCode.S);
 			var left = Input.GetKey(KeyCode.A);
@@ -315,18 +317,10 @@ namespace Bolt.Samples.MoveAndShoot
 			{
 				_input.Dir.z = forward ? 1 : -1;
 			}
-			else
-			{
-				_input.Dir.z = 0;
-			}
 
 			if (left ^ right)
 			{
 				_input.Dir.x = right ? 1 : -1;
-			}
-			else
-			{
-				_input.Dir.x = 0;
 			}
 
 			_input.Dir.Normalize();

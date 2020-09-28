@@ -8,7 +8,7 @@ namespace Bolt.Samples.Photon.Lobby
 
 		public override void Attached()
 		{
-			BoltConsole.Write("Attached BomberPlayer");
+			BoltLog.Info("Attached BomberPlayer");
 
 			state.SetTransforms(state.Transform, transform);
 
@@ -30,12 +30,12 @@ namespace Bolt.Samples.Photon.Lobby
 
 		public override void Initialized()
 		{
-			BoltConsole.Write("Initialized BomberPlayer");
+			BoltLog.Info("Initialized BomberPlayer");
 		}
 
 		public override void ControlGained()
 		{
-			BoltConsole.Write("ControlGained BomberPlayerController", Color.blue);
+			BoltLog.Info("ControlGained BomberPlayerController", Color.blue);
 		}
 
 		public override void SimulateOwner()
@@ -58,7 +58,7 @@ namespace Bolt.Samples.Photon.Lobby
 
 		private void Setup(string playerName, Color playerColor)
 		{
-			BoltConsole.Write("Setup BomberPlayer");
+			BoltLog.Info("Setup BomberPlayer");
 
 			if (entity.IsOwner)
 			{

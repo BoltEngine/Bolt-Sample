@@ -40,11 +40,11 @@ namespace Bolt.AdvancedTutorial
 
 		public override void ConnectRequest(UdpKit.UdpEndPoint endpoint, Bolt.IProtocolToken token)
 		{
-			BoltConsole.Write("ConnectRequest", Color.red);
+			BoltLog.Warn("ConnectRequest");
 
 			if (token != null)
 			{
-				BoltConsole.Write("Token Received", Color.red);
+				BoltLog.Info("Token Received");
 			}
 
 			BoltNetwork.Accept(endpoint);
@@ -52,31 +52,31 @@ namespace Bolt.AdvancedTutorial
 
 		public override void ConnectAttempt(UdpEndPoint endpoint, IProtocolToken token)
 		{
-			BoltConsole.Write("ConnectAttempt", Color.red);
+			BoltLog.Warn("ConnectAttempt");
 			base.ConnectAttempt(endpoint, token);
 		}
 
 		public override void Disconnected(BoltConnection connection)
 		{
-			BoltConsole.Write("Disconnected", Color.red);
+			BoltLog.Warn("Disconnected");
 			base.Disconnected(connection);
 		}
 
 		public override void ConnectRefused(UdpEndPoint endpoint, IProtocolToken token)
 		{
-			BoltConsole.Write("ConnectRefused", Color.red);
+			BoltLog.Warn("ConnectRefused");
 			base.ConnectRefused(endpoint, token);
 		}
 
 		public override void ConnectFailed(UdpEndPoint endpoint, IProtocolToken token)
 		{
-			BoltConsole.Write("ConnectFailed", Color.red);
+			BoltLog.Warn("ConnectFailed");
 			base.ConnectFailed(endpoint, token);
 		}
 
 		public override void Connected(BoltConnection connection)
 		{
-			BoltConsole.Write("Connected", Color.red);
+			BoltLog.Warn("Connected");
 
 			connection.UserData = new Player();
 			connection.GetPlayer().connection = connection;

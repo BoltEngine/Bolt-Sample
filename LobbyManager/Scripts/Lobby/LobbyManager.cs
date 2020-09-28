@@ -257,12 +257,12 @@ namespace Bolt.Samples.Photon.Lobby
         {
             if (BoltNetwork.IsClient)
             {
-                BoltConsole.Write(string.Format("Connected Client: {0}", connection), Color.blue);
+                BoltLog.Info("Connected Client: {0}", connection);
                 ClientConnectedUIHandler();
             }
             else if (BoltNetwork.IsServer)
             {
-                BoltConsole.Write(string.Format("Connected Server: {0}", connection), Color.blue);
+                BoltLog.Info("Connected Server: {0}", connection);
 
                 var entity = BoltNetwork.Instantiate(BoltPrefabs.PlayerInfo);
                 entity.AssignControl(connection);

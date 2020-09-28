@@ -5,10 +5,9 @@ namespace Bolt.Samples.Photon.Lobby
 	[BoltGlobalBehaviour("PhotonGame")]
 	public class PhotonGameSceneController : Bolt.GlobalEventListener
 	{
-
 		public override void SceneLoadLocalDone(string scene, IProtocolToken token)
 		{
-			BoltConsole.Write("Spawn Player on map " + scene, Color.yellow);
+			BoltLog.Warn("Spawn Player on map {0}", scene);
 			BomberPlayerController.Spawn();
 		}
 	}

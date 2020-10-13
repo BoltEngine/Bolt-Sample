@@ -1,32 +1,37 @@
 ﻿using System;
 using Bolt.Matchmaking;
+using Photon.Realtime;
 using UdpKit;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Bolt.Samples.MoveAndShoot
 {
-	public class MyCustomToken : PooledProtocolToken
+	public class HitInfo : PooledProtocolToken
 	{
-		public String Name;
+		public Vector3 hitPosition;
+		public bool hitType;
 
 		public override void Read(UdpPacket packet)
 		{
-			Name = packet.ReadString();
-
-
+			hitPosition.x = packet.ReadFloat();
+			hitPosition.y = packet.ReadFloat();
+			hitPosition.z = packet.ReadFloat();
+			hitType = packet.ReadBool();
 		}
 
 		public override void Write(UdpPacket packet)
 		{
-			packet.WriteString(Name);
-
-			// packet.WriteByteArray();
+			packet.WriteFloat(hitPosition.x);
+			packet.WriteFloat(hitPosition.y);
+			packet.WriteFloat(hitPosition.z);
+			packet.WriteBool(hitType);
 		}
 
 		public override void Reset()
 		{
-			Name = default(string);
+			hitPosition = Vector3.zero;
+			hitType = false;
 		}
 	}
 
@@ -69,14 +74,14 @@ namespace Bolt.Samples.MoveAndShoot
 
 		public override void BoltStartBegin()
 		{
-			BoltNetwork.RegisterTokenClass<MyCustomToken>();
+			BoltNetwork.RegisterTokenClass<HitInfo>();
 		}
 
 		public override void BoltStartDone()
 		{
 			if (BoltNetwork.IsServer)
 			{
-				var id = Guid.NewGuid().ToString().Split('-')[0];
+				var id = Guid.NewGuid().ToString().Split('-') [0];
 				var matchName = string.Format("{0} - {1}", id, gameLevel);
 
 				BoltMatchmaking.CreateSession(

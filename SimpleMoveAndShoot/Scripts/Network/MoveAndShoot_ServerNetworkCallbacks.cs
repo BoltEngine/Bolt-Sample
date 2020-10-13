@@ -10,6 +10,7 @@ namespace Bolt.Samples.MoveAndShoot
 		{
 			var entity = BoltNetwork.Instantiate(BoltPrefabs.MoveAndShootPlayer, SpawnPointsManager.GetSpawnPosition(),
 				Quaternion.identity);
+
 			entity.TakeControl();
 		}
 
@@ -17,6 +18,7 @@ namespace Bolt.Samples.MoveAndShoot
 		{
 			var entity = BoltNetwork.Instantiate(BoltPrefabs.MoveAndShootPlayer, SpawnPointsManager.GetSpawnPosition(),
 				Quaternion.identity);
+
 			entity.AssignControl(connection);
 		}
 	}

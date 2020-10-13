@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Bolt.AdvancedTutorial;
 using UnityEngine;
 
 namespace Bolt.Samples.MoveAndShoot
@@ -170,7 +171,8 @@ namespace Bolt.Samples.MoveAndShoot
 						var fireOriginForward = fireOrigin.forward;
 						Vector3 pos = fireOrigin.position + (fireOriginForward * 0.5f);
 
-						using (var hits = BoltNetwork.RaycastAll(new Ray(pos, fireOriginForward), fireCommand.ServerFrame))
+						Ray ray = new Ray(pos, fireOriginForward);
+						using (var hits = BoltNetwork.RaycastAll(ray, fireCommand.ServerFrame))
 						{
 							for (int i = 0; i < hits.count; ++i)
 							{
@@ -183,7 +185,8 @@ namespace Bolt.Samples.MoveAndShoot
 
 									if (serializer != null)
 									{
-										HitHandler(serializer.entity, weapon.amount, weapon.type);
+										// Hit Point
+										HitHandler(serializer.entity, weapon.amount, weapon.type, ray.GetPoint(hit.distance));
 									}
 								}
 							}
@@ -231,7 +234,7 @@ namespace Bolt.Samples.MoveAndShoot
 			}
 		}
 
-		private void HitHandler(BoltEntity targetEntity, int weaponAmount, WeaponType weaponType)
+		private void HitHandler(BoltEntity targetEntity, int weaponAmount, WeaponType weaponType, Vector3 hit)
 		{
 			// If we are not the owner if the target entity, just return, we can do nothing
 			if (targetEntity.IsOwner == false) { return; }
@@ -266,6 +269,13 @@ namespace Bolt.Samples.MoveAndShoot
 
 			// Clamp result value a put back on the state
 			moveAndShootPlayerState.Health = Mathf.Clamp(targetHealth, 0, 100);
+
+			// Send FX Event
+			var hitInfoToken = ProtocolTokenUtils.GetToken<HitInfo>();
+			hitInfoToken.hitPosition = hit;
+			hitInfoToken.hitType = healthChange > 0;
+
+			MoveAndShootHitEvent.Post(GlobalTargets.Everyone, ReliabilityModes.ReliableOrdered, hitInfoToken);
 		}
 
 		#endregion
@@ -331,8 +341,6 @@ namespace Bolt.Samples.MoveAndShoot
 			if (Physics.Raycast(ray, out hitInfo, 100, groundMask))
 			{
 				var point = hitInfo.point;
-
-				// Debug.DrawRay(point, Vector3.up * 10, Color.yellow);
 
 				var origin = transform.localPosition;
 				origin.y = point.y;

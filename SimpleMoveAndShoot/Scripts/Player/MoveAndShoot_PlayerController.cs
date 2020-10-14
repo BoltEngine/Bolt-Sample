@@ -47,6 +47,7 @@ namespace Bolt.Samples.MoveAndShoot
 		private Vector3 _localVelocity;
 
 		private PlayerInput _input;
+		private bool _autoFire;
 
 		private static int _lastTeam = 2;
 
@@ -58,6 +59,8 @@ namespace Bolt.Samples.MoveAndShoot
 
 		private void Update()
 		{
+			if (entity.IsControlled == false) { return; }
+
 			PollInput();
 		}
 
@@ -172,7 +175,7 @@ namespace Bolt.Samples.MoveAndShoot
 						Vector3 pos = fireOrigin.position + (fireOriginForward * 0.5f);
 
 						Ray ray = new Ray(pos, fireOriginForward);
-						using (var hits = BoltNetwork.RaycastAll(ray, fireCommand.ServerFrame))
+						using(var hits = BoltNetwork.RaycastAll(ray, fireCommand.ServerFrame))
 						{
 							for (int i = 0; i < hits.count; ++i)
 							{
@@ -355,7 +358,12 @@ namespace Bolt.Samples.MoveAndShoot
 				}
 			}
 
-			var button1 = Input.GetMouseButton(0);
+			if (Input.GetKeyDown(KeyCode.F))
+			{
+				_autoFire = !_autoFire;
+			}
+
+			var button1 = Input.GetMouseButton(0) || _autoFire;
 			var button2 = Input.GetMouseButton(1);
 
 			if (button1 ^ button2)

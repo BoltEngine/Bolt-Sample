@@ -8,8 +8,11 @@ using UnityEngine;
 
 public class StreamReliableData : Bolt.GlobalEventListener
 {
-	[Range(1, 5000)]
-	public int size = 1;
+	[Range(1, 2048)]
+	public int size = 2048;
+
+	private int targetBandwidth = 100;
+	private float timestamp = 0;
 
 	private UdpChannelName testChannel;
 
@@ -44,7 +47,7 @@ public class StreamReliableData : Bolt.GlobalEventListener
 
 	public override void Connected(BoltConnection connection)
 	{
-		connection.SetStreamBandwidth(1024 * 500);
+		connection.SetStreamBandwidth(1024 * targetBandwidth);
 	}
 
 	public override void SessionListUpdated(Map<Guid, UdpSession> sessionList)
@@ -68,8 +71,23 @@ public class StreamReliableData : Bolt.GlobalEventListener
 			{
 				GUILayout.BeginHorizontal(GUILayout.Width(Screen.width));
 				{
-					size = (int)GUILayout.HorizontalSlider(size, 1, 5000);
+					size = (int) GUILayout.HorizontalSlider(size, 1, 2048);
 					GUILayout.Label(size.ToString());
+				}
+				GUILayout.EndHorizontal();
+
+				GUILayout.BeginHorizontal(GUILayout.Width(Screen.width));
+				{
+					var lastValue = targetBandwidth;
+
+					targetBandwidth = (int) GUILayout.HorizontalSlider(targetBandwidth, 1, 1000);
+					GUILayout.Label(targetBandwidth.ToString());
+
+					if (lastValue != targetBandwidth)
+					{
+						BoltNetwork.Server.SetStreamBandwidth(1024 * targetBandwidth);
+						lastValue = targetBandwidth;
+					}
 				}
 				GUILayout.EndHorizontal();
 
@@ -80,7 +98,9 @@ public class StreamReliableData : Bolt.GlobalEventListener
 						canSend = false;
 						GenerateData();
 
-						BoltLog.Info("Sending data with hash {0}...", hash);
+						timestamp = Time.time;
+
+						BoltLog.Info("Sending data with hash {0} at {1}", hash, timestamp);
 						BoltNetwork.Server.StreamBytes(testChannel, data);
 					}
 					else
@@ -96,11 +116,13 @@ public class StreamReliableData : Bolt.GlobalEventListener
 	public override void StreamDataStarted(BoltConnection connection, UdpChannelName channel, ulong streamID)
 	{
 		BoltLog.Warn("Connection {0} is transfering data on channel {1} :: Transfer {2}...", connection, channel, streamID);
+
+		timestamp = Time.time;
 	}
 
 	public override void StreamDataProgress(BoltConnection connection, UdpChannelName channel, ulong streamID, float progress)
 	{
-		BoltLog.Info("[{3}%] Connection {0} is transfering data on channel {1} :: Transfer ID {2}", connection, channel, streamID, (int)(progress * 100));
+		BoltLog.Info("[{3}%] Connection {0} is transfering data on channel {1} :: Transfer ID {2}", connection, channel, streamID, (int) (progress * 100));
 	}
 
 	public override void StreamDataAborted(BoltConnection connection, UdpChannelName channel, ulong streamID)
@@ -110,8 +132,11 @@ public class StreamReliableData : Bolt.GlobalEventListener
 
 	public override void StreamDataReceived(BoltConnection connection, UdpStreamData data)
 	{
+		var diff = Time.time - timestamp;
+		timestamp = 0;
+
 		string localHash = CreateHash(data.Data);
-		BoltLog.Info("Received data from channel {0}: {1} bytes [{2}] [{3}]", data.Channel, data.Data.Length, localHash, connection);
+		BoltLog.Info("Received data from channel {0}: {1} bytes [{2}] [{3}] in {4}", data.Channel, data.Data.Length, localHash, connection, diff);
 
 		var evt = DataStreamCheck.Create(connection, ReliabilityModes.ReliableOrdered);
 		evt.hash = localHash;
@@ -122,7 +147,9 @@ public class StreamReliableData : Bolt.GlobalEventListener
 	{
 		if (evnt.hash.Equals(hash))
 		{
-			BoltLog.Info("Other end received data: it's EQUAL");
+			var diff = Time.time - timestamp;
+			timestamp = 0;
+			BoltLog.Info("Other end received data: it's EQUAL in {0}secs", diff);
 		}
 		else
 		{
@@ -153,7 +180,7 @@ public class StreamReliableData : Bolt.GlobalEventListener
 	private string CreateHash(byte[] data)
 	{
 		string hash;
-		using (SHA1CryptoServiceProvider sha1 = new SHA1CryptoServiceProvider())
+		using(SHA1CryptoServiceProvider sha1 = new SHA1CryptoServiceProvider())
 		{
 			hash = Convert.ToBase64String(sha1.ComputeHash(data));
 		}

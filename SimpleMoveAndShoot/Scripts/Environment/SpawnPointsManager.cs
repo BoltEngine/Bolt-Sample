@@ -22,7 +22,7 @@ namespace Bolt.Samples.MoveAndShoot
 		{
 			var position = Vector3.zero;
 
-			if (_instance.spawnPoints != null && _instance.spawnPoints.Length > 0)
+			if (_instance != null && _instance.spawnPoints != null && _instance.spawnPoints.Length > 0)
 			{
 				var pos = Random.Range(0, _instance.spawnPoints.Length);
 				position = _instance.spawnPoints[pos].position;

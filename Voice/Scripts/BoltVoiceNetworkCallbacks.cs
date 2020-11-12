@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Bolt;
 
 namespace Bolt.Samples.Voice
 {
@@ -10,8 +7,8 @@ namespace Bolt.Samples.Voice
 	{
 		public override void SceneLoadLocalDone(string scene, IProtocolToken token)
 		{
+			// Create a new Bolt Voice Player
 			var entity = BoltNetwork.Instantiate(BoltPrefabs.BoltVoicePlayer, Vector3.up, Quaternion.identity);
-			entity.TakeControl();
 		}
 	}
 }

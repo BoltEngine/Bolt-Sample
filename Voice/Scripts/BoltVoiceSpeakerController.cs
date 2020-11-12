@@ -2,8 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoltVoiceSpeakerController : MonoBehaviour
+namespace Bolt.Samples.Voice
 {
-	public int PlayerID;
-
+	/// <summary>
+	/// Just Holds the Player ID for a Speaker
+	/// </summary>
+	public class BoltVoiceSpeakerController : MonoBehaviour
+	{
+		public int PlayerID;
+	}
 }

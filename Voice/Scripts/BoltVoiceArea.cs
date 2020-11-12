@@ -2,7 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoltVoiceArea : MonoBehaviour
+namespace Bolt.Samples.Voice
 {
-	public int VoiceGroup;
+	/// <summary>
+	/// This class just holds the Interest Group used to segregate the players into voice buckets
+	/// </summary>
+	public class BoltVoiceArea : MonoBehaviour
+	{
+		public int VoiceGroup;
+	}
 }

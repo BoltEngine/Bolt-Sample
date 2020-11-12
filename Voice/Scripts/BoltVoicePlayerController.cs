@@ -6,18 +6,21 @@ namespace Bolt.Samples.Voice
 {
 	public class BoltVoicePlayerController : Bolt.EntityBehaviour<IVoicePlayer>
 	{
+		// ------------ UNITY MEMBERS ---------------------------------------------------------------------------------------
+
 		[SerializeField] private float Speed = 4f;
 
+		// ------------ PRIVATE MEMBERS -------------------------------------------------------------------------------------
+
 		private bool IsSpeakSetup = false;
+		private const string VoiceAreaTag = "GameController";
 
 		public override void Attached()
 		{
 			state.SetTransforms(state.Transform, transform);
-		}
 
-		public override void ControlGained()
-		{
-			GetComponent<AudioListener>().enabled = true;
+			// Enable the AudioListener only for the local that has created the Entity
+			GetComponent<AudioListener>().enabled = entity.IsOwner;
 		}
 
 		private void Update()
@@ -27,6 +30,8 @@ namespace Bolt.Samples.Voice
 
 		public override void SimulateOwner()
 		{
+			// Super simple movement, just translate the player
+
 			var movement = Vector3.zero;
 
 			if (Input.GetKey(KeyCode.W)) { movement.z += 1; }
@@ -42,12 +47,16 @@ namespace Bolt.Samples.Voice
 
 		#region Utils
 
+		/// <summary>
+		/// Setup the Speaker per Player based on the Voice Player ID that is shared via a Bolt Property to all peers
+		/// </summary>
 		private void SetupSpeaker()
 		{
+			// Ignore if already set
 			if (IsSpeakSetup) { return; }
 
 			// Setup the Voice Player ID on the Bolt Entity
-			if (entity.IsOwner // Only Owner can change the state
+			if (entity.IsOwner// Only Owner can change the state
 				&& state.VoicePlayerID == 0 // 0 mean the entity don't have a Voice ID yet
 				&& BoltVoiceBridge.Instance != null // if Bridge is Ready
 				&& BoltVoiceBridge.Instance.LocalPlayerID != -1 // if the Local Voice Player is connected
@@ -76,11 +85,13 @@ namespace Bolt.Samples.Voice
 
 		private void OnTriggerEnter(Collider other)
 		{
-			if (entity.IsControlled)
+			// If this player enters a Voice Area
+			// gets the Area ID and change it using the BoltVoiceBridge
+			if (entity.IsOwner)
 			{
 				if (BoltVoiceBridge.Instance == null) { return; }
 
-				if (other.CompareTag("Finish"))
+				if (other.CompareTag(VoiceAreaTag))
 				{
 					var voiceArea = other.GetComponent<BoltVoiceArea>();
 
@@ -94,11 +105,12 @@ namespace Bolt.Samples.Voice
 
 		private void OnTriggerExit(Collider other)
 		{
-			if (entity.IsControlled)
+			// Reset the Interest Group when the Player exits one Voice Area
+			if (entity.IsOwner)
 			{
 				if (BoltVoiceBridge.Instance == null) { return; }
 
-				if (other.CompareTag("Finish"))
+				if (other.CompareTag(VoiceAreaTag))
 				{
 					BoltVoiceBridge.Instance.ResetVoiceGroup();
 				}

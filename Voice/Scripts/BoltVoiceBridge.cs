@@ -50,8 +50,8 @@ namespace Bolt.Samples.Voice
 			get
 			{
 				var session = BoltMatchmaking.CurrentSession;
-				var sessionName = session.HostName;
-				return string.Format("{0}_voice", sessionName);
+				var sessionName = session.HostName; // Bolt Session Name
+				return string.Format("{0}_voice", sessionName); // include a '_voice' to create a shadow room
 			}
 		}
 

@@ -89,7 +89,6 @@ namespace Bolt.Samples.Voice
 #if BOLT_VOICE_SAMPLE
 		private void OnTriggerEnter(Collider other)
 		{
-
 			// If this player enters a Voice Area
 			// gets the Area ID and change it using the BoltVoiceBridge
 			if (entity.IsOwner)

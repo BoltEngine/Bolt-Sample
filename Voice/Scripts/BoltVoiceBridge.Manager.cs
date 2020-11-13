@@ -38,10 +38,10 @@ namespace Bolt.Samples.Voice
 			{
 				return new EnterRoomParams
 				{
-					RoomName = RoomName,
+					RoomName = RoomName, // shadow voice room based on the Bolt session name
 					RoomOptions = new RoomOptions()
 					{
-						IsVisible = false,
+						IsVisible = false, // make it invisible, so only players that know this session name can enter
 						PublishUserId = false,
 					}
 				};
@@ -230,6 +230,8 @@ namespace Bolt.Samples.Voice
 		public void OnJoinedRoom()
 		{
 			BoltLog.Info("[BoltVoiceBridge] Joined Room as Player {0}", LocalPlayerID);
+
+			// Reset the Group to the default group
 			ResetVoiceGroup();
 		}
 
@@ -259,6 +261,7 @@ namespace Bolt.Samples.Voice
 
 		public void OnConnectedToMaster()
 		{
+			// Join the shadow room created for this game based on the Bolt session ID
 			this.voiceConnection.Client.OpJoinOrCreateRoom(this.EnterRoomParams);
 		}
 

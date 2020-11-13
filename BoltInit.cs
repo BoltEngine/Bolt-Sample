@@ -10,7 +10,7 @@ namespace Bolt.Samples
 {
 	public class BoltInit : Bolt.GlobalEventListener
 	{
-		enum State
+		private enum State
 		{
 			SelectMode,
 			SelectMap,
@@ -20,11 +20,11 @@ namespace Bolt.Samples
 			Started,
 		}
 
-		Rect labelRoom = new Rect(0, 0, 140, 75);
-		GUIStyle labelRoomStyle;
+		private Rect labelRoom = new Rect(0, 0, 140, 75);
+		private GUIStyle labelRoomStyle;
 
-		State state;
-		string map;
+		private State currentState;
+		private string map;
 
 		void Awake()
 		{
@@ -61,7 +61,7 @@ namespace Bolt.Samples
 
 			GUILayout.BeginArea(area);
 
-			switch (state)
+			switch (currentState)
 			{
 				case State.SelectMode: State_SelectMode(); break;
 				case State.SelectMap: State_SelectMap(); break;
@@ -94,7 +94,7 @@ namespace Bolt.Samples
 						if (ExpandButton(label))
 						{
 							BoltMatchmaking.JoinSession(photonSession);
-							state = State.Started;
+							currentState = State.Started;
 						}
 					}
 				}
@@ -107,11 +107,11 @@ namespace Bolt.Samples
 		{
 			if (ExpandButton("Server"))
 			{
-				state = State.SelectMap;
+				currentState = State.SelectMap;
 			}
 			if (ExpandButton("Client"))
 			{
-				state = State.StartClient;
+				currentState = State.StartClient;
 			}
 		}
 
@@ -126,7 +126,7 @@ namespace Bolt.Samples
 					if (ExpandButton(value))
 					{
 						map = value;
-						state = State.StartServer;
+						currentState = State.StartServer;
 					}
 				}
 			}
@@ -137,13 +137,13 @@ namespace Bolt.Samples
 		void State_StartServer()
 		{
 			BoltLauncher.StartServer();
-			state = State.Started;
+			currentState = State.Started;
 		}
 
 		void State_StartClient()
 		{
 			BoltLauncher.StartClient();
-			state = State.SelectRoom;
+			currentState = State.SelectRoom;
 		}
 
 		public override void BoltStartBegin()
@@ -170,7 +170,7 @@ namespace Bolt.Samples
 		{
 			registerDoneCallback(() =>
 			{
-				state = State.SelectMode;
+				currentState = State.SelectMode;
 			});
 		}
 

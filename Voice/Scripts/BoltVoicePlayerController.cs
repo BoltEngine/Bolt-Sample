@@ -1,5 +1,4 @@
 using System;
-using Photon.Voice.Unity;
 using UnityEngine;
 
 namespace Bolt.Samples.Voice
@@ -12,8 +11,10 @@ namespace Bolt.Samples.Voice
 
 		// ------------ PRIVATE MEMBERS -------------------------------------------------------------------------------------
 
+#if BOLT_VOICE_SAMPLE
 		private bool IsSpeakSetup = false;
 		private const string VoiceAreaTag = "GameController";
+#endif
 
 		public override void Attached()
 		{
@@ -52,6 +53,7 @@ namespace Bolt.Samples.Voice
 		/// </summary>
 		private void SetupSpeaker()
 		{
+#if BOLT_VOICE_SAMPLE
 			// Ignore if already set
 			if (IsSpeakSetup) { return; }
 
@@ -79,12 +81,15 @@ namespace Bolt.Samples.Voice
 					}
 				}
 			}
+#endif
 		}
 
 		#endregion
 
+#if BOLT_VOICE_SAMPLE
 		private void OnTriggerEnter(Collider other)
 		{
+
 			// If this player enters a Voice Area
 			// gets the Area ID and change it using the BoltVoiceBridge
 			if (entity.IsOwner)
@@ -116,5 +121,6 @@ namespace Bolt.Samples.Voice
 				}
 			}
 		}
+#endif
 	}
 }

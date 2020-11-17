@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using Bolt.AdvancedTutorial;
 using UnityEngine;
@@ -43,7 +43,7 @@ namespace Bolt.Samples.MoveAndShoot
 
 		private Camera _camera;
 		private CharacterController _cc;
-		private float _gravityValue = -9.81f * 4;
+		private float _gravityValue = -9.81f;
 		private Vector3 _localVelocity;
 
 		private PlayerInput _input;
@@ -155,7 +155,7 @@ namespace Bolt.Samples.MoveAndShoot
 		{
 			if (reset)
 			{
-				SetState(fireCommand.Result.Position, Vector3.zero, fireCommand.Result.Yaw);
+				SetState(fireCommand.Result.Position, fireCommand.Result.Velocity, fireCommand.Result.Yaw);
 			}
 			else if (fireCommand.IsFirstExecution)
 			{
@@ -197,6 +197,7 @@ namespace Bolt.Samples.MoveAndShoot
 					}
 				}
 
+				fireCommand.Result.Velocity = _cc.velocity;
 				fireCommand.Result.Position = transform.localPosition;
 				fireCommand.Result.Yaw = transform.localRotation.eulerAngles.y;
 			}
@@ -288,11 +289,6 @@ namespace Bolt.Samples.MoveAndShoot
 		private void Move(Vector3 dir, float Yaw, out Vector3 resultPosition, out Vector3 resultVelocity,
 			out float resultYaw)
 		{
-			if (_cc.isGrounded)
-			{
-				_localVelocity.y = 0;
-			}
-
 			// Move
 			var motion = dir * moveSpeed * BoltNetwork.FrameDeltaTime;
 			_cc.Move(motion);
@@ -303,6 +299,11 @@ namespace Bolt.Samples.MoveAndShoot
 
 			transform.localRotation = Quaternion.Euler(0, Yaw, 0);
 
+			if (_cc.isGrounded)
+			{
+				_localVelocity.y = 0; // reset gravity velocity 
+			}
+
 			resultPosition = transform.localPosition;
 			resultVelocity = _cc.velocity;
 			resultYaw = transform.localRotation.eulerAngles.y;
@@ -310,10 +311,12 @@ namespace Bolt.Samples.MoveAndShoot
 
 		private void SetState(Vector3 position, Vector3 velocity, float yaw)
 		{
+			_localVelocity = velocity;
+
 			_cc.enabled = false;
 			transform.localPosition = position;
 			_cc.enabled = true;
-
+			
 			transform.localRotation = Quaternion.Euler(0, yaw, 0);
 		}
 

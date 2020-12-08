@@ -18,6 +18,7 @@ namespace Bolt.Samples.Photon.Lobby
         [SerializeField] private LobbyUIInfoPanel uiInfoPanel;
         [SerializeField] private LobbyUICountdownPanel uiCountdownPanel;
         
+        private bool sceneFlag = false;
         private ILobbyUI _currentPanel;
 
         private void Update()
@@ -158,6 +159,8 @@ namespace Bolt.Samples.Photon.Lobby
 
         public override void SceneLoadLocalDone(string scene, IProtocolToken token)
         {
+            if (scene.Equals("PhotonLobby") && sceneFlag == false) { return; }
+
             BoltLog.Info(string.Format("New scene: {0}", scene));
 
             try
@@ -168,6 +171,7 @@ namespace Bolt.Samples.Photon.Lobby
                     
                     uiTopPanel.HideBackButton();
                     uiTopPanel.SetInGame(false);
+                    sceneFlag = true;
                 }
                 else
                 {
@@ -176,6 +180,7 @@ namespace Bolt.Samples.Photon.Lobby
                     uiTopPanel.SetInGame(true);
                     uiTopPanel.ToggleVisibility(false);
                     uiTopPanel.SetupBackButton("Menu", ShutdownEventHandler);
+                    sceneFlag = false;
                 }
 
             } catch (Exception e)

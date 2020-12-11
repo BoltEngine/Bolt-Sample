@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using UdpKit;
+using Photon.Bolt;
 
 namespace Bolt.Samples.Photon.Lobby
 {
-    public class LobbyUIServerList : Bolt.GlobalEventListener, ILobbyUI
+    public class LobbyUIServerList : GlobalEventListener, ILobbyUI
     {
         [SerializeField] private RectTransform serverListRect;
         [SerializeField] private GameObject serverEntryPrefab;

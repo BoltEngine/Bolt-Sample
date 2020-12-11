@@ -1,4 +1,5 @@
-﻿using Bolt;
+using Bolt;
+using Photon.Bolt;
 using UdpKit;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,7 +7,7 @@ using UnityEngine.SceneManagement;
 namespace Bolt.Samples.GettingStarted
 {
 	[BoltGlobalBehaviour(BoltNetworkModes.Client, "Tutorial1_Game")]
-	public class ClientCallbacks : Bolt.GlobalEventListener
+	public class ClientCallbacks : GlobalEventListener
 	{
 		public override void BoltShutdownBegin(AddCallback registerDoneCallback, UdpConnectionDisconnectReason disconnectReason)
 		{

@@ -1,8 +1,9 @@
+using Photon.Bolt;
 using UnityEngine;
 
 namespace Bolt.Samples.NetworkPaintStreamSample.Core
 {
-	public class ModelPaintManager : Bolt.EntityBehaviour<ICharacterPaintState>
+	public class ModelPaintManager : EntityBehaviour<ICharacterPaintState>
 	{
 		public Renderer Renderer;
 		public Texture2D BrushTexture;

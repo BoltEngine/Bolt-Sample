@@ -1,6 +1,7 @@
-using System;
 using System.Collections.Generic;
-using Bolt.Matchmaking;
+using Photon.Bolt;
+using Photon.Bolt.Matchmaking;
+using Photon.Bolt.Utils;
 using UdpKit;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ namespace Bolt.Samples.Voice
 	///
 	/// It will create a new custom speaker when a new player enters the game, making it available for later use.
 	/// </summary>
-	public partial class BoltVoiceBridge : Bolt.GlobalEventListener
+	public partial class BoltVoiceBridge : GlobalEventListener
 	{
 		// ------------ UNITY MEMBERS ---------------------------------------------------------------------------------------
 

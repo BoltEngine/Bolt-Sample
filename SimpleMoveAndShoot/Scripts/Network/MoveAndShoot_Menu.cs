@@ -1,13 +1,12 @@
-﻿using System;
-using Bolt.Matchmaking;
-using Photon.Realtime;
-using UdpKit;
+using System;
+using Photon.Bolt;
+using Photon.Bolt.Matchmaking;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Bolt.Samples.MoveAndShoot
 {
-	public class MoveAndShoot_Menu : Bolt.GlobalEventListener
+	public class MoveAndShoot_Menu : GlobalEventListener
 	{
 		// UI
 		[SerializeField] private Button startServerButton;

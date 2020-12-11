@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
+using Photon.Bolt;
 
 namespace Bolt.AdvancedTutorial
 {
-	public class Elevator : Bolt.EntityBehaviour<IElevatorState>
+	public class Elevator : EntityBehaviour<IElevatorState>
 	{
 		[SerializeField]
 		Vector3 start;

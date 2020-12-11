@@ -1,9 +1,10 @@
-﻿using System;
-using Bolt.Matchmaking;
+using System;
+using Photon.Bolt;
+using Photon.Bolt.Matchmaking;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MultiSceneMenu : Bolt.GlobalEventListener
+public class MultiSceneMenu : GlobalEventListener
 {
 	// UI
 	[SerializeField] private Button _startServerButton;

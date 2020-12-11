@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using Bolt;
+using Photon.Bolt;
 using UnityEngine;
 
-public class TPCspawner : Bolt.GlobalEventListener
+public class TPCspawner : GlobalEventListener
 {
 	// Use this for initialization
 	public override void SceneLoadLocalDone(string scene, IProtocolToken token)

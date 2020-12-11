@@ -2,13 +2,14 @@ using UnityEngine;
 using System;
 using UdpKit;
 using UnityEngine.SceneManagement;
-using Bolt.Matchmaking;
-using Bolt.Photon;
 using UdpKit.Platform.Photon;
+using Photon.Bolt;
+using Photon.Bolt.Matchmaking;
+using Photon.Bolt.Utils;
 
 namespace Bolt.Samples
 {
-	public class BoltInit : Bolt.GlobalEventListener
+	public class BoltInit : GlobalEventListener
 	{
 		private enum State
 		{

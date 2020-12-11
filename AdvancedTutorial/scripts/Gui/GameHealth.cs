@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
+using Photon.Bolt;
 
 namespace Bolt.AdvancedTutorial
 {
-
-	public class GameHealth : Bolt.GlobalEventListener
+	public class GameHealth : GlobalEventListener
 	{
 		BoltEntity me;
 		IPlayerState meState;

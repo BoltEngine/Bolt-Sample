@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections;
+using Photon.Bolt;
 using UnityEngine;
 
 namespace Bolt.AdvancedTutorial
@@ -7,7 +8,7 @@ namespace Bolt.AdvancedTutorial
 	/// <summary>
 	/// 
 	/// </summary>
-	public class TestToken : Bolt.IProtocolToken
+	public class TestToken : IProtocolToken
 	{
 		static int NumberCounter;
 		public int Number = 0;
@@ -17,12 +18,12 @@ namespace Bolt.AdvancedTutorial
 			Number = ++NumberCounter;
 		}
 
-		void Bolt.IProtocolToken.Read(UdpKit.UdpPacket packet)
+		void IProtocolToken.Read(UdpKit.UdpPacket packet)
 		{
 			Number = packet.ReadInt();
 		}
 
-		void Bolt.IProtocolToken.Write(UdpKit.UdpPacket packet)
+		void IProtocolToken.Write(UdpKit.UdpPacket packet)
 		{
 			packet.WriteInt(Number);
 		}

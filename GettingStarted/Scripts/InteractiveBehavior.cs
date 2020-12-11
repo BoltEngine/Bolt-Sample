@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Linq;
+using Photon.Bolt;
 
 namespace Bolt.Samples.GettingStarted
 {
-	public class InteractiveBehavior : Bolt.EntityBehaviour<IInteractiveState>
+	public class InteractiveBehavior : EntityBehaviour<IInteractiveState>
 	{
 		[Range(2, 10)]
 		public int interactiveRadius;

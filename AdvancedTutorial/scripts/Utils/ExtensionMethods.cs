@@ -1,5 +1,6 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
+using Photon.Bolt;
 
 namespace Bolt.AdvancedTutorial
 {

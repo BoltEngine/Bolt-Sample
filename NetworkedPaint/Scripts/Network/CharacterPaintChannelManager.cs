@@ -1,6 +1,7 @@
-﻿using System.IO;
+using System.IO;
 using System.Linq;
-using Bolt.Utils;
+using Photon.Bolt;
+using Photon.Bolt.Utils;
 using UdpKit;
 using UnityEngine;
 
@@ -110,7 +111,7 @@ namespace Bolt.Samples.NetworkPaintStreamSample.Network
 	}
 
 	[BoltGlobalBehaviour("NetworkedPaint_Menu", "NetworkedPaint_Game")]
-	public class CharacterPaintChannelManager : Bolt.GlobalEventListener
+	public class CharacterPaintChannelManager : GlobalEventListener
 	{
 		private const string TextureTransmitChannelName = "TextureTransmitChannel";
 		private UdpKit.UdpChannelName _textureTransmitChannel;

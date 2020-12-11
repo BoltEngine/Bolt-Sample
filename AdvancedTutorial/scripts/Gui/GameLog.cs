@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
+using Photon.Bolt;
+using Photon.Bolt.Collections;
 
 namespace Bolt.AdvancedTutorial
 {
 
-	public class GameLog : Bolt.GlobalEventListener
+	public class GameLog : GlobalEventListener
 	{
 		struct Line
 		{

@@ -1,12 +1,13 @@
-﻿using System;
-using Bolt.Matchmaking;
-using Bolt.Photon;
+using System;
+using Photon.Bolt;
+using Photon.Bolt.Matchmaking;
+using Photon.Bolt.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Bolt.Samples.HeadlessServer
 {
-	public class HeadlessServerManager : Bolt.GlobalEventListener
+	public class HeadlessServerManager : GlobalEventListener
 	{
 		public string Map = "";
 		public string GameType = "";

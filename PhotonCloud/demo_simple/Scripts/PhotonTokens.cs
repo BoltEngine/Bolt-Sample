@@ -1,9 +1,10 @@
-﻿using UdpKit;
+using UdpKit;
 using System;
+using Photon.Bolt;
 
 namespace Bolt.Samples.Photon.Simple
 {
-	public class RoomProtocolToken : Bolt.IProtocolToken
+	public class RoomProtocolToken : IProtocolToken
 	{
 		public String ArbitraryData;
 		public String password;
@@ -21,7 +22,7 @@ namespace Bolt.Samples.Photon.Simple
 		}
 	}
 
-	public class ServerAcceptToken : Bolt.IProtocolToken
+	public class ServerAcceptToken : IProtocolToken
 	{
 		public String data;
 
@@ -36,7 +37,7 @@ namespace Bolt.Samples.Photon.Simple
 		}
 	}
 
-	public class ServerConnectToken : Bolt.IProtocolToken
+	public class ServerConnectToken : IProtocolToken
 	{
 		public String data;
 

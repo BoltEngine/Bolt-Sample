@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Linq;
+using Photon.Bolt;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,17 +16,19 @@ namespace Bolt.Samples.PlayFab
 	/// For more information, look the Photon Bolt PlayFab integration tutorial on the
 	/// Docs Page <see cref="https://doc.photonengine.com/en-us/bolt/current/getting-started/overview"/>
 	/// </summary>
-	public partial class PlayFabHeadlessServer : Bolt.GlobalEventListener
+	public partial class PlayFabHeadlessServer : GlobalEventListener
 	{
 		/// <summary>
 		/// Game Scene to be loaded by the Server
 		/// </summary>
 		[SerializeField] private string GameScene;
 
+#if ENABLE_PLAYFABSERVER_API
 		/// <summary>
 		/// Flag to signal PlayFabMultiplayerAgentAPI to show debug info
 		/// </summary>
 		[SerializeField] private bool Debugging = true;
+#endif
 
 		private HeadlessServerConfig config;
 

@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 
 namespace Bolt.Samples.PlayFab
 {
@@ -7,9 +7,9 @@ namespace Bolt.Samples.PlayFab
 	/// </summary>
 	public partial class PlayFabHeadlessServer
 	{
+#pragma warning disable IDE0051 // Remove unused private members
 		private const string BindingConfigKey = "bolt_server";
 
-#pragma warning disable IDE0051 // Remove unused private members
 		private const string MessageInvalidArguments = "Please verify your execution arguments, this aplication should run in Headless Mode (use args: -batchmode -nographics) and optionally use -map to inform a valid Scene name";
 		private const string MessageInvalidBinding = "Invalid Binding information, please verify your configuration";
 		private const string MessageExceptionServer = "Exception while starting Server";
@@ -22,8 +22,10 @@ namespace Bolt.Samples.PlayFab
 		/// </summary>
 		private class BindingInfo
 		{
+#if ENABLE_PLAYFABSERVER_API
 			public IPEndPoint externalInfo;
 			public int internalServerPort;
+#endif
 		}
 
 		/// <summary>

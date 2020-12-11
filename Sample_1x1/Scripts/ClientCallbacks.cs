@@ -1,6 +1,7 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using Bolt;
+using Photon.Bolt;
 using UdpKit;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,7 +9,7 @@ using UnityEngine.SceneManagement;
 namespace FailedToJoin
 {
 	[BoltGlobalBehaviour(BoltNetworkModes.Client, "Sample1x1_Game")]
-	public class ClientCallbacks : Bolt.GlobalEventListener
+	public class ClientCallbacks : GlobalEventListener
 	{
 		public override void SceneLoadLocalDone(string scene, IProtocolToken token)
 		{
@@ -17,7 +18,7 @@ namespace FailedToJoin
 			Debug.LogFormat("Scene Load Done at {0}", scene);
 		}
 
-		public override void BoltShutdownBegin(Bolt.AddCallback registerDoneCallback, UdpConnectionDisconnectReason disconnectReason)
+		public override void BoltShutdownBegin(AddCallback registerDoneCallback, UdpConnectionDisconnectReason disconnectReason)
 		{
 			registerDoneCallback(() => {
 				SceneManager.LoadScene(0);

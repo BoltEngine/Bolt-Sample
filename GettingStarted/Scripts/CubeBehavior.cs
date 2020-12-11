@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UdpKit.Platform;
+using Photon.Bolt;
 
 namespace Bolt.Samples.GettingStarted
 {
-	public class CubeBehavior : Bolt.EntityEventListener<ICubeState>
+	public class CubeBehavior : EntityEventListener<ICubeState>
 	{
 		public GameObject[] WeaponObjects;
 

@@ -1,4 +1,5 @@
 using System;
+using Photon.Bolt;
 using UnityEngine;
 
 namespace Bolt.Samples.NetworkPaintStreamSample

@@ -1,7 +1,9 @@
-﻿
+
+using Photon.Bolt;
+
 namespace Bolt.Samples.NetworkPaintStreamSample.Network
 {
-	public class CharacterPaintEntityController : Bolt.EntityEventListener<ICharacterPaintState>
+	public class CharacterPaintEntityController : EntityEventListener<ICharacterPaintState>
 	{
 		public override void Attached()
 		{

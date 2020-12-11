@@ -1,8 +1,8 @@
-﻿using Bolt;
+using Photon.Bolt;
 using UnityEngine;
 
 [BoltGlobalBehaviour(BoltNetworkModes.Server | BoltNetworkModes.Client, "InGame_Main")]
-public class MultiSceneCallbacks : Bolt.GlobalEventListener
+public class MultiSceneCallbacks : GlobalEventListener
 {
 	public override void SceneLoadLocalDone(string scene, IProtocolToken token)
 	{

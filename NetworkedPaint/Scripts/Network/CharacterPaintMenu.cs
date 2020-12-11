@@ -1,11 +1,12 @@
 using System;
-using Bolt.Matchmaking;
+using Photon.Bolt;
+using Photon.Bolt.Matchmaking;
 using UdpKit.Platform;
 using UnityEngine;
 
 namespace Bolt.Samples.NetworkPaintStreamSample.Network
 {
-	public class CharacterPaintMenu : Bolt.GlobalEventListener
+	public class CharacterPaintMenu : GlobalEventListener
 	{
 		private void Awake()
 		{

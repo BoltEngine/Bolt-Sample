@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+using Photon.Bolt;
+using Photon.Bolt.Utils;
+using UnityEngine;
 
 namespace Bolt.Samples.Photon.Lobby
 {
-	public class BomberPlayerController : Bolt.EntityBehaviour<IBomberState>
+	public class BomberPlayerController : EntityBehaviour<IBomberState>
 	{
 		public TextMesh playerNameText;
 

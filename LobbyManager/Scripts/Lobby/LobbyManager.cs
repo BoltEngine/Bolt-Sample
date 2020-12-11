@@ -1,7 +1,9 @@
 using System.Collections;
-using Bolt.Matchmaking;
 using Bolt.Samples.Photon.Lobby.Utilities;
 using Bolt.Samples.Photon.Simple;
+using Photon.Bolt;
+using Photon.Bolt.Matchmaking;
+using Photon.Bolt.Utils;
 using UdpKit;
 using UdpKit.Platform;
 using UnityEngine;
@@ -9,283 +11,284 @@ using UnityEngine.SceneManagement;
 
 namespace Bolt.Samples.Photon.Lobby
 {
-    public partial class LobbyManager : Bolt.GlobalEventListener
-    {
-        public static LobbyManager Instance;
+	public partial class LobbyManager : GlobalEventListener
+	{
+		public static LobbyManager Instance;
 
-        [Header("Lobby Configuration", order = 0)]
-        [SerializeField] private SceneField lobbyScene;
-        [SerializeField] private SceneField gameScene;
+		[Header("Lobby Configuration", order = 0)]
+		[SerializeField] private SceneField lobbyScene;
+		[SerializeField] private SceneField gameScene;
 
-        [SerializeField] private int minPlayers = 2;
+		[SerializeField] private int minPlayers = 2;
 
-        [Tooltip("Time in second between all players ready & match start")] [SerializeField]
-        private float prematchCountdown = 5.0f;
+		[Tooltip("Time in second between all players ready & match start")]
+		[SerializeField]
+		private float prematchCountdown = 5.0f;
 
-        private bool isCountdown = false;
-        private string matchName;
-        private bool randomJoin = false;
+		private bool isCountdown = false;
+		private string matchName;
+		private bool randomJoin = false;
 
-        private void Awake()
-        {
-            BoltLauncher.SetUdpPlatform(new PhotonPlatform());
-        }
+		private void Awake()
+		{
+			BoltLauncher.SetUdpPlatform(new PhotonPlatform());
+		}
 
-        public new void OnEnable()
-        {
-            base.OnEnable();
-            
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else if (Instance != this)
-            {
-                Destroy(gameObject);
-            }
+		public new void OnEnable()
+		{
+			base.OnEnable();
 
-            DontDestroyOnLoad(gameObject);
-        }
+			if (Instance == null)
+			{
+				Instance = this;
+			}
+			else if (Instance != this)
+			{
+				Destroy(gameObject);
+			}
 
-        private void Start()
-        {
-            StartUI();
-            StartGamePlay();
-        }
+			DontDestroyOnLoad(gameObject);
+		}
 
-        private void StartGamePlay()
-        {
-            Debug.Log(string.Format("Lobby Scene: {0}", lobbyScene.SimpleSceneName));
-            Debug.Log(string.Format("Game Scene: {0}", gameScene.SimpleSceneName));
-        }
+		private void Start()
+		{
+			StartUI();
+			StartGamePlay();
+		}
 
-        // Game Loop
+		private void StartGamePlay()
+		{
+			Debug.Log(string.Format("Lobby Scene: {0}", lobbyScene.SimpleSceneName));
+			Debug.Log(string.Format("Game Scene: {0}", gameScene.SimpleSceneName));
+		}
 
-        private void FixedUpdate()
-        {
-            if (BoltNetwork.IsServer && isCountdown == false)
-            {
-                VerifyReady();
-            }
-        }
+		// Game Loop
 
-        // Countdown
+		private void FixedUpdate()
+		{
+			if (BoltNetwork.IsServer && isCountdown == false)
+			{
+				VerifyReady();
+			}
+		}
 
-        private void VerifyReady()
-        {
-            var allReady = true;
-            var readyCount = 0;
+		// Countdown
 
-            foreach (var entity in BoltNetwork.Entities)
-            {
-                if (entity.StateIs<ILobbyPlayerInfoState>() == false) continue;
+		private void VerifyReady()
+		{
+			var allReady = true;
+			var readyCount = 0;
 
-                var lobbyPlayer = entity.GetState<ILobbyPlayerInfoState>();
+			foreach (var entity in BoltNetwork.Entities)
+			{
+				if (entity.StateIs<ILobbyPlayerInfoState>() == false) continue;
 
-                allReady &= lobbyPlayer.Ready;
+				var lobbyPlayer = entity.GetState<ILobbyPlayerInfoState>();
 
-                if (allReady == false) break;
-                readyCount++;
-            }
+				allReady &= lobbyPlayer.Ready;
 
-            if (allReady && readyCount >= minPlayers)
-            {
-                isCountdown = true;
-                StartCoroutine(ServerCountdownCoroutine());
-            }
-        }
+				if (allReady == false) break;
+				readyCount++;
+			}
 
-        private IEnumerator ServerCountdownCoroutine()
-        {
-            var remainingTime = prematchCountdown;
-            var floorTime = Mathf.FloorToInt(remainingTime);
+			if (allReady && readyCount >= minPlayers)
+			{
+				isCountdown = true;
+				StartCoroutine(ServerCountdownCoroutine());
+			}
+		}
 
-            LobbyCountdown countdown;
+		private IEnumerator ServerCountdownCoroutine()
+		{
+			var remainingTime = prematchCountdown;
+			var floorTime = Mathf.FloorToInt(remainingTime);
 
-            while (remainingTime > 0)
-            {
-                yield return null;
+			LobbyCountdown countdown;
 
-                remainingTime -= Time.deltaTime;
-                var newFloorTime = Mathf.FloorToInt(remainingTime);
+			while (remainingTime > 0)
+			{
+				yield return null;
 
-                if (newFloorTime != floorTime)
-                {
-                    floorTime = newFloorTime;
+				remainingTime -= Time.deltaTime;
+				var newFloorTime = Mathf.FloorToInt(remainingTime);
 
-                    countdown = LobbyCountdown.Create(GlobalTargets.Everyone);
-                    countdown.Time = floorTime;
-                    countdown.Send();
-                }
-            }
+				if (newFloorTime != floorTime)
+				{
+					floorTime = newFloorTime;
 
-            countdown = LobbyCountdown.Create(GlobalTargets.Everyone);
-            countdown.Time = 0;
-            countdown.Send();
+					countdown = LobbyCountdown.Create(GlobalTargets.Everyone);
+					countdown.Time = floorTime;
+					countdown.Send();
+				}
+			}
 
-            BoltNetwork.LoadScene(gameScene.SimpleSceneName);
-        }
+			countdown = LobbyCountdown.Create(GlobalTargets.Everyone);
+			countdown.Time = 0;
+			countdown.Send();
 
-        // Bolt Callbacks
+			BoltNetwork.LoadScene(gameScene.SimpleSceneName);
+		}
 
-        //// API
+		// Bolt Callbacks
 
-        private void StartServerEventHandler(string matchName)
-        {
-            this.matchName = matchName;
-            BoltLauncher.StartServer();
-        }
+		//// API
 
-        private void StartClientEventHandler(bool randomJoin = false)
-        {
-            this.randomJoin = randomJoin;
-            BoltLauncher.StartClient();
-        }
-        
-        private void JoinEventHandler(UdpSession session)
-        {
-            if (BoltNetwork.IsClient)
-            {
-                BoltMatchmaking.JoinSession(session);
-            }
-        }
+		private void StartServerEventHandler(string matchName)
+		{
+			this.matchName = matchName;
+			BoltLauncher.StartServer();
+		}
 
-        private void ShutdownEventHandler()
-        {
-            BoltLauncher.Shutdown();
-        }
+		private void StartClientEventHandler(bool randomJoin = false)
+		{
+			this.randomJoin = randomJoin;
+			BoltLauncher.StartClient();
+		}
 
-        //// Callbacks
+		private void JoinEventHandler(UdpSession session)
+		{
+			if (BoltNetwork.IsClient)
+			{
+				BoltMatchmaking.JoinSession(session);
+			}
+		}
 
-        public override void BoltStartBegin()
-        {
-            BoltNetwork.RegisterTokenClass<RoomProtocolToken>();
-            BoltNetwork.RegisterTokenClass<ServerAcceptToken>();
-            BoltNetwork.RegisterTokenClass<ServerConnectToken>();
-        }
+		private void ShutdownEventHandler()
+		{
+			BoltLauncher.Shutdown();
+		}
 
-        public override void BoltStartDone()
-        {
-            if (BoltNetwork.IsServer)
-            {
-                var token = new RoomProtocolToken()
-                {
-                    ArbitraryData = "My DATA",
-                };
+		//// Callbacks
 
-                BoltLog.Info("Starting Server");
+		public override void BoltStartBegin()
+		{
+			BoltNetwork.RegisterTokenClass<RoomProtocolToken>();
+			BoltNetwork.RegisterTokenClass<ServerAcceptToken>();
+			BoltNetwork.RegisterTokenClass<ServerConnectToken>();
+		}
 
-                // Start Photon Room
-                BoltMatchmaking.CreateSession(
-                    sessionID: matchName,
-                    token: token
-                );
-            }
-            else if (BoltNetwork.IsClient)
-            {
-                if (randomJoin)
-                {
-                    BoltMatchmaking.JoinRandomSession();
-                }
-                else
-                {
-                    ClientStaredUIHandler();
-                }
+		public override void BoltStartDone()
+		{
+			if (BoltNetwork.IsServer)
+			{
+				var token = new RoomProtocolToken()
+				{
+					ArbitraryData = "My DATA",
+				};
 
-                randomJoin = false;
-            }
-        }
+				BoltLog.Info("Starting Server");
 
-        public override void SessionCreatedOrUpdated(UdpSession session)
-        {
-            SessionCreatedUIHandler(session);
+				// Start Photon Room
+				BoltMatchmaking.CreateSession(
+						sessionID: matchName,
+						token: token
+				);
+			}
+			else if (BoltNetwork.IsClient)
+			{
+				if (randomJoin)
+				{
+					BoltMatchmaking.JoinRandomSession();
+				}
+				else
+				{
+					ClientStaredUIHandler();
+				}
 
-            // Build Server Entity
-            var entity = BoltNetwork.Instantiate(BoltPrefabs.PlayerInfo);
-            entity.TakeControl();
-        }
+				randomJoin = false;
+			}
+		}
 
-        public override void BoltShutdownBegin(AddCallback registerDoneCallback, UdpConnectionDisconnectReason disconnectReason)
-        {
-            LoadingUI();
+		public override void SessionCreatedOrUpdated(UdpSession session)
+		{
+			SessionCreatedUIHandler(session);
 
-            matchName = "";
+			// Build Server Entity
+			var entity = BoltNetwork.Instantiate(BoltPrefabs.PlayerInfo);
+			entity.TakeControl();
+		}
 
-            if (lobbyScene.IsLoaded == false)
-            {
-                if (BoltNetwork.IsServer)
-                {
-                    BoltNetwork.LoadScene(lobbyScene.SimpleSceneName);
-                }
-                else if (BoltNetwork.IsClient)
-                {
-                    SceneManager.LoadScene(lobbyScene.SimpleSceneName);
-                }
-            }
+		public override void BoltShutdownBegin(AddCallback registerDoneCallback, UdpConnectionDisconnectReason disconnectReason)
+		{
+			LoadingUI();
 
-            registerDoneCallback(() =>
-            {
-                Debug.Log("Shutdown Done");
-                ResetUI();
-            });
-        }
+			matchName = "";
 
-        public override void EntityAttached(BoltEntity entity)
-        {
-            EntityAttachedEventHandler(entity);
+			if (lobbyScene.IsLoaded == false)
+			{
+				if (BoltNetwork.IsServer)
+				{
+					BoltNetwork.LoadScene(lobbyScene.SimpleSceneName);
+				}
+				else if (BoltNetwork.IsClient)
+				{
+					SceneManager.LoadScene(lobbyScene.SimpleSceneName);
+				}
+			}
 
-            var photonPlayer = entity.gameObject.GetComponent<LobbyPlayer>();
-            if (photonPlayer)
-            {
-                if (entity.IsControlled)
-                {
-                    photonPlayer.SetupPlayer();
-                }
-                else
-                {
-                    photonPlayer.SetupOtherPlayer();
-                }
-            }
-        }
+			registerDoneCallback(() =>
+			{
+				Debug.Log("Shutdown Done");
+				ResetUI();
+			});
+		}
+
+		public override void EntityAttached(BoltEntity entity)
+		{
+			EntityAttachedEventHandler(entity);
+
+			var photonPlayer = entity.gameObject.GetComponent<LobbyPlayer>();
+			if (photonPlayer)
+			{
+				if (entity.IsControlled)
+				{
+					photonPlayer.SetupPlayer();
+				}
+				else
+				{
+					photonPlayer.SetupOtherPlayer();
+				}
+			}
+		}
 
 		public override void EntityDetached(BoltEntity entity)
 		{
-            EntityDetachedEventHandler(entity);
-        }
+			EntityDetachedEventHandler(entity);
+		}
 
 		public override void Connected(BoltConnection connection)
-        {
-            if (BoltNetwork.IsClient)
-            {
-                BoltLog.Info("Connected Client: {0}", connection);
-                ClientConnectedUIHandler();
-            }
-            else if (BoltNetwork.IsServer)
-            {
-                BoltLog.Info("Connected Server: {0}", connection);
+		{
+			if (BoltNetwork.IsClient)
+			{
+				BoltLog.Info("Connected Client: {0}", connection);
+				ClientConnectedUIHandler();
+			}
+			else if (BoltNetwork.IsServer)
+			{
+				BoltLog.Info("Connected Server: {0}", connection);
 
-                var entity = BoltNetwork.Instantiate(BoltPrefabs.PlayerInfo);
-                entity.AssignControl(connection);
-            }
-        }
+				var entity = BoltNetwork.Instantiate(BoltPrefabs.PlayerInfo);
+				entity.AssignControl(connection);
+			}
+		}
 
-        public override void Disconnected(BoltConnection connection)
-        {
-            foreach (var entity in BoltNetwork.Entities)
-            {
-                if (entity.StateIs<ILobbyPlayerInfoState>() == false || entity.IsController(connection) == false) continue;
-                
-                var player = entity.GetComponent<LobbyPlayer>();
+		public override void Disconnected(BoltConnection connection)
+		{
+			foreach (var entity in BoltNetwork.Entities)
+			{
+				if (entity.StateIs<ILobbyPlayerInfoState>() == false || entity.IsController(connection) == false) continue;
 
-                if (player)
-                {
-                    player.RemovePlayer();
-                }
-            }
-        }
+				var player = entity.GetComponent<LobbyPlayer>();
 
-        public override void ConnectFailed(UdpEndPoint endpoint, IProtocolToken token)
-        {
-        }
-    }
+				if (player)
+				{
+					player.RemovePlayer();
+				}
+			}
+		}
+
+		public override void ConnectFailed(UdpEndPoint endpoint, IProtocolToken token)
+		{
+		}
+	}
 }

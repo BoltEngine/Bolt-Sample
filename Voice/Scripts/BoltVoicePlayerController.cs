@@ -1,9 +1,10 @@
 using System;
+using Photon.Bolt;
 using UnityEngine;
 
 namespace Bolt.Samples.Voice
 {
-	public class BoltVoicePlayerController : Bolt.EntityBehaviour<IVoicePlayer>
+	public class BoltVoicePlayerController : EntityBehaviour<IVoicePlayer>
 	{
 		// ------------ UNITY MEMBERS ---------------------------------------------------------------------------------------
 

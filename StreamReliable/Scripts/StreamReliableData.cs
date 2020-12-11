@@ -1,12 +1,12 @@
-﻿using System;
+using System;
 using System.Security.Cryptography;
-using Bolt;
-using Bolt.Matchmaking;
-using Bolt.Utils;
+using Photon.Bolt;
+using Photon.Bolt.Matchmaking;
+using Photon.Bolt.Utils;
 using UdpKit;
 using UnityEngine;
 
-public class StreamReliableData : Bolt.GlobalEventListener
+public class StreamReliableData : GlobalEventListener
 {
 	[Range(1, 2048)]
 	public int size = 2048;
@@ -71,7 +71,7 @@ public class StreamReliableData : Bolt.GlobalEventListener
 			{
 				GUILayout.BeginHorizontal(GUILayout.Width(Screen.width));
 				{
-					size = (int) GUILayout.HorizontalSlider(size, 1, 2048);
+					size = (int)GUILayout.HorizontalSlider(size, 1, 2048);
 					GUILayout.Label(size.ToString());
 				}
 				GUILayout.EndHorizontal();
@@ -80,7 +80,7 @@ public class StreamReliableData : Bolt.GlobalEventListener
 				{
 					var lastValue = targetBandwidth;
 
-					targetBandwidth = (int) GUILayout.HorizontalSlider(targetBandwidth, 1, 1000);
+					targetBandwidth = (int)GUILayout.HorizontalSlider(targetBandwidth, 1, 1000);
 					GUILayout.Label(targetBandwidth.ToString());
 
 					if (lastValue != targetBandwidth)
@@ -122,7 +122,7 @@ public class StreamReliableData : Bolt.GlobalEventListener
 
 	public override void StreamDataProgress(BoltConnection connection, UdpChannelName channel, ulong streamID, float progress)
 	{
-		BoltLog.Info("[{3}%] Connection {0} is transfering data on channel {1} :: Transfer ID {2}", connection, channel, streamID, (int) (progress * 100));
+		BoltLog.Info("[{3}%] Connection {0} is transfering data on channel {1} :: Transfer ID {2}", connection, channel, streamID, (int)(progress * 100));
 	}
 
 	public override void StreamDataAborted(BoltConnection connection, UdpChannelName channel, ulong streamID)
@@ -180,7 +180,7 @@ public class StreamReliableData : Bolt.GlobalEventListener
 	private string CreateHash(byte[] data)
 	{
 		string hash;
-		using(SHA1CryptoServiceProvider sha1 = new SHA1CryptoServiceProvider())
+		using (SHA1CryptoServiceProvider sha1 = new SHA1CryptoServiceProvider())
 		{
 			hash = Convert.ToBase64String(sha1.ComputeHash(data));
 		}

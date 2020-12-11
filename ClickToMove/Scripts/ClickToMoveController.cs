@@ -1,9 +1,10 @@
-﻿using Bolt;
+using Bolt;
+using Photon.Bolt;
 using UnityEngine;
 
 namespace Bolt.Samples.ClickToMove
 {
-	public class ClickToMoveController : Bolt.EntityEventListener<IClickToMoveState>
+	public class ClickToMoveController : EntityEventListener<IClickToMoveState>
 	{
 		public Transform destination;
 

@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+using Photon.Bolt;
 using UnityEngine;
 
 namespace Bolt.Samples.MoveAndShoot
 {
-	public class MoveAndShoot_NetworkCallbacks : Bolt.GlobalEventListener
+	public class MoveAndShoot_NetworkCallbacks : GlobalEventListener
 	{
 		[SerializeField] private GameObject HitDamageEffectPrefab;
 		[SerializeField] private GameObject HitHealEffectPrefab;

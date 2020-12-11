@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+using Photon.Bolt;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Bolt.Samples.MoveAndShoot
 {
-	public class MoveAndShoot_PlayerLifeBar : Bolt.EntityBehaviour<IMoveAndShootPlayer>
+	public class MoveAndShoot_PlayerLifeBar : EntityBehaviour<IMoveAndShootPlayer>
 	{
 		[SerializeField] private Image lifeBar;
 		[SerializeField] private Image teamFlag;

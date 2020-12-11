@@ -1,8 +1,9 @@
-﻿using System.Collections;
+using System.Collections;
+using Photon.Bolt;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
-public class TPCcontroller : Bolt.EntityEventListener<ITPCstate>
+public class TPCcontroller : EntityEventListener<ITPCstate>
 {
 #pragma warning disable 0649
 	TPCmotor _motor;
@@ -127,7 +128,7 @@ public class TPCcontroller : Bolt.EntityEventListener<ITPCstate>
 
 	}
 
-	public override void ExecuteCommand(Bolt.Command c, bool resetState)
+	public override void ExecuteCommand(Command c, bool resetState)
 	{
 		TPCCommand cmd = (TPCCommand) c;
 

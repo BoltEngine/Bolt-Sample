@@ -1,11 +1,13 @@
 using System.Text;
 using UnityEngine;
 using System.Linq;
+using Photon.Bolt;
+using Photon.Bolt.Utils;
 
 namespace Bolt.Samples.StreamData
 {
 	[BoltGlobalBehaviour("StreamDataGameScene")]
-	public class StreamNetworkCallbacks : Bolt.GlobalEventListener
+	public class StreamNetworkCallbacks : GlobalEventListener
 	{
 		private string ID;
 

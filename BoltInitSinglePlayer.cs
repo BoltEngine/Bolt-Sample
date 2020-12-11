@@ -1,13 +1,14 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Bolt.Matchmaking;
+using Photon.Bolt;
+using Photon.Bolt.Matchmaking;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Bolt.Samples
 {
-	public class BoltInitSinglePlayer : Bolt.GlobalEventListener
+	public class BoltInitSinglePlayer : GlobalEventListener
 	{
 		enum State
 		{

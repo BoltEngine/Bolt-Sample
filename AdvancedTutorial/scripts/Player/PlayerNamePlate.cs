@@ -1,9 +1,11 @@
-﻿using System;
+using System;
+using Photon.Bolt;
+using Photon.Bolt.Utils;
 using UnityEngine;
 
 namespace Bolt.AdvancedTutorial
 {
-	public class PlayerNamePlate : Bolt.EntityBehaviour<IPlayerState>
+	public class PlayerNamePlate : EntityBehaviour<IPlayerState>
 	{
 		[SerializeField]
 		Vector3 offset;

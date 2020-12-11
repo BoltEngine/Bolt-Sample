@@ -1,14 +1,16 @@
-﻿using System.Linq;
+using System.Linq;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UdpKit;
+using Photon.Bolt;
+using Photon.Bolt.Utils;
 
 namespace Bolt.AdvancedTutorial
 {
 	[BoltGlobalBehaviour(BoltNetworkModes.Server, "Level1")]
-	public class ServerCallbacks : Bolt.GlobalEventListener
+	public class ServerCallbacks : GlobalEventListener
 	{
 		public static bool ListenServer = true;
 
@@ -38,7 +40,7 @@ namespace Bolt.AdvancedTutorial
 			}
 		}
 
-		public override void ConnectRequest(UdpKit.UdpEndPoint endpoint, Bolt.IProtocolToken token)
+		public override void ConnectRequest(UdpKit.UdpEndPoint endpoint, IProtocolToken token)
 		{
 			BoltLog.Warn("ConnectRequest");
 

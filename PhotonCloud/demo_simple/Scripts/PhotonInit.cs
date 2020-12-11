@@ -1,7 +1,7 @@
 using System;
-using Bolt.Matchmaking;
-using Bolt.Photon;
-using Bolt.Utils;
+using Photon.Bolt;
+using Photon.Bolt.Matchmaking;
+using Photon.Bolt.Utils;
 using UdpKit;
 using UdpKit.Platform;
 using UdpKit.Platform.Photon;
@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Bolt.Samples.Photon.Simple
 {
-	public class PhotonInit : Bolt.GlobalEventListener
+	public class PhotonInit : GlobalEventListener
 	{
 		// helper enum and attribute to hold which mode application is running on
 		enum State

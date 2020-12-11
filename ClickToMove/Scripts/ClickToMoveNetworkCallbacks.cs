@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+using Photon.Bolt;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Bolt.Samples.ClickToMove
 {
 	[BoltGlobalBehaviour(BoltNetworkModes.Server, "ClickToMoveGameScene")]
-	public class ClickToMoveNetworkCallbacks : Bolt.GlobalEventListener
+	public class ClickToMoveNetworkCallbacks : GlobalEventListener
 	{
 		public override void SceneLoadLocalDone(string scene, IProtocolToken token)
 		{
@@ -25,6 +23,7 @@ namespace Bolt.Samples.ClickToMove
 			GameObject[] respawnPoints = GameObject.FindGameObjectsWithTag("Respawn");
 
 			var respawn = respawnPoints[Random.Range(0, respawnPoints.Length)];
+
 			return BoltNetwork.Instantiate(BoltPrefabs.EthanClickToMove, respawn.transform.position, Quaternion.identity);
 		}
 	}

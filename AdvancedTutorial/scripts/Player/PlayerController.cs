@@ -1,10 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Linq;
+using UnityEngine;
+using Photon.Bolt;
+using Photon.Bolt.Utils;
 
 namespace Bolt.AdvancedTutorial
 {
-	public class PlayerController : Bolt.EntityEventListener<IPlayerState>
+	public class PlayerController : EntityEventListener<IPlayerState>
 	{
 		const float MOUSE_SENSEITIVITY = 2f;
 
@@ -182,7 +182,7 @@ namespace Bolt.AdvancedTutorial
 			entity.QueueInput(input);
 		}
 
-		public override void ExecuteCommand(Bolt.Command c, bool resetState)
+		public override void ExecuteCommand(Command c, bool resetState)
 		{
 			if (state.Dead)
 			{

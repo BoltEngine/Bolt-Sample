@@ -1,11 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using Bolt;
+using Photon.Bolt;
+using Photon.Bolt.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class MultiSceneLoader : Bolt.GlobalEventListener
+public class MultiSceneLoader : GlobalEventListener
 {
 	/// <summary>
 	/// Stores the binding between the Action Button and the Scene to be loaded
@@ -74,7 +75,7 @@ public class MultiSceneLoader : Bolt.GlobalEventListener
 	{
 		if (BoltNetwork.IsServer)
 		{
-			var evt = LoadSceneRequest.Create(Bolt.GlobalTargets.AllClients, Bolt.ReliabilityModes.ReliableOrdered);
+			var evt = LoadSceneRequest.Create(GlobalTargets.AllClients, ReliabilityModes.ReliableOrdered);
 			evt.SceneName = sceneName;
 			evt.Load = true;
 			evt.Send();
@@ -93,7 +94,7 @@ public class MultiSceneLoader : Bolt.GlobalEventListener
 	{
 		if (BoltNetwork.IsServer)
 		{
-			var evt = LoadSceneRequest.Create(Bolt.GlobalTargets.AllClients, Bolt.ReliabilityModes.ReliableOrdered);
+			var evt = LoadSceneRequest.Create(GlobalTargets.AllClients, ReliabilityModes.ReliableOrdered);
 			evt.SceneName = sceneName;
 			evt.Load = false;
 			evt.Send();
@@ -126,7 +127,7 @@ public class MultiSceneLoader : Bolt.GlobalEventListener
 				loadedScenes.Remove(evnt.SceneName);
 			}
 
-			var evt = LoadSceneResponse.Create(Bolt.GlobalTargets.OnlyServer);
+			var evt = LoadSceneResponse.Create(GlobalTargets.OnlyServer);
 			evt.SceneName = evnt.SceneName;
 			evt.Load = evnt.Load;
 			evt.Send();

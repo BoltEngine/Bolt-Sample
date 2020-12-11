@@ -1,3 +1,4 @@
+using Photon.Bolt;
 using UnityEngine;
 
 namespace Bolt.Samples.Voice
@@ -8,7 +9,7 @@ namespace Bolt.Samples.Voice
 		public override void SceneLoadLocalDone(string scene, IProtocolToken token)
 		{
 			// Create a new Bolt Voice Player
-			var entity = BoltNetwork.Instantiate(BoltPrefabs.BoltVoicePlayer, Vector3.up, Quaternion.identity);
+			BoltNetwork.Instantiate(BoltPrefabs.BoltVoicePlayer, Vector3.up, Quaternion.identity);
 		}
 	}
 }

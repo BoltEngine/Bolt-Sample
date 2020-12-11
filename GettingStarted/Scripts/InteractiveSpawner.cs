@@ -1,7 +1,8 @@
-﻿using Bolt;
+using Bolt;
+using Photon.Bolt;
 using UnityEngine;
 
-public class InteractiveSpawner : Bolt.GlobalEventListener
+public class InteractiveSpawner : GlobalEventListener
 {
 	[SerializeField] private BoltEntity prefabEntity;
 

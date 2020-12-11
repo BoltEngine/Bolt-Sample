@@ -1,13 +1,11 @@
-﻿using Bolt;
-using System.Collections;
-using System.Collections.Generic;
+using Photon.Bolt;
+using Photon.Bolt.Utils;
 using UdpKit;
-using UnityEngine;
 
 namespace Bolt.Samples.Photon.Simple
 {
 	[BoltGlobalBehaviour(BoltNetworkModes.Server, "PhotonGame")]
-	public class PhotonServerCallbacks : Bolt.GlobalEventListener
+	public class PhotonServerCallbacks : GlobalEventListener
 	{
 		public override void Connected(BoltConnection connection)
 		{

@@ -1,6 +1,6 @@
-﻿using UdpKit.Platform;
+using UdpKit.Platform;
 using UnityEngine;
-using Bolt;
+using Photon.Bolt;
 
 public class StreamMenu : GlobalEventListener
 {

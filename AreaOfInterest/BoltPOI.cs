@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Bolt;
 
 namespace Bolt.Samples.AOI
 {
     [ExecuteInEditMode]
-    public class BoltPOI : Bolt.EntityBehaviour
+    public class BoltPOI : EntityBehaviour
     {
         static Mesh mesh;
         static Material poiMat;

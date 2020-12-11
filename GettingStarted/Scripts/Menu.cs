@@ -1,7 +1,8 @@
 using System;
 using System.Collections;
-using Bolt.Matchmaking;
-using Bolt.Photon;
+using Photon.Bolt;
+using Photon.Bolt.Matchmaking;
+using Photon.Bolt.Utils;
 using UdpKit;
 using UdpKit.Platform;
 using UdpKit.Platform.Photon;
@@ -9,7 +10,7 @@ using UnityEngine;
 
 namespace Bolt.Samples.GettingStarted
 {
-	public class Menu : Bolt.GlobalEventListener
+	public class Menu : GlobalEventListener
 	{
 		private bool _showGui = true;
 		private Coroutine _timerRoutine;

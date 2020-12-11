@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using Photon.Bolt;
 using UnityEngine;
 
 namespace Bolt.Samples.GettingStarted
 {
 	[BoltGlobalBehaviour("Tutorial1_Game")]
-	public class NetworkCallbacks : Bolt.GlobalEventListener
+	public class NetworkCallbacks : GlobalEventListener
 	{
 		List<string> logMessages = new List<string>();
 

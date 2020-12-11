@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.IO;
@@ -8,7 +8,7 @@ using System.Net.Sockets;
 using UnityEngine;
 using Bolt.ServerMonitor;
 using ProtoBuf;
-
+using Photon.Bolt;
 
 public class ServerMonitor : MonoBehaviour {
 

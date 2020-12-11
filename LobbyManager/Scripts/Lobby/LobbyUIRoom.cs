@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Bolt;
 
 namespace Bolt.Samples.Photon.Lobby
 {

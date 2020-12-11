@@ -1,9 +1,9 @@
-﻿using UnityEngine;
-using System.Collections;
+using UnityEngine;
+using Photon.Bolt;
 
 namespace Bolt.AdvancedTutorial
 {
-	public class PlayerSfx : Bolt.EntityBehaviour<IPlayerState>
+	public class PlayerSfx : EntityBehaviour<IPlayerState>
 	{
 		int prevHealth;
 		float playTime;

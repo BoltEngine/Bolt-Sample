@@ -1,7 +1,8 @@
-﻿using System.Collections;
+using Photon.Bolt;
 using UnityEngine;
 using UnityStandardAssets.Characters.ThirdPerson;
-public class TPCControllerClientAuth : Bolt.EntityEventListener<ITPCstate>
+
+public class TPCControllerClientAuth : EntityEventListener<ITPCstate>
 {
 	Animator anim;
 

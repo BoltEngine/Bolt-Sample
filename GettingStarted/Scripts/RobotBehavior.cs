@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+using Photon.Bolt;
+using UnityEngine;
 
 namespace Bolt.Samples.GettingStarted
 {
-	public class RobotBehavior : Bolt.EntityBehaviour<IRobotState>
+	public class RobotBehavior : EntityBehaviour<IRobotState>
 	{
 		// private List<BoltEntity> boxes = new List<BoltEntity>();
 		// private Color myColor = Random.ColorHSV();

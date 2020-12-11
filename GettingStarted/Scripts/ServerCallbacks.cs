@@ -1,3 +1,4 @@
+using Photon.Bolt;
 using UdpKit;
 using UdpKit.Platform.Photon;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine.SceneManagement;
 namespace Bolt.Samples.GettingStarted
 {
 	[BoltGlobalBehaviour(BoltNetworkModes.Server, "Tutorial1_Game")]
-	public class GS_ServerCallbacks : Bolt.GlobalEventListener
+	public class GS_ServerCallbacks : GlobalEventListener
 	{
 		public override void Connected(BoltConnection connection)
 		{

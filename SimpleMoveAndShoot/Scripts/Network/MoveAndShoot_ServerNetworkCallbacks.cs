@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+using Photon.Bolt;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Bolt.Samples.MoveAndShoot
 {
 	[BoltGlobalBehaviour(BoltNetworkModes.Server, "SimpleMoveAndShoot_Game")]
-	public class MoveAndShoot_ServerNetworkCallbacks : Bolt.GlobalEventListener
+	public class MoveAndShoot_ServerNetworkCallbacks : GlobalEventListener
 	{
 		public override void SceneLoadLocalDone(string scene, IProtocolToken token)
 		{

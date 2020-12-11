@@ -1,14 +1,12 @@
-using System;
-using Bolt;
-using Bolt.Matchmaking;
-using Bolt.Photon;
+using Photon.Bolt;
+using Photon.Bolt.Matchmaking;
 using UdpKit;
 using UnityEngine;
 
 namespace FailedToJoin
 {
 	[BoltGlobalBehaviour(BoltNetworkModes.Server, "Sample1x1_Game")]
-	public class ServerCallbacks : Bolt.GlobalEventListener
+	public class ServerCallbacks : GlobalEventListener
 	{
 		bool full;
 

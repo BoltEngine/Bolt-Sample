@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using Bolt;
+using Photon.Bolt;
 using UnityEngine;
 
 [BoltGlobalBehaviour(BoltNetworkModes.Server, "serverAuthTPC")]
-public class ThirdPersonControllerCallbacks : Bolt.GlobalEventListener
+public class ThirdPersonControllerCallbacks : GlobalEventListener
 {
 	public override void SceneLoadLocalDone(string scene, IProtocolToken token)
 	{

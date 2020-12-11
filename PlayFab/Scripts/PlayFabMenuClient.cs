@@ -1,11 +1,11 @@
-﻿using Bolt.Matchmaking;
-using Bolt.Photon;
+using Photon.Bolt;
+using Photon.Bolt.Matchmaking;
 using UdpKit.Platform;
 using UnityEngine;
 
 namespace Bolt.Samples.PlayFab
 {
-	public class PlayFabMenuClient : Bolt.GlobalEventListener
+	public class PlayFabMenuClient : GlobalEventListener
 	{
 		private bool _showGui = true;
 

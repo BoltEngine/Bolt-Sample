@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
+using Photon.Bolt;
 
 namespace Bolt.Samples.AOI
 {
     [ExecuteInEditMode]
-    public class BoltAOI : Bolt.EntityBehaviour
+    public class BoltAOI : EntityBehaviour
     {
         [SerializeField] public float detectRadius = 32f;
 
@@ -24,7 +25,7 @@ namespace Bolt.Samples.AOI
 
         public override void SimulateOwner()
         {
-            if (((BoltNetwork.Frame % 30) == 0) && (BoltNetwork.ScopeMode == Bolt.ScopeMode.Manual) && enabled)
+            if (((BoltNetwork.Frame % 30) == 0) && (BoltNetwork.ScopeMode == ScopeMode.Manual) && enabled)
             {
                 if (entity.Controller != null)
                 {

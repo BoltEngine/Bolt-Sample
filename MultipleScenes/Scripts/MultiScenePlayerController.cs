@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+using Photon.Bolt;
+using UnityEngine;
 
-public class MultiScenePlayerController : Bolt.EntityEventListener<IMultiScenePlayer>
+public class MultiScenePlayerController : EntityEventListener<IMultiScenePlayer>
 {
 	[SerializeField] private Camera view;
 

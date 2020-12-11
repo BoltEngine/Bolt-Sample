@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using Photon.Bolt;
+using UnityEngine;
 
 namespace Bolt.AdvancedTutorial
 {
-
 	public class PlayerCamera : BoltSingletonPrefab<PlayerCamera>
 	{
 		// damp velocity of camera

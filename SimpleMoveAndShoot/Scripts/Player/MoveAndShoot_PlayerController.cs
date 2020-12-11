@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
-using Bolt.AdvancedTutorial;
+using Photon.Bolt;
+using Photon.Bolt.Utils;
 using UnityEngine;
 
 namespace Bolt.Samples.MoveAndShoot
 {
 	[RequireComponent(typeof(CharacterController))]
-	public class MoveAndShoot_PlayerController : Bolt.EntityEventListener<IMoveAndShootPlayer>
+	public class MoveAndShoot_PlayerController : EntityEventListener<IMoveAndShootPlayer>
 	{
 		private struct PlayerInput
 		{
@@ -26,10 +27,10 @@ namespace Bolt.Samples.MoveAndShoot
 		private class WeaponData
 		{
 			public ParticleSystem fx;
-			public int fireRate;
-			public float maxEffectRange;
-			public int amount;
-			public WeaponType type;
+			public int fireRate = 10;
+			public float maxEffectRange = 10;
+			public int amount = 1;
+			public WeaponType type = WeaponType.DAMAGE;
 
 			internal int NextFireFrame;
 			internal Action TriggerState;

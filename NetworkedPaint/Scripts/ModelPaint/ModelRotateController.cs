@@ -1,9 +1,10 @@
+using Photon.Bolt;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Bolt.Samples.NetworkPaintStreamSample.Core
 {
-	public class ModelRotateController : Bolt.EntityBehaviour<ICharacterPaintState>
+	public class ModelRotateController : EntityBehaviour<ICharacterPaintState>
 	{
 		[FormerlySerializedAs("_rotateSpeed")] [SerializeField]
 		private float rotateSpeed = 10;

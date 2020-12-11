@@ -1,4 +1,5 @@
-﻿using UdpKit;
+using Photon.Bolt;
+using UdpKit;
 using UnityEngine;
 
 namespace Bolt.Samples.MoveAndShoot

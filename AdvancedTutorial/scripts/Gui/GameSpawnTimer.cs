@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
+using Photon.Bolt;
 
 namespace Bolt.AdvancedTutorial
 {
-	public class GameSpawnTimer : Bolt.GlobalEventListener
+	public class GameSpawnTimer : GlobalEventListener
 	{
 		BoltEntity me;
 		IPlayerState meState;

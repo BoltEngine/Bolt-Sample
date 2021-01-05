@@ -612,7 +612,7 @@ namespace Photon.Bolt.Utils
 
 			private static void MarkDirty(UnityEngine.Object obj, UnityEngine.SceneManagement.Scene scene)
 			{
-				EditorUtility.SetDirty(obj);
+				UnityEditor.EditorUtility.SetDirty(obj);
 
 				if (HasNewPrefabSystem == true && Application.isPlaying == false)
 				{

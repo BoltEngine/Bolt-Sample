@@ -64,7 +64,7 @@ namespace Bolt.Samples.GettingStarted
 		{
 			if (BoltNetwork.IsSinglePlayer)
 			{
-				BoltNetwork.LoadScene("Tutorial1");
+				BoltNetwork.LoadScene("Tutorial1_Game");
 			}
 
 			if (BoltNetwork.IsServer)

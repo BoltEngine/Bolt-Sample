@@ -29,7 +29,7 @@ namespace Photon.Bolt.Utils
 	{
 		// --------------- PUBLIC MEMBERS -----------------------------------------------------------------------------------
 
-		[MenuItem("Bolt/Utils/Update/Save Prefabs", priority = 130)]
+		[MenuItem("Photon Bolt/Utils/Update/Save Prefabs", priority = 130)]
 		public static void SerializePrefabs()
 		{
 			BoltLog.Info("Serializing from version: {0}", BoltNetwork.Version);
@@ -44,7 +44,7 @@ namespace Photon.Bolt.Utils
 			}
 		}
 
-		[MenuItem("Bolt/Utils/Update/Load Prefabs", priority = 131)]
+		[MenuItem("Photon Bolt/Utils/Update/Load Prefabs", priority = 131)]
 		public static void DesealizePrefabs()
 		{
 			BoltLog.Info("Deserializing from version: {0}", BoltNetwork.Version);
@@ -61,13 +61,13 @@ namespace Photon.Bolt.Utils
 
 		// --------------- PRIVATE MEMBERS ----------------------------------------------------------------------------------
 
-		[MenuItem("Bolt/Utils/Update/Save Prefabs", true)]
+		[MenuItem("Photon Bolt/Utils/Update/Save Prefabs", true)]
 		private static bool ValidateSerializePrefabs()
 		{
 			return VerifyVersion(true);
 		}
 
-		[MenuItem("Bolt/Utils/Update/Load Prefabs", true)]
+		[MenuItem("Photon Bolt/Utils/Update/Load Prefabs", true)]
 		private static bool ValidateDesealizePrefabs()
 		{
 			return VerifyVersion(false);

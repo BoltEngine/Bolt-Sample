@@ -102,22 +102,32 @@ namespace Bolt.Samples.Voice
 		/// <param name="voiceId">Voice ID</param>
 		/// <param name="userData">Custom User Data</param>
 		/// <returns>New Speaker instance</returns>
-		protected Speaker CustomBoltSpeakerFactory(int playerId, byte voiceId, object userData)
+        protected Speaker CustomBoltSpeakerFactory(int playerId, byte voiceId, object userData)
 		{
 			BoltLog.Info("[BoltVoiceBridge] SpeakerFactory for Player {0}", playerId);
 
-			// Create Instance based on the Custom Speker from Bolt
-			var speakerInstance = Instantiate(BoltSpeakerPrefab);
-
-			// Get Speaker referecence
-			var speaker = speakerInstance.GetComponent<Speaker>();
-
-			// Store the player ID on our custom BoltVoiceSpeakerController
-			var speakerController = speakerInstance.GetComponent<BoltVoiceSpeakerController>();
-			speakerController.PlayerID = playerId;
-
 			// Store on the Registry based on the Player ID
-			speakerRegistry.Add(playerId, speakerController);
+			Speaker speaker;
+			BoltVoiceSpeakerController oldSpeaker;
+
+			if (speakerRegistry.TryGetValue(playerId, out oldSpeaker))
+			{
+				speaker = oldSpeaker.gameObject.GetComponent<Speaker>();
+			}
+			else
+			{
+				// Create Instance based on the Custom Speker from Bolt
+				var speakerInstance = Instantiate(BoltSpeakerPrefab);
+
+				// Get Speaker referecence
+				speaker = speakerInstance.GetComponent<Speaker>();
+
+				// Store the player ID on our custom BoltVoiceSpeakerController
+				var speakerController = speakerInstance.GetComponent<BoltVoiceSpeakerController>();
+				speakerController.PlayerID = playerId;
+
+				speakerRegistry.Add(playerId, speakerController);
+			}
 
 			// Return the Speaker reference
 			return speaker;

@@ -278,7 +278,7 @@ namespace Photon.Bolt.Utils
 
 			if (export)
 			{
-				if (major == 1 && minor == 2 && build == 14)
+				if (major == 1 && minor == 2 && build >= 10)
 				{
 					return true;
 				}

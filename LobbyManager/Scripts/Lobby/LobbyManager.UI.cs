@@ -25,14 +25,12 @@ namespace Bolt.Samples.Photon.Lobby
 
         private void Update()
         {
-            if (BoltNetwork.IsRunning && BoltMatchmaking.CurrentMetadata.ContainsKey("region"))
+            if (BoltNetwork.IsRunning)
             {
-                var region = BoltMatchmaking.CurrentMetadata["region"];
-
-                if (region != null)
-                {
-                    uiTopPanel.SetHeaderInfo(null, null, ((string)region).ToUpper());
-                }
+								if (BoltMatchmaking.CurrentMetadata != null && BoltMatchmaking.CurrentMetadata.TryGetValue("Region", out var region))
+								{
+									uiTopPanel.SetHeaderInfo(null, null, ((string)region).ToUpper());
+								}
             }
         }
 
@@ -93,10 +91,10 @@ namespace Bolt.Samples.Photon.Lobby
         {
             uiInfoPanel.ToggleVisibility(false);
             
-            object region;
-            BoltMatchmaking.CurrentMetadata.TryGetValue("region", out region);
-            
-            uiTopPanel.SetHeaderInfo("Host", "self", ((string) region).ToUpper());
+            if (BoltMatchmaking.CurrentMetadata.TryGetValue("Region", out var region))
+						{
+							uiTopPanel.SetHeaderInfo("Host", "self", ((string) region).ToUpper());
+						}
             
             ChangeBodyTo(uiRoom);
         }
@@ -113,10 +111,10 @@ namespace Bolt.Samples.Photon.Lobby
         {
             uiInfoPanel.ToggleVisibility(false);
             
-            object region;
-            BoltMatchmaking.CurrentMetadata.TryGetValue("region", out region);
-            
-            uiTopPanel.SetHeaderInfo("Client", BoltMatchmaking.CurrentSession.HostName, ((string) region).ToUpper());
+            if (BoltMatchmaking.CurrentMetadata.TryGetValue("Region", out var region))
+						{
+								uiTopPanel.SetHeaderInfo("Client", BoltMatchmaking.CurrentSession.HostName, ((string) region).ToUpper());
+						}
             
             ChangeBodyTo(uiRoom);
         }

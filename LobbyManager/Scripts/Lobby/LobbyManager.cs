@@ -199,6 +199,11 @@ namespace Bolt.Samples.Photon.Lobby
 			}
 		}
 
+		public override void SessionConnectFailed(UdpSession session, IProtocolToken token, UdpSessionError errorReason)
+		{
+			BoltNetwork.Shutdown();
+		}
+
 		public override void SessionCreatedOrUpdated(UdpSession session)
 		{
 			SessionCreatedUIHandler(session);
